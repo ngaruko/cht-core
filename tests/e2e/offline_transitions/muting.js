@@ -121,20 +121,25 @@ describe('Muting', () => {
     });
   };
 
-  const submitMutingForm = async (contact, form, sync = false) =>  {
-    /*await commonElements.goToPeople();
-    await contactsObjects.contactLoaded();
+  const ensureSync = async (localDoc) => {
+    await commonElements.syncNative();
     try {
-      await contactsObjects.selectLHSRowByText(name);
-    } catch(err) {
-      console.warn('Failed loading contact', err);
-      await contactsObjects.selectLHSRowByText(name);
-    }*/
+      const onlineDoc = await utils.getDoc(localDoc._id, localDoc._rev);
+      expect(onlineDoc).excludingEvery('_attachments').to.deep.equal(localDoc);
+    } catch (err) {
+      return utils.delayPromise(() => ensureSync(localDoc), 300);
+    }
+  };
+
+  const submitMutingForm = async (contact, form, sync = false) =>  {
     await contactsObjects.loadContact(contact._id);
 
     await formsUtils.openForm(form);
     await formsUtils.submit();
-    sync && await commonElements.syncNative();
+    if (sync) {
+      const lastSubmittedReport = await getLastSubmittedReport();
+      await ensureSync(lastSubmittedReport);
+    }
   };
 
   const muteClinic = (contact, sync = false) => {
@@ -264,19 +269,6 @@ describe('Muting', () => {
           .catch(callback);
       }, ids);
     };
-
-    /*const unmuteContacts = async () => {
-      const docs = await utils.getDocs(contacts.map(c => c._id));
-
-      const docsToUpdate = docs.filter(doc => {
-        if (doc.muted || doc.muting_history) {
-          delete doc.muted;
-          delete doc.muting_history;
-          return doc;
-        }
-      });
-      return utils.saveDocs(docsToUpdate);
-    };*/
 
     it('should not process muting offline if not enabled', async () => {
       const settingsWithDisabled = _.cloneDeep(settings);
