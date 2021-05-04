@@ -130,6 +130,15 @@ const addMutingHistory = (info, muted, reportId) => {
   return info;
 };
 
+/**
+ *
+ * @param {Object} contact - the hydrated contact document
+ * @param {Boolean} muted - whether the contact should be muted or unmuted
+ * @param {string} reportId - muting report uuid
+ * @param {Boolean} replayOfflineMuting - whether or not offline muting needs to be replayed after processing the
+ * current event
+ * @return {Promise<Array>} - a sorted list of report ids, representing muting events that need to be replayed
+ */
 const updateMuteState = (contact, muted, reportId, replayOfflineMuting = false) => {
   muted = muted && moment();
 
@@ -167,20 +176,31 @@ const updateMuteState = (contact, muted, reportId, replayOfflineMuting = false) 
             ]);
           });
       }, Promise.resolve())
-      .then(() => sortReplayQueue(offlineMutingReplayQueue));
+      .then(() => getSortedReplayQueue(offlineMutingReplayQueue));
   });
 };
 
-// todo add jsdoc
-const sortReplayQueue = (replayEvents) => {
-  const compareDates = (a, b) => String(a.date).localeCompare(String(b.date));
-  const sortedQueue = replayEvents.sort(compareDates).map(entry => entry.report_id);
+/**
+ * Sorts muting events by date (these dates might be unreliable because they're generated offline) and returns list
+ * of sorted report uuids.
+ * @param mutingEvents
+ * @return {Array<string>}
+ */
+const getSortedReplayQueue = (mutingEvents) => {
+  const compareDates = (event1, event2) => String(event1.date).localeCompare(String(event2.date));
+  const sortedReportIds = mutingEvents.sort(compareDates).map(event => event.report_id);
   // _uniq guarantees sorted results, first occurrence is selected which is what we want!
-  return _.uniq(sortedQueue);
+  return _.uniq(sortedReportIds);
 };
 
-// todo add jsodc
-// add comment about how this works and the drawbacks of mixing online and offline muting!
+/**
+ * Given a list of contacts and a muting report currently being processed, searches for this report in the
+ * every contacts' muting history, and compiles a list of every other muting event that followed the current event
+ * in the contact's muting history.
+ * @param {Array<Object>} contacts - a list of contact docs
+ * @param {string} reportId - the report's uuid string
+ * @return {Array<Object>}
+ */
 const getOfflineMutingEventsToReplay = (contacts, reportId) => {
   const offlineMutingEvents = [];
   contacts.forEach(contact => {
@@ -188,7 +208,7 @@ const getOfflineMutingEventsToReplay = (contacts, reportId) => {
       return;
     }
     let found = false;
-    // todo add comment
+    // we reliably know that nothing shuffles this history, so every event that follows this report needs to be replayed
     contact.muting_history.offline.forEach(mutingHistory => {
       if (!mutingHistory.report_id || !mutingHistory.date) {
         return;

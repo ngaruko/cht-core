@@ -84,31 +84,33 @@ const processContact = (change) => {
     });
 };
 
-const replayOfflineMuting = (reportIds = []) => {
+/**
+ * Given a list of report ids to process
+ * - hydrates the docs
+ * - excludes irrelevant report
+ * - reads infodocs
+ * - we (re)run muting transition over every report - even if it had already ran
+ * @param reportIds
+ * @return {Promise}
+ */
+const replayOfflineMutingEvents = (reportIds = []) => {
   if (!reportIds.length) {
     return Promise.resolve();
   }
 
-  return mutingUtils.db.medic
-    .allDocs({ keys: reportIds, include_docs: true })
-    .then(results => {
-      // exclude docs that have not been synced, have been deleted or are no longer muting reports
-      // we re-run muting on these docs even if the transition already ran
-      const reportDocs = results.rows
-        .map(row => row.doc)
-        .filter(doc => !!doc && isRelevantReport(doc, {}));
+  return mutingUtils.lineage
+    .fetchHydratedDocs(reportIds)
+    .then(hydratedReports => {
+      hydratedReports = hydratedReports.filter(doc => isRelevantReport(doc, {}));
+      const uuids = hydratedReports.map(report => report._id);
 
-      return Promise.all([
-        mutingUtils.lineage.hydrateDocs(reportDocs),
-        mutingUtils.infodoc.bulkGet(reportDocs.map(doc => ({ id: doc._id }))),
-      ]);
-    })
-    .then(([hydratedReports, infoDocs]) => {
-      let promiseChain = Promise.resolve();
-      hydratedReports.forEach(report => {
-        promiseChain = promiseChain.then(() => runTransition(report, infoDocs));
+      mutingUtils.infodoc.bulkGet(uuids).then(infoDocs => {
+        let promiseChain = Promise.resolve();
+        hydratedReports.forEach(report => {
+          promiseChain = promiseChain.then(() => runTransition(report, infoDocs));
+        });
+        return promiseChain;
       });
-      return promiseChain;
     });
 };
 
@@ -124,21 +126,21 @@ const runTransition = (hydratedReport, infoDocs = []) => {
     .then(() => mutingUtils.infodoc.updateTransition(change, TRANSITION_NAME, true));
 };
 
-const wasDocProcessedOffline = (change) => {
+const wasProcessedOffline = (change) => {
   return change.doc &&
          change.doc.offline_transitions &&
          change.doc.offline_transitions[TRANSITION_NAME];
 };
 
 const processMutingEvent = (contact, change, muteState) => {
-  const processedOffline = wasDocProcessedOffline(change);
+  const processedOffline = wasProcessedOffline(change);
   return mutingUtils
     .updateMuteState(contact, muteState, change.id, processedOffline)
     .then(reportIds => {
       module.exports._addMsg(getEventType(muteState), change.doc, contact);
 
       if (processedOffline) {
-        return replayOfflineMuting(reportIds);
+        return replayOfflineMutingEvents(reportIds);
       }
     });
 };
@@ -190,7 +192,7 @@ module.exports = {
           return;
         }
 
-        if (Boolean(contact.muted) === muteState && !wasDocProcessedOffline(change)) {
+        if (Boolean(contact.muted) === muteState && !wasProcessedOffline(change)) {
           // don't update registrations if contact already has desired state
           // but do process muting events that have been handled offline
           module.exports._addMsg(contact.muted ? 'already_muted' : 'already_unmuted', change.doc);
