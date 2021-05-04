@@ -49,6 +49,7 @@ describe('Muting Transition', () => {
 
   describe('init', () => {
     it('should return false when no settings', () => {
+      expect(transition.init(undefined)).to.equal(false);
       expect(transition.init(false)).to.equal(false);
       expect(transition.init({ })).to.equal(false);
       expect(transition.init({ settings: 'yes' })).to.equal(false);
@@ -1142,6 +1143,66 @@ describe('Muting Transition', () => {
         ]);
       });
 
+      it('should mute a person under a muted parent with broken muting history', async () => {
+        const now = 457385943;
+        clock.tick(now);
+        const docs = [
+          {
+            _id: 'new_contact',
+            name: 'contact',
+            type: 'person',
+            parent: { _id: 'parent', parent: { _id: 'grandparent' }}
+          }
+        ];
+
+        const hydratedContact = {
+          _id: 'new_contact',
+          name: 'contact',
+          type: 'person',
+          parent: {
+            _id: 'parent',
+            type: 'clinic',
+            muted: 1000,
+            muting_history: {
+              last_update: 'offline',
+            },
+            parent: {
+              _id: 'grandparent',
+              type: 'health_center',
+            }
+          }
+        };
+        lineageModelGenerator.docs.resolves([ hydratedContact ]);
+        contactMutedService.getMutedParent.returns(hydratedContact.parent);
+
+        const updatedDocs = await transition.run(docs);
+
+        expect(lineageModelGenerator.docs.callCount).to.equal(1);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([docs]);
+        expect(contactMutedService.getMutedParent.callCount).to.equal(1);
+        expect(contactMutedService.getMutedParent.args[0]).to.deep.equal([
+          hydratedContact,
+          [hydratedContact.parent, hydratedContact.parent.parent],
+        ]);
+
+        const muteTime = new Date(now).toISOString();
+        expect(updatedDocs).to.deep.equal([
+          {
+            _id: 'new_contact',
+            name: 'contact',
+            type: 'person',
+            parent: { _id: 'parent', parent: { _id: 'grandparent' }},
+            muted: muteTime,
+            muting_history: {
+              online: { muted: false, date: undefined },
+              offline: [{ muted: true, date: muteTime, report_id: undefined }],
+              last_update: 'offline',
+            }
+          },
+        ]);
+      });
+
+
       it('should not mute a contact under an unmuted parent', async () => {
         const docs = [
           {
@@ -1545,18 +1606,36 @@ describe('Muting Transition', () => {
             patient_id: 'patient2',
           }
         };
+        const invalidHydratedReport = {
+          _id: 'new_invalid_mute',
+          type: 'data_record',
+          form: 'mute',
+          contact: { _id: 'contact_id' },
+          fields: {
+            patient_id: 'patient2',
+          },
+          patient: {
+            name: 'the patient 2',
+            patient_id: 'patient2',
+          }
+        };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const invalidMutingReportWithoutContact = (({ contact, ...rest }) => rest)(invalidMutingReport);
         const docs = [ validMutingReport, invalidMutingReport ];
 
-        lineageModelGenerator.docs.resolves([validHydratedReport]);
+        lineageModelGenerator.docs.resolves([validHydratedReport, invalidHydratedReport]);
         dbService.query.withArgs('medic-client/contacts_by_place').resolves({ rows: [] });
         dbService.get.withArgs(minifiedPatient._id).resolves(minifiedPatient);
         contactMutedService.getMuted.returns(false);
-        validationService.validate.withArgs(invalidMutingReport).returns([ 'error' ]);
+        validationService.validate.withArgs(invalidHydratedReport).returns([{ code: 'error', message: 'message' }]);
 
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[validMutingReportWithoutContact]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[
+          validMutingReportWithoutContact,
+          invalidMutingReportWithoutContact,
+        ]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',
@@ -1568,8 +1647,8 @@ describe('Muting Transition', () => {
         expect(contactMutedService.getMuted.args[0]).to.deep.equal([validHydratedReport.patient]);
         expect(validationService.validate.callCount).to.equal(2);
         expect(validationService.validate.args).to.deep.equal([
-          [ validMutingReport, settings.muting ],
-          [ invalidMutingReport, settings.muting ],
+          [ validHydratedReport, settings.muting, { patient: validHydratedReport.patient, place: undefined } ],
+          [ invalidHydratedReport, settings.muting, { patient: invalidHydratedReport.patient, place: undefined } ],
         ]);
 
         expect(updatedDocs).to.deep.equal([
@@ -1581,7 +1660,81 @@ describe('Muting Transition', () => {
             contact: { _id: 'contact_id' },
             fields: {
               patient_id: 'patient2',
-            }
+            },
+            errors: [{ code: 'error', message: 'message' }],
+          },
+          transitionedPatient(now),
+        ]);
+      });
+
+      it('should pass correct context to validation when muting places', async () => {
+        const now = 12345;
+        clock.tick(now);
+        const invalidMutingReport = {
+          _id: 'new_invalid_mute',
+          type: 'data_record',
+          form: 'mute',
+          contact: { _id: 'contact_id' },
+          fields: {
+            place_id: 'place2',
+          }
+        };
+        const invalidHydratedReport = {
+          _id: 'new_invalid_mute',
+          type: 'data_record',
+          form: 'mute',
+          contact: { _id: 'contact_id' },
+          fields: {
+            place_id: 'place2',
+          },
+          place: {
+            name: 'the place 2',
+            place_id: 'place2',
+          }
+        };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const invalidMutingReportWithoutContact = (({ contact, ...rest }) => rest)(invalidMutingReport);
+        const docs = [ validMutingReport, invalidMutingReport ];
+
+        lineageModelGenerator.docs.resolves([validHydratedReport, invalidHydratedReport]);
+        dbService.query.withArgs('medic-client/contacts_by_place').resolves({ rows: [] });
+        dbService.get.withArgs(minifiedPatient._id).resolves(minifiedPatient);
+        contactMutedService.getMuted.returns(false);
+        validationService.validate.withArgs(invalidHydratedReport).returns([{ code: 'error', message: 'message' }]);
+
+        const updatedDocs = await transition.run(docs);
+
+        expect(lineageModelGenerator.docs.callCount).to.equal(1);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[
+          validMutingReportWithoutContact,
+          invalidMutingReportWithoutContact,
+        ]]);
+        expect(dbService.query.callCount).to.equal(1);
+        expect(dbService.query.args[0]).to.deep.equal([
+          'medic-client/contacts_by_place',
+          { key: [minifiedPatient._id], include_docs: true },
+        ]);
+        expect(dbService.get.callCount).to.equal(1);
+        expect(dbService.get.args[0]).to.deep.equal([minifiedPatient._id]);
+        expect(contactMutedService.getMuted.callCount).to.equal(1);
+        expect(contactMutedService.getMuted.args[0]).to.deep.equal([validHydratedReport.patient]);
+        expect(validationService.validate.callCount).to.equal(2);
+        expect(validationService.validate.args).to.deep.equal([
+          [ validHydratedReport, settings.muting, { patient: validHydratedReport.patient, place: undefined } ],
+          [ invalidHydratedReport, settings.muting, { patient: undefined, place: invalidHydratedReport.place } ],
+        ]);
+
+        expect(updatedDocs).to.deep.equal([
+          transitionedValidMutingReport,
+          {
+            _id: 'new_invalid_mute',
+            type: 'data_record',
+            form: 'mute',
+            contact: { _id: 'contact_id' },
+            fields: {
+              place_id: 'place2',
+            },
+            errors: [{ code: 'error', message: 'message' }],
           },
           transitionedPatient(now),
         ]);

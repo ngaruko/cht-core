@@ -1,4 +1,4 @@
-const _ = require('lodash/core');
+const _ = require('lodash');
 const phoneNumber = require('@medic/phone-number');
 const messageUtils = require('@medic/message-utils');
 const utils = require('./utils');
@@ -140,7 +140,7 @@ module.exports = {
     // support mustache template syntax in error messages
     try {
       error.message = messageUtils.template(
-        config,
+        config.getAll(),
         utils.translate,
         doc,
         error,

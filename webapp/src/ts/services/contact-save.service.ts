@@ -208,6 +208,9 @@ export class ContactSaveService {
   private applyTransitions(preparedDocs) {
     return this.transitionsService
       .applyTransitions(preparedDocs.preparedDocs)
-      .then(updatedDocs => ({ docId: preparedDocs.docId, preparedDocs: updatedDocs }));
+      .then(updatedDocs => {
+        preparedDocs.preparedDocs = updatedDocs;
+        return preparedDocs;
+      });
   }
 }

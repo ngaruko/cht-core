@@ -6,15 +6,18 @@ import * as validation from '@medic/validation';
 import { ValidationService } from '@mm-services/validation.service';
 import { DbService } from '@mm-services/db.service';
 import { SettingsService } from '@mm-services/settings.service';
+import { TranslateLocaleService } from '@mm-services//translate-locale.service';
 
 describe('Validation Service', () => {
   let service:ValidationService;
   let dbService;
   let settingsService;
+  let translateLocaleService;
 
   beforeEach(() => {
     dbService = { get: sinon.stub() };
     settingsService = { get: sinon.stub() };
+    translateLocaleService = { instant: sinon.stub() };
     sinon.stub(validation, 'init');
     sinon.stub(validation, 'validate');
 
@@ -22,6 +25,7 @@ describe('Validation Service', () => {
       providers: [
         { provide: SettingsService, useValue: settingsService },
         { provide: DbService, useValue: dbService },
+        { provide: TranslateLocaleService, useValue: translateLocaleService },
       ]
     });
     service = TestBed.inject(ValidationService);
@@ -56,7 +60,7 @@ describe('Validation Service', () => {
   describe('validate', () => {
     it('should init if not inited', async () => {
       settingsService.get.resolves({ the: 'settings' });
-      validation.validate.resolves({ some: 'errors' });
+      validation.validate.resolves([{ code: 'error', message: 'the error' }]);
 
       const config = {
         validations:
@@ -72,9 +76,13 @@ describe('Validation Service', () => {
       expect(validation.init.callCount).to.equal(1);
       expect(validation.init.args[0][0].settings).to.deep.equal({ the: 'settings' });
       expect(validation.init.args[0][0].db).to.deep.equal({ medic: dbService.get() });
+      const translationFn = validation.init.args[0][0].translate;
+      translationFn('key', 'locale');
+      expect(translateLocaleService.instant.callCount).to.equal(1);
+      expect(translateLocaleService.instant.args[0]).to.deep.equal([ 'key', {}, 'locale', true ]);
       expect(validation.validate.callCount).to.equal(1);
 
-      expect(result).to.deep.equal({ some: 'errors' });
+      expect(result).to.deep.equal([{ code: 'error', message: 'the error' }]);
     });
 
     it('should pass correct data to validate', async () => {
@@ -105,7 +113,44 @@ describe('Validation Service', () => {
       ]);
     });
 
-    it('should skip validation if no config', async () => {
+    it('should translate error messages with provided context', async () => {
+      settingsService.get.resolves({ the: 'settings' });
+      const context = {
+        patient: { name: 'the patient', patient_id: 'aaa' },
+      };
+
+      const doc = { _id: 'report', type: 'data_record' };
+      const config = {
+        validations:
+          {
+            list: [
+              { property: 'type', rule: 'equals("data_record")' },
+            ]
+          }
+      };
+      validation.validate.resolves([
+        { code: 'invalid_1', message: 'untranslated1 {{patient.name}}' },
+        { code: 'invalid_2', message: 'untranslated2 {{patient.name}}' },
+      ]);
+
+      const result = await service.validate(doc, config, context);
+      expect(result).to.deep.equal([
+        { code: 'invalid_1', message: 'untranslated1 the patient' },
+        { code: 'invalid_2', message: 'untranslated2 the patient' },
+      ]);
+    });
+
+    it('should skip validation with invalid config', async () => {
+      settingsService.get.resolves({ the: 'settings' });
+
+      const doc = { _id: 'report', type: 'data_record' };
+      const result = await service.validate(doc, undefined);
+
+      expect(result).to.deep.equal(undefined);
+      expect(validation.validate.callCount).to.equal(0);
+    });
+
+    it('should skip validation whn config is missing validation rules', async () => {
       settingsService.get.resolves({ the: 'settings' });
 
       const doc = { _id: 'report', type: 'data_record' };
@@ -115,7 +160,7 @@ describe('Validation Service', () => {
       expect(validation.validate.callCount).to.equal(0);
     });
 
-    it('should skip validation if no validations', async () => {
+    it('should skip validation if no validation rules are defined', async () => {
       settingsService.get.resolves({ the: 'settings' });
 
       const doc = { _id: 'report', type: 'data_record' };

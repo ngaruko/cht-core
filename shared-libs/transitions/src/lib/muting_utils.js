@@ -121,7 +121,6 @@ const updateMutingHistory = (contact, initialReplicationDatetime, muted) => {
 
 const addMutingHistory = (info, muted, reportId) => {
   info.muting_history = info.muting_history || [];
-
   info.muting_history.push({
     muted: !!muted,
     date: muted || moment(),
@@ -143,8 +142,6 @@ const updateMuteState = (contact, muted, reportId, replayOfflineMuting = false) 
       parent = parent.parent;
     }
   }
-
-  // todo error when I unmuted a clinic locally, while the district was muted online!
 
   const offlineMutingReplayQueue = [];
 

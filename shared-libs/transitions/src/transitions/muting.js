@@ -56,9 +56,10 @@ const isNewContactWithMutedParent = (doc, infoDoc = {}) => {
 //  - And we haven't performed any kind of mute on them before
 //
 const isRelevantContact = (doc, infoDoc = {}) => {
-  return Boolean(doc &&
-                 isContact(doc) &&
-                 (isNewContactWithMutedParent(doc, infoDoc) || mutingUtils.isMutedOffline(doc))
+  return Boolean(
+    doc &&
+    isContact(doc) &&
+    (isNewContactWithMutedParent(doc, infoDoc) || mutingUtils.isMutedOffline(doc))
   );
 };
 
@@ -161,7 +162,7 @@ module.exports = {
     const config = getConfig();
     return transitionUtils.validate(config, doc).then(errors => {
       if (errors && errors.length) {
-        messages.addErrors(config, doc, errors, { patient: doc.patient });
+        messages.addErrors(config, doc, errors, { patient: doc.patient, place: doc.place });
         return false;
       }
       return true;

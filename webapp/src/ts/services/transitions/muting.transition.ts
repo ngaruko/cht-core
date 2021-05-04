@@ -128,9 +128,28 @@ export class MutingTransition implements TransitionInterface {
     }
   }
 
-  private async isValid(report) {
-    const errors = await this.validationService.validate(report, this.transitionConfig);
-    // todo save the errors to the doc?
+  private async filterInvalidReports(context) {
+    for (const [idx, report] of context.reports.entries()) {
+      const hydratedReport = context.hydratedDocs[report._id];
+      const valid = await this.isValid(report, hydratedReport);
+      if (!valid) {
+        context.reports.splice(idx, 1);
+        delete context.hydratedDocs[report._id];
+      }
+    }
+  }
+
+  private async isValid(report, hydratedReport) {
+    const context = {
+      patient: hydratedReport.patient,
+      place: hydratedReport.place,
+    };
+
+    const errors = await this.validationService.validate(hydratedReport, this.transitionConfig, context);
+    if (errors && errors.length) {
+      report.errors = errors;
+    }
+
     return !errors || !errors.length;
   }
 
@@ -215,10 +234,10 @@ export class MutingTransition implements TransitionInterface {
   }
 
   private getLastMutingEvent(contact) {
-    return this.lastUpdatedOffline(contact) && contact?.muting_history?.offline?.slice(-1)[0] || {};
+    return this.lastUpdatedOffline(contact) && contact.muting_history.offline?.slice(-1)[0] || {};
   }
   private lastUpdatedOffline(contact) {
-    return contact?.muting_history?.last_update === this.OFFLINE;
+    return contact.muting_history?.last_update === this.OFFLINE;
   }
 
   private processContacts(context) {
@@ -317,11 +336,6 @@ export class MutingTransition implements TransitionInterface {
       }
 
       if (this.isRelevantReport(doc)) {
-        const valid = await this.isValid(doc);
-        if (!valid) {
-          continue;
-        }
-
         if (this.isMuteForm(doc.form)) {
           hasMutingReport = true;
         } else {
@@ -337,6 +351,7 @@ export class MutingTransition implements TransitionInterface {
     }
 
     await this.hydrateDocs(context);
+    await this.filterInvalidReports(context);
     await this.processReports(context);
     this.processContacts(context);
 
