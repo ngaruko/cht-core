@@ -9,6 +9,7 @@ const contactsObjects = require('../../page-objects/contacts/contacts.po');
 const sentinelUtils = require('../sentinel/utils');
 const formsUtils = require('./forms');
 
+/* global window */
 
 describe('Muting', () => {
   const password = 'Sup3rSecret!';
@@ -112,13 +113,23 @@ describe('Muting', () => {
   const getLastSubmittedReport = () => {
     return browser.executeAsyncScript(() => {
       const callback = arguments[arguments.length - 1];
-      // eslint-disable-next-line no-undef
       const db = window.CHTCore.DB.get();
       return db
         .query('medic-client/reports_by_date', { descending: true, limit: 1, include_docs: true })
         .then(result => callback(result.rows[0].doc))
         .catch(err => callback(err));
     });
+  };
+
+  const getLocalDoc = (uuid) => {
+    return browser.executeAsyncScript((uuid) => {
+      const callback = arguments[arguments.length - 1];
+      const db = window.CHTCore.DB.get();
+      return db
+        .get(uuid)
+        .then(doc => callback(doc))
+        .catch(err => callback(err));
+    }, uuid);
   };
 
   const ensureSync = async (localDoc) => {
@@ -249,7 +260,6 @@ describe('Muting', () => {
       const ids = contacts.map(c => c._id);
       return browser.executeAsyncScript((ids) => {
         const callback = arguments[arguments.length - 1];
-        // eslint-disable-next-line no-undef
         const db = window.CHTCore.DB.get();
         return db
           .allDocs({ keys: ids, include_docs: true })
@@ -900,6 +910,57 @@ describe('Muting', () => {
       expect(serverReport.errors).to.deep.equal(report.errors);
       expect(serverReport.tasks.length).to.equal(1);
       expect(serverReport.tasks[0].messages[0].message).to.equal(serverReport.errors[0].message);
+    });
+
+    it('should work with composite forms', async () => {
+      await utils.stopSentinel();
+      await updateSettings(settings);
+
+      await contactsObjects.loadContact(HEALTH_CENTER._id);
+      await formsUtils.openForm('mute_new_clinic');
+      await formsUtils.selectHealthCenter(HEALTH_CENTER.name);
+      await formsUtils.fillPatientName('new patient');
+
+      await formsUtils.submit();
+
+      const mutingReport = await getLastSubmittedReport();
+      const mainReport = await getLocalDoc(mutingReport.created_by_doc);
+
+      const newClinic = await getLocalDoc(mainReport.fields.clinic_doc);
+      const newPerson = await getLocalDoc(mainReport.fields.person_doc);
+
+      expect(newClinic.muted).to.be.ok;
+      expect(newClinic.muting_history).to.deep.equal({
+        last_update: 'offline',
+        online: { muted: false },
+        offline: [{ muted: true, date: newClinic.muted, report_id: mutingReport._id }],
+      });
+
+      expect(newPerson.muted).to.be.ok;
+      expect(newPerson.muting_history).to.deep.equal({
+        last_update: 'offline',
+        online: { muted: false },
+        offline: [{ muted: true, date: newPerson.muted, report_id: mutingReport._id }],
+      });
+
+      expect(mutingReport.offline_transitions.muting).to.equal(true);
+      expect(mainReport.offline_transitions).to.be.undefined;
+
+      await utils.startSentinel();
+      await sentinelUtils.waitForSentinel([mutingReport._id, newClinic._id, newPerson._id]);
+
+      const updatedNewClinic = await utils.getDoc(newClinic._id);
+      expect(updatedNewClinic.muted).to.be.ok;
+      expect(updatedNewClinic.muting_history.last_update).to.equal('online');
+      expect(updatedNewClinic.muting_history.online.muted).to.equal(true);
+
+      const updatedNewPerson = await utils.getDoc(newPerson._id);
+      expect(updatedNewPerson.muted).to.be.ok;
+      expect(updatedNewPerson.muting_history.last_update).to.equal('online');
+      expect(updatedNewPerson.muting_history.online.muted).to.equal(true);
+
+      const infoDoc = await sentinelUtils.getInfoDoc(mutingReport._id);
+      expect(infoDoc.transitions.muting.ok).to.equal(true);
     });
   });
 });

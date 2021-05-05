@@ -52,6 +52,14 @@ const getUnmuteClinicForm = () => ({
   },
 });
 
+const getMuteNewClinicForm = () => ({
+  ...getFormDoc('mute_new_clinic'),
+  context: {
+    person: false,
+    place: true,
+  },
+});
+
 
 module.exports.uploadForms = async () => {
   // uploading one by one to not have to handle bulk docs errors and have it fail directly if one upload fails
@@ -59,6 +67,7 @@ module.exports.uploadForms = async () => {
   await utils.saveDoc(getMutePersonForm());
   await utils.saveDoc(getUnmuteClinicForm());
   await utils.saveDoc(getUnmutePersonForm());
+  await utils.saveDoc(getMuteNewClinicForm());
 };
 
 module.exports.openForm = async (formId) => {
@@ -73,4 +82,21 @@ module.exports.submit = async () => {
   const submitButton = element(by.css('.btn.submit.btn-primary'));
   await helper.clickElementNative(submitButton);
   await helper.waitElementToBeVisibleNative(element(by.css('div.row.flex.grid'))); // contact summary loaded
+};
+
+module.exports.selectHealthCenter = async name => {
+  const select = element(by.css('.selection'));
+  await helper.waitUntilReadyNative(select);
+  await select.click();
+  const search = await element(by.css('.select2-search__field'));
+  await search.click();
+  await search.sendKeys(name);
+  await helper.waitElementToBeVisible(element(by.css('.name')));
+  await element(by.css('.name')).click();
+};
+
+module.exports.fillPatientName = async name => {
+  const patientName = element(by.css('[name="/mute_new_clinic/new_person/name"]'));
+  await helper.waitUntilReadyNative(patientName);
+  await patientName.clear().sendKeys(name);
 };
