@@ -12,6 +12,8 @@ const formsUtils = require('./forms');
 /* global window */
 
 describe('Muting', () => {
+  let originalTimeout;
+
   const password = 'Sup3rSecret!';
   const DISTRICT = {
     _id: 'DISTRICT',
@@ -185,11 +187,16 @@ describe('Muting', () => {
   };
 
   beforeAll(async () => {
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
     await utils.saveDocs([DISTRICT, HEALTH_CENTER]);
     await formsUtils.uploadForms();
   });
 
   afterAll(async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+
     await utils.startSentinel();
     await commonElements.goToLoginPageNative();
     await loginPage.loginNative(auth.username, auth.password);
@@ -245,6 +252,7 @@ describe('Muting', () => {
     });
 
     afterEach(async () => {
+      await commonElements.syncNative();
       await utils.revertSettings(true);
       await unmuteContacts();
       await utils.refreshToGetNewSettings();
@@ -824,7 +832,7 @@ describe('Muting', () => {
       ]);
     });
 
-    xit('should handle offline multiple muting/unmuting events gracefully', async () => {
+    it('should handle offline multiple muting/unmuting events gracefully', async () => {
       // this test has value after it ran for at least 100 times
       await utils.stopSentinel();
       await updateSettings(settings);
@@ -864,8 +872,6 @@ describe('Muting', () => {
       expect(updatedClinic.muting_history.last_update).to.equal('online');
       expect(updatedClinic.muting_history.online.muted).to.equal(false);
       expect(updatedClinic.muting_history.offline.length).to.equal(4);
-
-      await commonElements.syncNative();
     });
 
     it('should save validation errors on docs', async () => {
