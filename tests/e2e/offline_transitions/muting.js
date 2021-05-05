@@ -814,7 +814,7 @@ describe('Muting', () => {
       ]);
     });
 
-    it('should handle offline multiple muting/unmuting events gracefully', async () => {
+    xit('should handle offline multiple muting/unmuting events gracefully', async () => {
       // this test has value after it ran for at least 100 times
       await utils.stopSentinel();
       await updateSettings(settings);
