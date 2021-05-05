@@ -92,6 +92,13 @@ const processContact = (change) => {
  * - reads infodocs
  * - (re)runs muting transition over every report, in sequence, even if it had already ran
  * - reports should be processed in the same order we have received them
+ * The purpose of this action is to reconcile offline muting events that have already been processed offline, but due
+ * to characteristics of CouchDB + PouchDB sync + changes watching, there is no guarantee that we process these
+ * changes in their chronological order naturally.
+ * The reportIds parameter is a list of reports that have been processed offline _after_ the currently processed report,
+ * for every contact that this report has updated.
+ * This resolves most "conflicts" but does not guarantee a consistent muting state for every case.
+ *
  * @param {Array<string>} reportIds - an ordered list of report uuids to be processed
  * @return {Promise}
  */

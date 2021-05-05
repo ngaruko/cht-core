@@ -827,8 +827,6 @@ describe('Muting', () => {
       await unmuteClinic(clinic1);
       await mutePerson(patient1);
 
-      await browser.sleep(3000);
-
       let updatePatient1 = await utils.getDoc(patient1._id);
       expect(updatePatient1.muted).to.be.ok;
       expect(updatePatient1.muting_history.last_update).to.equal('offline');
@@ -856,6 +854,8 @@ describe('Muting', () => {
       expect(updatedClinic.muting_history.last_update).to.equal('online');
       expect(updatedClinic.muting_history.online.muted).to.equal(false);
       expect(updatedClinic.muting_history.offline.length).to.equal(4);
+
+      await commonElements.syncNative();
     });
 
     it('should save validation errors on docs', async () => {
