@@ -813,5 +813,93 @@ describe('Muting', () => {
         { muted: false, report_id: unmutingReport._id },
       ]);
     });
+
+    it('should handle offline multiple muting/unmuting events gracefully', async () => {
+      // this test has value after it ran for at least 100 times
+      await utils.stopSentinel();
+      await updateSettings(settings);
+
+      await muteClinic(clinic1);
+      await unmutePerson(patient1); // also unmutes clinic
+      await mutePerson(patient1);
+      await unmutePerson(patient1);
+      await muteClinic(clinic1);
+      await unmuteClinic(clinic1);
+      await mutePerson(patient1);
+
+      await browser.sleep(3000);
+
+      let updatePatient1 = await utils.getDoc(patient1._id);
+      expect(updatePatient1.muted).to.be.ok;
+      expect(updatePatient1.muting_history.last_update).to.equal('offline');
+      expect(updatePatient1.muting_history.online).to.deep.equal({ muted: false });
+      expect(updatePatient1.muting_history.offline.length).to.equal(7);
+
+      let updatedClinic = await utils.getDoc(clinic1._id);
+      expect(updatedClinic.muted).to.be.undefined;
+      expect(updatedClinic.muting_history.last_update).to.equal('offline');
+      expect(updatedClinic.muting_history.online).to.deep.equal({ muted: false });
+      expect(updatedClinic.muting_history.offline.length).to.equal(4);
+
+      await utils.startSentinel();
+      const reportIds = updatePatient1.muting_history.offline.map(event => event.report_id);
+      await sentinelUtils.waitForSentinel(reportIds);
+
+      updatePatient1 = await utils.getDoc(patient1._id);
+      expect(updatePatient1.muted).to.be.ok;
+      expect(updatePatient1.muting_history.last_update).to.equal('online');
+      expect(updatePatient1.muting_history.online).to.deep.equal({ muted: true, date: updatePatient1.muted });
+      expect(updatePatient1.muting_history.offline.length).to.equal(7);
+
+      updatedClinic = await utils.getDoc(clinic1._id);
+      expect(updatedClinic.muted).to.be.undefined;
+      expect(updatedClinic.muting_history.last_update).to.equal('online');
+      expect(updatedClinic.muting_history.online.muted).to.equal(false);
+      expect(updatedClinic.muting_history.offline.length).to.equal(4);
+    });
+
+    it('should save validation errors on docs', async () => {
+      await utils.addTranslations('en', {
+        'muting.validation.message':
+          '{{contact.name}}, field incorrect {{patient_name}} ({{patient_id}}) {{meta.instanceID}}',
+      });
+
+      const settingsWithValidations = _.cloneDeep(settings);
+      settingsWithValidations.muting.validations = {
+        list: [
+          {
+            property: 'inexistent_property',
+            rule: 'regex(\'^[0-9]{5,13}$\')',
+            translation_key: 'muting.validation.message',
+          }
+        ],
+      };
+
+      await utils.stopSentinel();
+      await updateSettings(settingsWithValidations);
+
+      await mutePerson(patient1);
+      let updatedPatient1 = await utils.getDoc(patient1._id);
+      expectUnmutedNoHistory(updatedPatient1);
+
+      const report = await getLastSubmittedReport();
+      expect(report.errors.length).to.equal(1);
+      expect(report.errors[0]).to.deep.equal({
+        code: 'invalid_inexistent_property',
+        message: `Offline, field incorrect ${patient1.name} (${patient1.patient_id}) ${report.fields.meta.instanceID}`,
+      });
+      expect(report.tasks).to.be.undefined;
+      expect(report.offline_transitions).to.be.undefined;
+
+      await utils.startSentinel();
+      await sentinelUtils.waitForSentinel(report._id);
+
+      updatedPatient1 = await utils.getDoc(patient1._id);
+      expectUnmutedNoHistory(updatedPatient1);
+      const serverReport = await utils.getDoc(report._id);
+      expect(serverReport.errors).to.deep.equal(report.errors);
+      expect(serverReport.tasks.length).to.equal(1);
+      expect(serverReport.tasks[0].messages[0].message).to.equal(serverReport.errors[0].message);
+    });
   });
 });

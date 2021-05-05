@@ -8,7 +8,6 @@ import { ContactMutedService } from '@mm-services/contact-muted.service';
 import { ContactTypesService } from '@mm-services/contact-types.service';
 import { MutingTransition } from '@mm-services/transitions/muting.transition';
 import { ValidationService } from '@mm-services/validation.service';
-import { cloneDeep } from 'lodash-es';
 
 describe('Muting Transition', () => {
   let transition:MutingTransition;
@@ -216,14 +215,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[{
-          _id: 'new_report',
-          type: 'data_record',
-          form: 'mute',
-          fields: {
-            patient_id: 'shortcode',
-          }
-        }]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[docs[0]]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',
@@ -232,13 +224,8 @@ describe('Muting Transition', () => {
         expect(dbService.get.callCount).to.equal(1);
         expect(dbService.get.args[0]).to.deep.equal(['patient']);
         expect(contactMutedService.getMuted.callCount).to.equal(1);
-        expect(contactMutedService.getMuted.args[0]).to.deep.equal([{
-          _id: 'patient',
-          name: 'patient name',
-          type: 'person',
-          parent: { _id: 'parent', name: 'parent' },
-          patient_id: 'shortcode',
-        }]);
+        expect(contactMutedService.getMuted.args[0]).to.deep.equal([hydratedReport.patient]);
+
 
         expect(updatedDocs).to.deep.equal([
           {
@@ -318,14 +305,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[{
-          _id: 'a_report',
-          type: 'data_record',
-          form: 'unmute',
-          fields: {
-            patient_id: 'shortcode',
-          }
-        }]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[docs[0]]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',
@@ -390,14 +370,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[{
-          _id: 'a_report',
-          type: 'data_record',
-          form: 'unmute',
-          fields: {
-            patient_id: 'shortcode',
-          }
-        }]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[docs[0]]]);
         expect(dbService.query.callCount).to.equal(0);
         expect(dbService.get.callCount).to.equal(0);
 
@@ -449,14 +422,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[{
-          _id: 'new_report',
-          type: 'data_record',
-          form: 'mute',
-          fields: {
-            patient_id: 'shortcode',
-          }
-        }]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[docs[0]]]);
         expect(dbService.query.callCount).to.equal(0);
         expect(dbService.get.callCount).to.equal(0);
 
@@ -618,14 +584,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[{
-          _id: 'report',
-          type: 'data_record',
-          form: 'mute',
-          fields: {
-            place_id: 'place_id',
-          }
-        }]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[docs[0]]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',
@@ -843,14 +802,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[{
-          _id: 'record',
-          type: 'data_record',
-          form: 'unmute',
-          fields: {
-            place_id: 'place_id',
-          },
-        }]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[docs[0]]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',
@@ -1024,14 +976,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[{
-          _id: 'a_report',
-          type: 'data_record',
-          form: 'mute',
-          fields: {
-            place_id: 'place_shortcode',
-          }
-        }]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[docs[0]]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',
@@ -1419,7 +1364,6 @@ describe('Muting Transition', () => {
       let validMutingReport;
       let validHydratedReport;
       let minifiedPatient;
-      let validMutingReportWithoutContact;
       let transitionedValidMutingReport;
       let transitionedPatient;
 
@@ -1460,9 +1404,6 @@ describe('Muting Transition', () => {
           parent: { _id: 'parent' },
           patient_id: 'patient1',
         };
-
-        validMutingReportWithoutContact = cloneDeep(validMutingReport);
-        delete validMutingReportWithoutContact.contact;
 
         transitionedValidMutingReport = {
           _id: 'new_report',
@@ -1519,7 +1460,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[validMutingReportWithoutContact]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[validMutingReport]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',
@@ -1568,7 +1509,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[validMutingReportWithoutContact]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[validMutingReport]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',
@@ -1619,10 +1560,8 @@ describe('Muting Transition', () => {
             patient_id: 'patient2',
           }
         };
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const invalidMutingReportWithoutContact = (({ contact, ...rest }) => rest)(invalidMutingReport);
-        const docs = [ validMutingReport, invalidMutingReport ];
 
+        const docs = [ validMutingReport, invalidMutingReport ];
         lineageModelGenerator.docs.resolves([validHydratedReport, invalidHydratedReport]);
         dbService.query.withArgs('medic-client/contacts_by_place').resolves({ rows: [] });
         dbService.get.withArgs(minifiedPatient._id).resolves(minifiedPatient);
@@ -1632,10 +1571,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[
-          validMutingReportWithoutContact,
-          invalidMutingReportWithoutContact,
-        ]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[ validMutingReport, invalidMutingReport ]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',
@@ -1692,8 +1628,6 @@ describe('Muting Transition', () => {
             place_id: 'place2',
           }
         };
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const invalidMutingReportWithoutContact = (({ contact, ...rest }) => rest)(invalidMutingReport);
         const docs = [ validMutingReport, invalidMutingReport ];
 
         lineageModelGenerator.docs.resolves([validHydratedReport, invalidHydratedReport]);
@@ -1705,10 +1639,7 @@ describe('Muting Transition', () => {
         const updatedDocs = await transition.run(docs);
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[
-          validMutingReportWithoutContact,
-          invalidMutingReportWithoutContact,
-        ]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[ validMutingReport, invalidMutingReport ]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',
@@ -1898,14 +1829,7 @@ describe('Muting Transition', () => {
 
         expect(lineageModelGenerator.docs.callCount).to.equal(1);
 
-        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[{
-          _id: 'a_report',
-          type: 'data_record',
-          form: 'unmute',
-          fields: {
-            patient_id: 'shortcode',
-          }
-        }]]);
+        expect(lineageModelGenerator.docs.args[0]).to.deep.equal([[docs[0]]]);
         expect(dbService.query.callCount).to.equal(1);
         expect(dbService.query.args[0]).to.deep.equal([
           'medic-client/contacts_by_place',

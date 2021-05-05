@@ -5,6 +5,7 @@ const utils = require('../lib/utils');
 const messages = require('../lib/messages');
 const mutingUtils = require('../lib/muting_utils');
 const contactTypesUtils = require('@medic/contact-types-utils');
+const transitionsIndex = require('./index');
 
 const TRANSITION_NAME = 'muting';
 const CONFIG_NAME = 'muting';
@@ -87,10 +88,11 @@ const processContact = (change) => {
 /**
  * Given a list of report ids to process
  * - hydrates the docs
- * - excludes irrelevant report
+ * - excludes irrelevant reports
  * - reads infodocs
- * - we (re)run muting transition over every report - even if it had already ran
- * @param reportIds
+ * - (re)runs muting transition over every report, in sequence, even if it had already ran
+ * - reports should be processed in the same order we have received them
+ * @param {Array<string>} reportIds - an ordered list of report uuids to be processed
  * @return {Promise}
  */
 const replayOfflineMutingEvents = (reportIds = []) => {
@@ -102,18 +104,28 @@ const replayOfflineMutingEvents = (reportIds = []) => {
     .fetchHydratedDocs(reportIds)
     .then(hydratedReports => {
       hydratedReports = hydratedReports.filter(doc => isRelevantReport(doc, {}));
-      const uuids = hydratedReports.map(report => report._id);
 
-      mutingUtils.infodoc.bulkGet(uuids).then(infoDocs => {
+      const changes = hydratedReports.map(report => ({ id: report._id }));
+      return mutingUtils.infodoc.bulkGet(changes).then(infoDocs => {
         let promiseChain = Promise.resolve();
-        hydratedReports.forEach(report => {
-          promiseChain = promiseChain.then(() => runTransition(report, infoDocs));
+        reportIds.forEach(reportId => {
+          const hydratedReport = hydratedReports.find(report => report._id === reportId);
+          if (!hydratedReport) {
+            return;
+          }
+          promiseChain = promiseChain.then(() => runTransition(hydratedReport, infoDocs));
         });
         return promiseChain;
       });
     });
 };
 
+/**
+ * Runs muting transition over provided report
+ * @param {Object} hydratedReport
+ * @param {Array<Object>} infoDocs
+ * @return {Promise}
+ */
 const runTransition = (hydratedReport, infoDocs = []) => {
   const change = {
     id: hydratedReport._id,
@@ -121,9 +133,18 @@ const runTransition = (hydratedReport, infoDocs = []) => {
     info: infoDocs.find(infoDoc => infoDoc.doc_id === hydratedReport._id),
   };
 
-  return module.exports
-    .onMatch(change)
-    .then(() => mutingUtils.infodoc.updateTransition(change, TRANSITION_NAME, true));
+  const transitionContext = {
+    change,
+    transition: module.exports,
+    key: TRANSITION_NAME,
+    force: true,
+  };
+  return new Promise((resolve, reject) => {
+    transitionsIndex.applyTransition(transitionContext, (err, result) => {
+      const transitionContext = { change, results: [result] };
+      transitionsIndex.finalize(transitionContext, (err) => err ? reject(err) : resolve());
+    });
+  });
 };
 
 const wasProcessedOffline = (change) => {

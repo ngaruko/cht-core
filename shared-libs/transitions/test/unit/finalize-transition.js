@@ -122,4 +122,41 @@ describe('finalize transition', () => {
       }
     );
   });
+
+  it('apply transition with force should not run canRun', (done) => {
+    const doc = { _rev: '1-gjkidflgjuireotugdlfgjfd' };
+    const info = {
+      transitions: {
+        x: {
+          ok: true,
+          last_rev: '1-gjkidflgjuireotugdlfgjfd',
+        }
+      }
+    };
+    const transition = {
+      onMatch: sinon.stub().resolves(true),
+      filter: sinon.stub().returns(true),
+    };
+
+    transitions.applyTransition(
+      {
+        key: 'x',
+        change: {
+          doc: doc,
+          info: info,
+        },
+        transition: transition,
+        force: true,
+      },
+      (err, changed) => {
+        assert(!err);
+        assert(changed);
+        assert(info.transitions.x.ok);
+        assert(info.transitions.x.last_rev);
+        assert.equal(doc.errors, undefined);
+        done();
+      }
+    );
+
+  });
 });

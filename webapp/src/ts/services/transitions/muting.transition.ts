@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { cloneDeep } from 'lodash-es';
 
 import { DbService } from '@mm-services/db.service';
 import { LineageModelGeneratorService } from '@mm-services/lineage-model-generator.service';
@@ -105,15 +104,8 @@ export class MutingTransition implements TransitionInterface {
   }
 
   private async hydrateDocs(context) {
-    const reportsToHydrate = context.reports.map(report => {
-      const reportClone = cloneDeep(report);
-      // don't hydrate the submitter to save time, we already know who submitted these
-      delete reportClone.contact;
-      return reportClone;
-    });
-
     const docs = [
-      ...reportsToHydrate,
+      ...context.reports,
       ...context.contacts,
     ];
     const hydratedDocs = await this.lineageModelGeneratorService.docs(docs);

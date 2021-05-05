@@ -72,5 +72,5 @@ module.exports.openForm = async (formId) => {
 module.exports.submit = async () => {
   const submitButton = element(by.css('.btn.submit.btn-primary'));
   await helper.clickElementNative(submitButton);
-  await helper.waitElementToBeVisibleNative(element(by.css('div.item-content')));
+  await helper.waitElementToBeVisibleNative(element(by.css('div.row.flex.grid'))); // contact summary loaded
 };
