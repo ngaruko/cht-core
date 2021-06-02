@@ -4,7 +4,7 @@ const url = require('url');
 const packageJson = require('./package.json');
 const fs = require('fs');
 const path = require('path');
-
+//testing ci
 const {
   TRAVIS_TAG,
   TRAVIS_BRANCH,
@@ -600,7 +600,7 @@ module.exports = function(grunt) {
         cmd: () => {
           const configuration = TRAVIS_BUILD_NUMBER ? 'production' : 'development';
           return `
-            cd webapp && ../node_modules/.bin/ng build --configuration=${configuration} --watch=true & 
+            cd webapp && ../node_modules/.bin/ng build --configuration=${configuration} --watch=true &
             cd ../
           `;
         },
