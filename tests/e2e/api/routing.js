@@ -139,10 +139,10 @@ describe('routing', () => {
         utils.request(Object.assign({ path: '/setup/poll' }, unauthenticatedRequestOptions)),
         utils.request(Object.assign({ path: '/api/info' }, unauthenticatedRequestOptions)),
       ]).then(results => {
-        expect(results[0].length).to.be.truthy;
-        expect(results[1].length).to.be.truthy;
+        expect(results[0].length).to.b;
+        expect(results[1].length).to.be.true;
         expect(_.isArray(results[2])).to.equal(true);
-        expect(results[3].length).to.be.truthy;
+        expect(results[3].length).to.be.true;
         expect(results[4].version).to.equal('0.1.0');
         expect(results[5].version).to.equal('0.1.0');
       });
@@ -154,8 +154,8 @@ describe('routing', () => {
         utils.request(Object.assign({ path: '/api/deploy-info' }, offlineRequestOptions)),
         utils.requestOnTestDb('/_design/medic-client')
       ]).then(([ deployInfoOnline, deployInfoOffline, ddoc ]) => {
-        expect(deployInfoOnline).to.equal(ddoc.deploy_info);
-        expect(deployInfoOffline).to.equal(ddoc.deploy_info);
+        expect(deployInfoOnline).to.deep.equal(ddoc.deploy_info);
+        expect(deployInfoOffline).to.deep.equal(ddoc.deploy_info);
       });
     });
   });
@@ -323,7 +323,7 @@ describe('routing', () => {
         results.forEach((result, idx) => {
           if (idx === 0) {
             // online user request
-            expect(result.docs.length).to.be.truthy;
+            expect(result.docs.length).to.be.true;
           } else {
             // offline user request
             expect(result.statusCode).to.equal(403);
@@ -485,7 +485,7 @@ describe('routing', () => {
         results.forEach((result, idx) => {
           if (idx === 0) {
             // online user request
-            expect(result.statusCode).to.be.falsy;
+            expect(result.statusCode).to.be.false;
           } else {
             // offline user requests
             expect(result.statusCode).to.equal(403);
@@ -540,10 +540,10 @@ describe('routing', () => {
         utils.requestOnMedicDb(_.defaults({ path: '/_revs_diff' }, request, offlineRequestOptions)),
         utils.requestOnMedicDb(_.defaults({ path: '/_missing_revs' }, request, offlineRequestOptions)),
       ]).then(results => {
-        expect(results[0]).to.equal({});
-        expect(results[1]).to.equal({ missing_revs: {} });
-        expect(results[2]).to.equal({});
-        expect(results[3]).to.equal({ missing_revs: {} });
+        expect(results[0]).to.deep.equal({});
+        expect(results[1]).to.deep.equal({ missing_revs: {} });
+        expect(results[2]).to.deep.equal({});
+        expect(results[3]).to.deep.equal({ missing_revs: {} });
       });
     });
 
@@ -557,19 +557,19 @@ describe('routing', () => {
       return utils
         .requestOnTestDb(_.defaults(request, offlineRequestOptions))
         .then(result => {
-          expect(_.omit(result, 'rev')).to.equal({ ok: true, id: '_local/some_local_id' });
+          expect(_.omit(result, 'rev')).to.deep.equal({ ok: true, id: '_local/some_local_id' });
           return utils.requestOnTestDb(
             _.defaults({ method: 'GET', path: '/_local/some_local_id' }, offlineRequestOptions)
           );
         })
         .then(result => {
-          expect(_.omit(result, '_rev')).to.equal({ _id: '_local/some_local_id' });
+          expect(_.omit(result, '_rev')).to.deep.equal({ _id: '_local/some_local_id' });
           return utils.requestOnTestDb(
             _.defaults({ method: 'DELETE', path: '/_local/some_local_id' }, offlineRequestOptions)
           );
         })
         .then(result => {
-          expect(_.omit(result, 'rev')).to.equal({ ok: true, id: '_local/some_local_id' });
+          expect(_.omit(result, 'rev')).to.deep.equal({ ok: true, id: '_local/some_local_id' });
         });
     });
 
@@ -748,7 +748,7 @@ describe('routing', () => {
           ),
         ]))
         .then(results => {
-          results.forEach(result => expect(result.settings).to.equal(settings));
+          results.forEach(result => expect(result.settings).to.deep.equal(settings));
 
           const updateMedicParams = {
             path: '/_design/medic/_rewrite/update_settings/medic',
