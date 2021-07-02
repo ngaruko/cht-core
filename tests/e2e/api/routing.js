@@ -140,8 +140,8 @@ describe('routing', () => {
         utils.request(Object.assign({ path: '/api/info' }, unauthenticatedRequestOptions)),
       ]).then(results => {
         expect(results[0].length).to.be.above(0);
-        expect(results[1].length).to.be.true;
-        expect(_.isArray(results[2])).to.equal(true);
+        expect(results[1].length).to.be.above(0);
+        expect(_.isArray(results[2])).to.be.true;
         expect(results[3].length).to.be.true;
         expect(results[4].version).to.equal('0.1.0');
         expect(results[5].version).to.equal('0.1.0');
@@ -580,7 +580,7 @@ describe('routing', () => {
         utils.requestOnMedicDb(_.defaults({ path: '/_design/medic/_rewrite' }, offlineRequestOptions))
       ]).then(results => {
         expect(results[0].includes('This loads as an empty page')).to.be.true; // the dummy page that clears appcache
-        expect(results[1].includes('DOCTYPE html')).to.be(true);
+        expect(results[1].includes('DOCTYPE html')).to.be.true;
         expect(results[2].includes('This loads as an empty page')).to.be.true;
       });
     });
@@ -759,7 +759,7 @@ describe('routing', () => {
           return utils.requestOnMedicDb(_.defaults(updateMedicParams, onlineRequestOptions));
         })
         .then(response => {
-          expect(response.success).to.be(true);
+          expect(response.success).to.be.true;
         })
         .then(() => {
           const params = {
@@ -770,7 +770,7 @@ describe('routing', () => {
           return utils.requestOnTestDb(_.defaults(params, onlineRequestOptions));
         })
         .then(response => {
-          expect(response.success).to.be(true);
+          expect(response.success).to.be.true;
         })
         .then(() => {
           const params = {
