@@ -139,7 +139,7 @@ describe('routing', () => {
         utils.request(Object.assign({ path: '/setup/poll' }, unauthenticatedRequestOptions)),
         utils.request(Object.assign({ path: '/api/info' }, unauthenticatedRequestOptions)),
       ]).then(results => {
-        expect(results[0].length).to.b;
+        expect(results[0].length).to.be.above(0);
         expect(results[1].length).to.be.true;
         expect(_.isArray(results[2])).to.equal(true);
         expect(results[3].length).to.be.true;
@@ -323,7 +323,7 @@ describe('routing', () => {
         results.forEach((result, idx) => {
           if (idx === 0) {
             // online user request
-            expect(result.docs.length).to.be.true;
+            expect(result.docs.length).to.be.above(0);
           } else {
             // offline user request
             expect(result.statusCode).to.equal(403);
@@ -448,7 +448,7 @@ describe('routing', () => {
         results.forEach((result, idx) => {
           if (idx === 0) {
             // online user request
-            expect(result.ok).to.equal(true);
+            expect(result.ok).to.be.true;
           } else {
             // offline user request
             expect(result.statusCode).to.equal(403);
@@ -485,7 +485,7 @@ describe('routing', () => {
         results.forEach((result, idx) => {
           if (idx === 0) {
             // online user request
-            expect(result.statusCode).to.be.false;
+            expect(result.statusCode).to.be.undefined;
           } else {
             // offline user requests
             expect(result.statusCode).to.equal(403);
@@ -579,9 +579,9 @@ describe('routing', () => {
         utils.requestOnTestDb(_.defaults({ path: '/', json: false }, offlineRequestOptions)),
         utils.requestOnMedicDb(_.defaults({ path: '/_design/medic/_rewrite' }, offlineRequestOptions))
       ]).then(results => {
-        expect(results[0].includes('This loads as an empty page')).to.be(true); // the dummy page that clears appcache
+        expect(results[0].includes('This loads as an empty page')).to.be.true; // the dummy page that clears appcache
         expect(results[1].includes('DOCTYPE html')).to.be(true);
-        expect(results[2].includes('This loads as an empty page')).to.be(true);
+        expect(results[2].includes('This loads as an empty page')).to.be.true;
       });
     });
 
