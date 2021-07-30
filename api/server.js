@@ -15,7 +15,7 @@ process
   const runAPIHelper = require('./src/helper');
   const launchAPI = require('./src/launcher');
 
-  await runAPIHelper();
+  await runAPIHelper(false);
   await launchAPI();
 
 })();
