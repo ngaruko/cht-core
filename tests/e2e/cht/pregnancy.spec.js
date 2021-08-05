@@ -1,4 +1,5 @@
 const utils = require('../../utils');
+const sentinelUtils = require('../sentinel/utils');
 const commonElements = require('../../page-objects/common/common.po');
 const loginPage = require('../../page-objects/login/login.po');
 const contactsPage = require('../../page-objects/contacts/contacts.po');
@@ -51,6 +52,7 @@ describe('Pregnancy workflow on cht : ', () => {
   beforeAll(async () => {
     await utils.saveDocs(docs);
     await utils.createUsers([offlineUser]);
+    await sentinelUtils.waitForSentinel();
   });
 
   it('should register a pregnancy', async () => {
