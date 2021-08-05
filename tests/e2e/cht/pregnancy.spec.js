@@ -59,6 +59,7 @@ describe('Pregnancy workflow on cht : ', () => {
     await utils.closeTour();
     await commonElements.syncNative();
     await commonElements.goToPeople();
+    await contactsPage.contactLoaded();
     await contactsPage.selectLHSRowByText(clinic.name);
     await contactsPage.selectContactByName(pregnancyWoman.name);
     await helper.clickElementNative(contactsPage.newActions);
