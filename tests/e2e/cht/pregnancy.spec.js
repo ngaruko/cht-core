@@ -34,9 +34,7 @@ const offlineUser = userFactory.build({
   place: healthCenter._id
 });
 
-
 const docs = [...places, pregnancyWoman];
-
 
 describe('Pregnancy workflow on cht : ', () => {
   let originalTimeout;
