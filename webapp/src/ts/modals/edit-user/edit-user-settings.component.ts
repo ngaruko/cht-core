@@ -50,6 +50,7 @@ export class EditUserSettingsComponent extends EditUserAbstract implements OnIni
 
     return this.changedUpdates(this.editUserModel)
       .then((updates: any) => {
+        console.warn(JSON.stringify(updates));
         Promise
           .resolve()
           .then(() => {
@@ -62,6 +63,7 @@ export class EditUserSettingsComponent extends EditUserAbstract implements OnIni
           })
           .then(() => {
             if (updates.language) {
+              console.warn('changing language to ' + updates.language);
               return this.setLanguageService.set(updates.language);
             }
           })

@@ -46,6 +46,7 @@ export class SetLanguageService {
     moment.locale([ code, 'en' ]);
     this.setDatepickerLanguage(code);
     await this.ngxTranslateService.use(code).toPromise();
+    console.warn('language ' + code + ' was set');
 
     if (setLanguageCookie !== false) {
       this.setLanguageCookieService.set(code);

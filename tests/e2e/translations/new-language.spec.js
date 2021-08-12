@@ -9,9 +9,9 @@ const reportsPage = require('../../page-objects/reports/reports.po');
 describe('Adding new language', () => {
   const addTranslations = async () => {
     await utils.addTranslations('afr',{
-      'No messages found':'Geen boodskappe gevind nie',
-      'No contacts found':'Geen mense gevind nie',
-      'reports.none':'Geen verslae gevind nie',
+      'No messages found': 'Geen boodskappe gevind nie',
+      'No contacts found': 'Geen mense gevind nie',
+      'reports.none': 'Geen verslae gevind nie',
       'Analytics': 'Analytiks'
     });
     await utils.resetBrowserNative();
@@ -67,5 +67,6 @@ describe('Adding new language', () => {
     expect(await helper.getTextFromElementNative(reportsPage.list())).toBe('Geen verslae gevind nie');
     await commonPo.goToPeople();
     expect(await helper.getTextFromElementNative(contactsPage.contactsList())).toBe('Geen mense gevind nie');
+    await helper.takeScreenshot('omg.png');
   });
 });
