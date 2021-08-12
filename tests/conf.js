@@ -49,7 +49,6 @@ const baseConfig = {
       utils.reporter.afterLaunch();
     });
 
-
     return new Promise(function(resolve) {
       utils.reporter.beforeLaunch(resolve);
     });
