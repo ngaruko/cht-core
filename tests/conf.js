@@ -16,7 +16,6 @@ const baseConfig = {
   suites: {
     web: [
       'e2e/!(cht)/**/new-la*.js',
-
       // 'e2e/*.js',
       // 'medic-conf/**/*.js'
     ],
