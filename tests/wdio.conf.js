@@ -1,16 +1,9 @@
 const allure = require('allure-commandline');
 const fs = require('fs');
-
 const constants = require('./constants');
 const utils = require('./utils');
 const path = require('path');
-
 const ALLURE_OUTPUT = 'allure-results';
-const getTestConsoleLogFile = (title) => {
-  return path.join(__dirname, 'logs', 'browser.wdio.' + title + '.log');
-};
-
-
 const browserLogPath = path.join(__dirname, 'logs', 'browser.console.log');
 let testTile;
 
