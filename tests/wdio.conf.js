@@ -6,12 +6,13 @@ const utils = require('./utils');
 const path = require('path');
 
 const ALLURE_OUTPUT = 'allure-results';
-const getSpecName = (specs) => specs[0].split('/').slice(-1)[0].split('.wdio-spec')[0];
-const getBrowserLogFilePath = (specs) => {
-  const specName = getSpecName(specs);
-  return path.join(__dirname, 'logs', 'browser.' + specName + '.log');
+const getTestConsoleLogFile = (title) => {
+  return path.join(__dirname, 'logs', 'browser.wdio.' + title + '.log');
 };
+
+
 const browserLogPath = path.join(__dirname, 'logs', 'browser.console.log');
+let testTile;
 
 const baseConfig = {
   //
@@ -77,7 +78,7 @@ const baseConfig = {
     browserName: 'chrome',
     acceptInsecureCerts: true,
     'goog:chromeOptions': {
-      args: ['--headless', '--disable-gpu', '--enable-logging']
+      args: ['--headless', '--disable-gpu']
     }
 
     // If outputDir is provided WebdriverIO can capture driver session logs
@@ -132,7 +133,7 @@ const baseConfig = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  // services: [],
+  services: ['devtools'],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -215,9 +216,9 @@ const baseConfig = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that are to be run
    */
-  beforeSession: function (config, capabilities, specs) {
-    process.env.CHROME_LOG_FILE = getBrowserLogFilePath(specs);
-  },
+  // beforeSession: function (config, capabilities, specs) {
+  
+  // },
   /**
    * Gets executed before test execution begins. At this point you can access to all global
    * variables like `browser`. It is the perfect place to define custom commands.
@@ -227,6 +228,24 @@ const baseConfig = {
    */
   before: async function () {
     await browser.url('/');
+    await browser.cdp('Log', 'enable');
+    await browser.cdp('Runtime', 'enable');
+    browser.on('Runtime.consoleAPICalled', (data) => {
+      if (data &&(data.type === 'error' || data.type ==='warning' )) {
+        const logEntry = `log Event: ${JSON.stringify(data.args)}\n`;
+        console.log(`~~~~~ log event ~~~~~`);
+        console.log(logEntry);
+        console.log(`~~~~~ log event end ~~~~~`);
+        fs.appendFileSync(browserLogPath, logEntry);
+      }
+    });
+    browser.on('Log.entryAdded', (params) => {
+      const entry = params.entry;
+      console.log(`~~~~~~ log occrued ~~~~~`);
+      console.log(`~~~~~~ ${params} ~~~~~`);
+      const logEntry = `[${entry.level}]: ${entry.source} ${entry.text} url: ${entry.url} at ${entry.timestamp}\n`;
+      fs.appendFileSync(browserLogPath, logEntry);
+    });
   },
   /**
    * Runs before a WebdriverIO command gets executed.
@@ -244,11 +263,11 @@ const baseConfig = {
   /**
    * Function to be executed before a test (in Mocha/Jasmine) starts.
    */
-  beforeTest: async (test) => {
-    await browser.execute(`
-      console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-      console.log("~~~~~~~~~~~~~~~~~~~ ${test.title} ~~~~~~~~~~~~~~~~~~~~");     
-    `);
+  beforeTest: (test) => {
+    testTile = test.title;
+    const title = `~~~~~~~~~~~~~ ${testTile} ~~~~~~~~~~~~~~~~~~~~~~\n`;
+    // const path = browserLogPath(testTile);
+    fs.appendFileSync(browserLogPath, title);
   },
   /**
    * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
@@ -266,6 +285,7 @@ const baseConfig = {
    * Function to be executed after a test (in Mocha/Jasmine).
    */
   afterTest: async (test, context, { passed }) => {
+    browser.cdp('Console', 'clearMessages');
     if (passed === false) {
       await browser.takeScreenshot();
     }
@@ -302,13 +322,8 @@ const baseConfig = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that ran
    */
-  afterSession: (config, capabilities, specs) => {
-    // coalesce logs into main log file
-    const specLogPath = getBrowserLogFilePath(specs);
-    const logEntries = fs.readFileSync(specLogPath, 'utf-8');
-    fs.appendFileSync(browserLogPath, logEntries);
-    fs.unlinkSync(specLogPath);
-  },
+  // afterSession: (config, capabilities, specs) => {
+  // },
   /**
    * Gets executed after all workers got shut down and the process is about to exit. An error
    * thrown in the onComplete hook will result in the test run failing.
@@ -322,6 +337,7 @@ const baseConfig = {
     const reportError = new Error('Could not generate Allure report');
     const timeoutError = new Error('Timeout generating report');
     const generation = allure(['generate', 'allure-results', '--clean']);
+
     return new Promise((resolve, reject) => {
       const generationTimeout = setTimeout(
         () => reject(timeoutError),
