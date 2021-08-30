@@ -33,5 +33,5 @@ jobs:
         echo "TEST_SUITE=integration" >> $GITHUB_ENV
 
     - name: Check if chrome driver get installed
-      run: node --stack_size=10000 `which grunt` start-webdriver
+      run: node --stack_size=10000 scripts/e2e/start_webdriver.sh
 
