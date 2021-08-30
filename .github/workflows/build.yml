@@ -93,5 +93,5 @@ jobs:
       run: npm install -g grunt-cli
 
     - name: Test it!
-      run: node --stack_size=10000 `which grunt` start-webriver
+      run: node --stack_size=10000 `which grunt` start-webdriver
 
