@@ -53,7 +53,27 @@ jobs:
       run: |
         node --stack_size=10000 `which grunt` publish-for-testing
 
- 
+  config-tests:
+    needs: build
+    name: Config Tests
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        grunt-cmd: [ 'exec:test-config-standard', 'exec:test-config-default']
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Grunt Install
+      run: npm install -g grunt-cli
+    - name: NPM
+      run: npm ci
+    - name: Run Tests
+      run: node --stack_size=10000 `which grunt` ${{ matrix.grunt-cmd }}
+
   publish:
     needs: [tests,config-tests]
     name: Publish branch build
@@ -83,8 +103,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ['12.x']
-        grunt-cmd: ['ci-e2e']
+        node-version: ['8.x', '10.x', '12.x']
+        grunt-cmd: ['ci-webdriver-default', 'ci-webdriver-standard', 'ci-e2e-integration', 'ci-e2e', 'ci-e2e-mobile', 'ci-e2e-cht']
 
     steps:
     - name: Get Docker Hub username
