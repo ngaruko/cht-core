@@ -15,12 +15,12 @@ const baseConfig = {
   exclude: ['**/*wdio-spec.js'],
   suites: {
     web: [
-      'e2e/!(cht)/**/*.js',
-      'e2e/*.js',
-      'medic-conf/**/*.js'
+      //'e2e/!(cht)/**/*.js',
+      'e2e/navigation/common.specs.js',
+      //'medic-conf/**/*.js'
     ],
     cht: [
-      'e2e/cht/*.spec.js'
+      //'e2e/cht/*.spec.js'
     ],
     mobile: ['mobile/**/*.js'],
     // performance: 'performance/**/*.js'
@@ -61,6 +61,8 @@ const baseConfig = {
 
     browser.waitForAngularEnabled(false);
     const config = await browser.getProcessedConfig();
+    const capabilities = await browser.getCapabilities();
+    console.log('CHROME VERSION....', capabilities.get('version'));
 
     // wait for startup to complete
     await browser.driver.wait(utils.prepServices(config), 135 * 1000, 'API took too long to start up');

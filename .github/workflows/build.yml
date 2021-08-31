@@ -92,6 +92,9 @@ jobs:
     - name: Grunt Install
       run: npm install -g grunt-cli
 
+    - name: install docker selenium
+      run: docker pull selenium/standalone-chrome
+
     - name: Test it!
       run: node --stack_size=10000 `which grunt` start-webdriver
 
