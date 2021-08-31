@@ -1,6 +1,6 @@
 name: Build cht-core and test against node versions
 
-on: push
+on: [push, pull_request]
 
 env:
   COUCH_URL: http://admin:pass@localhost:5984/medic-test
@@ -19,43 +19,64 @@ jobs:
     - name: Get Docker Hub username
       id: get-docker-hub-username
       run: echo '::set-output name=dockerhub_username::${{ secrets.DOCKERHUB_USERNAME }}'
-    # - name: Login to Docker Hub
-    #   uses: docker/login-action@v1
-    #   with:
-    #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-    #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-    #   if: steps.get-docker-hub-username.outputs.dockerhub_username
-    # - name: Get branch name
-    #   uses: nelonoel/branch-name@1ea5c86cb559a8c4e623da7f188496208232e49f
-    # - name: Set CI Vars
-    #   run: |
-    #     echo "BUILD_NUMBER=$GITHUB_RUN_ID" >> $GITHUB_ENV
-    #     echo "BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
-    # - uses: actions/checkout@v2
-    # - name: Use Node.js 12.x
-    #   uses: actions/setup-node@v1
-    #   with:
-    #     node-version: 12.x
-    # - name: Couch Start
-    #   run: ./scripts/ci/couch-start
-    # - name: Create logs directory
-    #   run: mkdir tests/logs
-    # - name: npm CI
-    #   run: npm ci
-    # - name: Grunt Install
-    #   run: npm install -g grunt-cli
-    # - name: Configure Couch
-    #   run: ./scripts/ci/couch-config
-    # - name: Grunt CI-Compile
-    #   run: |
-    #     node --stack_size=10000 `which grunt` ci-compile-github
-    # - name: Publish for testing
-    #   run: |
-    #     node --stack_size=10000 `which grunt` publish-for-testing
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      if: steps.get-docker-hub-username.outputs.dockerhub_username
+    - name: Get branch name
+      uses: nelonoel/branch-name@1ea5c86cb559a8c4e623da7f188496208232e49f
+    - name: Set CI Vars
+      run: |
+        echo "BUILD_NUMBER=$GITHUB_RUN_ID" >> $GITHUB_ENV
+        echo "BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Couch Start
+      run: ./scripts/ci/couch-start
+    - name: Create logs directory
+      run: mkdir tests/logs
+    - name: npm CI
+      run: npm ci
+    - name: Grunt Install
+      run: npm install -g grunt-cli
+    - name: Configure Couch
+      run: ./scripts/ci/couch-config
+    - name: Grunt CI-Compile
+      run: |
+        node --stack_size=10000 `which grunt` ci-compile-github
+    - name: Publish for testing
+      run: |
+        node --stack_size=10000 `which grunt` publish-for-testing
+
+ 
+  publish:
+    needs: [tests,config-tests]
+    name: Publish branch build
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get branch name
+      uses: nelonoel/branch-name@1ea5c86cb559a8c4e623da7f188496208232e49f
+    - name: Set CI Vars
+      run: |
+        echo "BUILD_NUMBER=$GITHUB_RUN_ID" >> $GITHUB_ENV
+        echo "BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
+    - name: Publish
+      if: ${{ github.event_name != 'pull_request' }}
+      run: |
+        cd scripts/ci
+        npm ci
+        node ./publish.js
 
   tests:
     needs: build
-    name: Testing
+    name: ${{ matrix.grunt-cmd }} on node ${{ matrix.node-version }}
     runs-on: ubuntu-18.04
     env:
       NODE: ${{ matrix.node-version }}
@@ -63,7 +84,7 @@ jobs:
     strategy:
       matrix:
         node-version: ['12.x']
-        grunt-cmd: ['start-webdriver']
+        grunt-cmd: ['ci-e2e']
 
     steps:
     - name: Get Docker Hub username
@@ -86,15 +107,30 @@ jobs:
     - uses: actions/checkout@v2
     - name: Create logs directory
       run: mkdir tests/logs
-
+    - name: Install pyxform
+      run:  python -m pip install git+https://github.com/medic/pyxform.git@medic-conf-1.17#egg=pyxform-medic
+    - name: Install cht-conf
+      run:  npm install -g cht-conf
     - name: npm CI
       run: npm ci
-    - name: Grunt Install
-      run: npm install -g grunt-cli
-
-    - name: install docker selenium
-      run: docker pull selenium/standalone-chrome
-
+    - name: horti setup
+      run: |
+        echo "COUCH_URL=$COUCH_URL HORTI_BUILDS_SERVER=$MARKET_URL_READ/$BUILDS_SERVER"
+        docker-compose -f scripts/ci/horti-compose.yml up -d
+        sh scripts/e2e/wait_for_response_code.sh 4988 200 api
     - name: Test it!
-      run: node --stack_size=10000 `which grunt` start-webdriver
-
+      run: node --stack_size=10000 `which grunt` ${{ matrix.grunt-cmd }}
+    - name: Dump Couch logs
+      run: |
+        docker logs couch > tests/logs/couch_container.log 2>&1 &&
+        docker logs horti > tests/logs/horti_container.log 2>&1
+      if: ${{ always() }}
+    - name: Archive Results
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.grunt-cmd }} on node ${{ matrix.node-version }}
+        path: |
+          allure-results
+          allure-report
+          tests/logs
+      if: ${{ failure() }}
