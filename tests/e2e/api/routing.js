@@ -234,8 +234,8 @@ describe('routing', () => {
         utils.request(Object.assign({ path: '/api/deploy-info' }, offlineRequestOptions)),
         utils.requestOnTestDb('/_design/medic-client')
       ]).then(([ deployInfoOnline, deployInfoOffline, ddoc ]) => {
-        expect(deployInfoOnline).to.equal(ddoc.deploy_info);
-        expect(deployInfoOffline).to.equal(ddoc.deploy_info);
+        expect(deployInfoOnline).to.deep.equal(ddoc.deploy_info);
+        expect(deployInfoOffline).to.deep.equal(ddoc.deploy_info);
       });
     });
   });
@@ -850,8 +850,10 @@ describe('routing', () => {
         method: 'PUT',
         body: { test_api_v0_offline: 'offline value 2' },
       };
-      const response_2 = await utils.requestOnTestDb(_.defaults(params_1, offlineRequestOptions));
-      expect(response_2.statusCode).to.equal(403);
+      
+      // eslint-disable-next-line promise/catch-or-return
+      utils.requestOnTestDb(_.defaults(params_1, offlineRequestOptions)).
+        then(response => expect(response.statusCode).to.equal(403));
       const params_2 = {
         path: '/_design/medic/_rewrite/update_settings/medic',
         method: 'PUT',
