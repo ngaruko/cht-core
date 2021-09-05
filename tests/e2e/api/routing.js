@@ -500,11 +500,13 @@ describe('routing', () => {
         method: 'POST',
         body: {}
       };
+      // eslint-disable-next-line promise/catch-or-return
+      utils
+        .requestOnTestDb(Object.assign({ path: '/_ensure_full_commit' }, onlineRequestOptions, request))
+        .then(result => expect(result.ok).to.equal(true));
 
       return Promise.all([
-        utils
-          .requestOnTestDb(Object.assign({ path: '/_ensure_full_commit' }, onlineRequestOptions, request))
-          .catch(err => err),
+
         utils
           .requestOnTestDb(Object.assign({ path: '/_ensure_full_commit' }, offlineRequestOptions, request))
           .catch(err => err),
@@ -526,15 +528,9 @@ describe('routing', () => {
           .request(Object.assign({ path: `//medic//_ensure_full_commit//` }, offlineRequestOptions, request))
           .catch(err => err),
       ]).then(results => {
-        results.forEach((result, idx) => {
-          if (idx === 0) {
-            // online user request
-            expect(result.ok).to.equal(true);
-          } else {
-            // offline user requests
-            expect(result.statusCode).to.equal(403);
-            expect(result.responseBody.error).to.equal('forbidden');
-          }
+        results.forEach((result) => {
+          expect(result.statusCode).to.equal(403);
+          expect(result.responseBody.error).to.equal('forbidden');
         });
       });
     });
