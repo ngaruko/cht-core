@@ -6,7 +6,7 @@ module.exports={
   fullTrace: true,
   asyncOnly:true,
   spec: [
-    'tests/integration/**/*.js',
+    'tests/e2e/api/routing.js',
   ],
 
   timeout: 135*1000, //'API takes a litle long to start up'
