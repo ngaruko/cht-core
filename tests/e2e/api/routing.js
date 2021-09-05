@@ -1,3 +1,4 @@
+/* eslint-disable promise/catch-or-return */
 const _ = require('lodash');
 const utils = require('../../utils');
 const constants = require('../../constants');
@@ -851,7 +852,6 @@ describe('routing', () => {
         body: { test_api_v0_offline: 'offline value 2' },
       };
       
-      // eslint-disable-next-line promise/catch-or-return
       utils.requestOnTestDb(_.defaults(params_1, offlineRequestOptions)).
         then(response => expect(response.statusCode).to.equal(403));
       const params_2 = {
@@ -859,13 +859,8 @@ describe('routing', () => {
         method: 'PUT',
         body: { medic_api_v0_offline: 'offline value 1' },
       };
-      let response_3;
-      try {
-        response_3 = await utils.requestOnMedicDb(_.defaults(params_2, offlineRequestOptions));
-      } catch (err) {
-        response_3 = err;
-      }
-      expect(response_3.statusCode).to.equal(403);
+      utils.requestOnMedicDb(_.defaults(params_2, offlineRequestOptions))
+        .then(response => expect (response.statusCode).to.equal(403));
       const settings_1 = await utils.getDoc('settings');
       expect(settings_1.settings.test_api_v0).to.equal('my value 2');
       expect(settings_1.settings.medic_api_v0).to.equal('my value 1');
