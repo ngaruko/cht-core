@@ -73,10 +73,9 @@ const DOCS_TO_KEEP = [
 ];
 
 describe('routing', () => {
-  before(() => {
-    return utils
-      .saveDoc(parentPlace)
-      .then(() => utils.createUsers(users));
+  before(async () => {
+    await utils.saveDoc(parentPlace);
+    await utils.createUsers(users);
   });
 
   after(() =>

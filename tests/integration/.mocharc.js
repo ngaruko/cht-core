@@ -1,10 +1,9 @@
 module.exports={
-  'allow-uncaught': false,
-  'async-only': false,
+  allowUncaught: true,
   color: true,
   checkLeaks: true,
   fullTrace: true,
-  asyncOnly:true,
+  asyncOnly:false,
   spec: [
     'tests/e2e/api/routing.js',
   ],
