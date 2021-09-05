@@ -809,80 +809,66 @@ describe('routing', () => {
   describe('legacy endpoints', () => {
     afterEach(() => utils.revertSettings(true));
 
-    it('should still route to deprecated apiV0 settings endpoints', () => {
-      let settings;
-      return utils
-        .updateSettings({}, true) // this test will update settings that we want successfully reverted afterwards
-        .then(() => utils.getDoc('settings'))
-        .then(result => settings = result.settings)
-        .then(() => Promise.all([
-          utils.requestOnTestDb(
-            Object.assign({ path: '/_design/medic/_rewrite/app_settings/medic' }, onlineRequestOptions)
-          ),
-          utils.requestOnTestDb(
-            Object.assign({ path: '/_design/medic/_rewrite/app_settings/medic' }, offlineRequestOptions)
-          ),
-          utils.requestOnMedicDb(
-            Object.assign({ path: '/_design/medic/_rewrite/app_settings/medic' }, onlineRequestOptions)
-          ),
-          utils.requestOnMedicDb(
-            Object.assign({ path: '/_design/medic/_rewrite/app_settings/medic' }, offlineRequestOptions)
-          ),
-        ]))
-        .then(results => {
-          results.forEach(result => expect(result.settings).to.deep.equal(settings));
-
-          const updateMedicParams = {
-            path: '/_design/medic/_rewrite/update_settings/medic',
-            method: 'PUT',
-            body: { medic_api_v0: 'my value 1' },
-          };
-
-          return utils.requestOnMedicDb(_.defaults(updateMedicParams, onlineRequestOptions));
-        })
-        .then(response => {
-          expect(response.success).to.be.true;
-        })
-        .then(() => {
-          const params = {
-            path: '/_design/medic/_rewrite/update_settings/medic',
-            method: 'PUT',
-            body: { test_api_v0: 'my value 2' },
-          };
-          return utils.requestOnTestDb(_.defaults(params, onlineRequestOptions));
-        })
-        .then(response => {
-          expect(response.success).to.be.true;
-        })
-        .then(() => {
-          const params = {
-            path: '/_design/medic/_rewrite/update_settings/medic',
-            method: 'PUT',
-            body: { test_api_v0_offline: 'offline value 2' },
-          };
-          return utils.requestOnTestDb(_.defaults(params, offlineRequestOptions))
-            .then(response => {
-              expect(response.statusCode).to.equal(403);
-            });
-        })
-        .then(() => {
-          const params = {
-            path: '/_design/medic/_rewrite/update_settings/medic',
-            method: 'PUT',
-            body: { medic_api_v0_offline: 'offline value 1' },
-          };
-          return utils.requestOnMedicDb(_.defaults(params, offlineRequestOptions)).catch(err => err);
-        })
-        .then(response => {
-          expect(response.statusCode).to.equal(403);
-        })
-        .then(() => utils.getDoc('settings'))
-        .then(settings => {
-          expect(settings.settings.test_api_v0).to.equal('my value 2');
-          expect(settings.settings.medic_api_v0).to.equal('my value 1');
-          expect(settings.settings.test_api_v0_offline).not.to.be.defined;
-          expect(settings.settings.medic_api_v0_offline).not.to.be.defined;
-        });
+    it('should still route to deprecated apiV0 settings endpoints', async () => {
+      
+      await utils
+        .updateSettings({}, true); // this test will update settings that we want successfully reverted afterwards
+        
+      const result = await utils.getDoc('settings');
+      const settings = result.settings;
+      const results = await Promise.all([
+        utils.requestOnTestDb(
+          Object.assign({ path: '/_design/medic/_rewrite/app_settings/medic' }, onlineRequestOptions)
+        ),
+        utils.requestOnTestDb(
+          Object.assign({ path: '/_design/medic/_rewrite/app_settings/medic' }, offlineRequestOptions)
+        ),
+        utils.requestOnMedicDb(
+          Object.assign({ path: '/_design/medic/_rewrite/app_settings/medic' }, onlineRequestOptions)
+        ),
+        utils.requestOnMedicDb(
+          Object.assign({ path: '/_design/medic/_rewrite/app_settings/medic' }, offlineRequestOptions)
+        ),
+      ]);
+      results.forEach(result_1 => expect(result_1.settings).to.deep.equal(settings));
+      const updateMedicParams = {
+        path: '/_design/medic/_rewrite/update_settings/medic',
+        method: 'PUT',
+        body: { medic_api_v0: 'my value 1' },
+      };
+      const response = await utils.requestOnMedicDb(_.defaults(updateMedicParams, onlineRequestOptions));
+      expect(response.success).to.be.true;
+      const params = {
+        path: '/_design/medic/_rewrite/update_settings/medic',
+        method: 'PUT',
+        body: { test_api_v0: 'my value 2' },
+      };
+      const response_1 = await utils.requestOnTestDb(_.defaults(params, onlineRequestOptions));
+      expect(response_1.success).to.be.true;
+      const params_1 = {
+        path: '/_design/medic/_rewrite/update_settings/medic',
+        method: 'PUT',
+        body: { test_api_v0_offline: 'offline value 2' },
+      };
+      const response_2 = await utils.requestOnTestDb(_.defaults(params_1, offlineRequestOptions));
+      expect(response_2.statusCode).to.equal(403);
+      const params_2 = {
+        path: '/_design/medic/_rewrite/update_settings/medic',
+        method: 'PUT',
+        body: { medic_api_v0_offline: 'offline value 1' },
+      };
+      let response_3;
+      try {
+        response_3 = await utils.requestOnMedicDb(_.defaults(params_2, offlineRequestOptions));
+      } catch (err) {
+        response_3 = err;
+      }
+      expect(response_3.statusCode).to.equal(403);
+      const settings_1 = await utils.getDoc('settings');
+      expect(settings_1.settings.test_api_v0).to.equal('my value 2');
+      expect(settings_1.settings.medic_api_v0).to.equal('my value 1');
+      expect(settings_1.settings.test_api_v0_offline).not.to.be.defined;
+      expect(settings_1.settings.medic_api_v0_offline).not.to.be.defined;
     });
   });
 });
