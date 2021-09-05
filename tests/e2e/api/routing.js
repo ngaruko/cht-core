@@ -495,6 +495,7 @@ describe('routing', () => {
       });
     });
 
+    // eslint-disable-next-line no-only-tests/no-only-tests
     it.only('restricts _ensure_full_commit', () => {
       const request = {
         method: 'POST',
