@@ -495,18 +495,20 @@ describe('routing', () => {
       });
     });
 
-    it('restricts _ensure_full_commit', () => {
+    it.only('restricts _ensure_full_commit', () => {
       const request = {
         method: 'POST',
         body: {}
       };
       // eslint-disable-next-line promise/catch-or-return
-      utils
-        .requestOnTestDb(Object.assign({ path: '/_ensure_full_commit' }, onlineRequestOptions, request))
-        .then(result => expect(result.ok).to.equal(true));
+      // utils
+      //   .requestOnTestDb(Object.assign({ path: '/_ensure_full_commit' }, onlineRequestOptions, request))
+      //   .then(result => expect(result.ok).to.equal(true));
 
       return Promise.all([
-
+        utils
+          .requestOnTestDb(Object.assign({ path: '/_ensure_full_commit' }, onlineRequestOptions, request))
+          .catch(err => err),
         utils
           .requestOnTestDb(Object.assign({ path: '/_ensure_full_commit' }, offlineRequestOptions, request))
           .catch(err => err),
@@ -528,9 +530,13 @@ describe('routing', () => {
           .request(Object.assign({ path: `//medic//_ensure_full_commit//` }, offlineRequestOptions, request))
           .catch(err => err),
       ]).then(results => {
-        results.forEach((result) => {
-          expect(result.statusCode).to.equal(403);
-          expect(result.responseBody.error).to.equal('forbidden');
+        results.forEach((result, idx) => {
+          if(idx ===0){
+            expect(result.ok).to.equal(true);
+          } else{
+            expect(result.statusCode).to.equal(403);
+            expect(result.responseBody.error).to.equal('forbidden');
+          }
         });
       });
     });
@@ -854,6 +860,7 @@ describe('routing', () => {
       
       utils.requestOnTestDb(_.defaults(params_1, offlineRequestOptions)).
         then(response => expect(response.statusCode).to.equal(403));
+        
       const params_2 = {
         path: '/_design/medic/_rewrite/update_settings/medic',
         method: 'PUT',
