@@ -501,7 +501,6 @@ describe('routing', () => {
         method: 'POST',
         body: {}
       };
-      // eslint-disable-next-line promise/catch-or-return
       // utils
       //   .requestOnTestDb(Object.assign({ path: '/_ensure_full_commit' }, onlineRequestOptions, request))
       //   .then(result => expect(result.ok).to.equal(true));
@@ -509,7 +508,7 @@ describe('routing', () => {
       return Promise.all([
         utils
           .requestOnTestDb(Object.assign({ path: '/_ensure_full_commit' }, onlineRequestOptions, request))
-          .catch(err => err),
+          .catch(err => console.log(err)),
         utils
           .requestOnTestDb(Object.assign({ path: '/_ensure_full_commit' }, offlineRequestOptions, request))
           .catch(err => err),
