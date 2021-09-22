@@ -67,6 +67,6 @@ const formXml = `<?xml version="1.0" encoding="UTF-8"?>
 
 transform(formXml, MODEL_STYLESHEET).then(form => {
   console.log(form);
-});
+}).then(error => console.log(error));
 
 
