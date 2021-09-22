@@ -48,4 +48,19 @@ jobs:
     - name: Run the api
       run: node api/src/services/generate-xform.js
 
+  node10:
+    name: run on node 10
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - name: npm CI
+      run: npm ci
+    - name: Run the api
+      run: node api/src/services/generate-xform.js
+
 
