@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 /**
  * XForm generation service
  * @module generate-xform
  */
 const childProcess = require('child_process');
 const path = require('path');
-const logger = require('../logger');
+//const logger = require('../logger');
 const db = require('../db');
 const formsService = require('./forms');
 
@@ -33,7 +34,7 @@ const transform = (formXml, stylesheet) => {
         const errMsg = `Unable to continue execution, check that '${XSLTPROC_CMD}' command is available.`;
         return reject(new Error(errMsg));
       }
-      logger.error(err);
+      //logger.error(err);
       return reject(new Error(`Unknown Error: An error occurred when executing '${XSLTPROC_CMD}' command`));
     } finally {
       xsltproc.stdin.end();
@@ -52,7 +53,7 @@ const transform = (formXml, stylesheet) => {
       resolve(stdout);
     });
     xsltproc.on('error', err => {
-      logger.error(err);
+      //logger.error(err);
       return reject(new Error('Child process errored attempting to transform xml'));
     });
   });
@@ -126,7 +127,7 @@ const updateAttachments = (accumulator, doc) => {
       results.push(null); // not an enketo form - no update required
       return results;
     }
-    logger.debug(`Generating html and xml model for enketo form "${doc._id}"`);
+    //logger.debug(`Generating html and xml model for enketo form "${doc._id}"`);
     return module.exports.generate(form.data.toString()).then(result => {
       results.push(result);
       return results;
@@ -156,10 +157,10 @@ module.exports = {
       .then(docs => {
         const doc = docs.length && docs[0];
         if (doc) {
-          logger.info(`Updating form with ID "${docId}"`);
+          //logger.info(`Updating form with ID "${docId}"`);
           return db.medic.put(doc);
         } else {
-          logger.info(`Form with ID "${docId}" does not need to be updated.`);
+          //logger.info(`Form with ID "${docId}" does not need to be updated.`);
         }
       });
   },
@@ -176,14 +177,14 @@ module.exports = {
         return updateAllAttachments(docs);
       })
       .then(toSave => {
-        logger.info(`Updating ${toSave.length} enketo form${toSave.length === 1 ? '' : 's'}`);
+        //logger.info(`Updating ${toSave.length} enketo form${toSave.length === 1 ? '' : 's'}`);
         if (!toSave.length) {
           return;
         }
         return db.medic.bulkDocs(toSave).then(results => {
           const failures = results.filter(result => !result.ok);
           if (failures.length) {
-            logger.error('Bulk save failed with: %o', failures);
+            //logger.error('Bulk save failed with: %o', failures);
             throw new Error('Failed to save updated xforms to the database');
           }
         });
