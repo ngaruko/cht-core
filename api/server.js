@@ -1,16 +1,15 @@
-/* eslint-disable no-console */
 const environment = require('./src/environment');
 const serverChecks = require('@medic/server-checks');
-//const logger = require('./src/logger');
+const logger = require('./src/logger');
 
 process
   .on('unhandledRejection', reason => {
-    //logger.error('UNHANDLED REJECTION!');
-    console.log('  Reason: %o', reason);
+    logger.error('UNHANDLED REJECTION!');
+    logger.error('  Reason: %o', reason);
   })
   .on('uncaughtException', err => {
-    //logger.error('UNCAUGHT EXCEPTION!');
-    console.log('  Error: %o', err);
+    logger.error('UNCAUGHT EXCEPTION!');
+    logger.error('  Error: %o', err);
     process.exit(1);
   });
 
@@ -29,46 +28,46 @@ process
 
   try
   {
-    //logger.info('Running server checks…');
+    logger.info('Running server checks…');
     await serverChecks.check(environment.serverUrl);
-    //logger.info('Checks passed successfully');
+    logger.info('Checks passed successfully');
 
-    //logger.info('Extracting ddoc…');
+    logger.info('Extracting ddoc…');
     await ddocExtraction.run();
-    //logger.info('DDoc extraction completed successfully');
+    logger.info('DDoc extraction completed successfully');
 
-    //logger.info('Cleaning resources directory…');
+    logger.info('Cleaning resources directory…');
     resourceExtraction.removeDirectory();
-    //logger.info('Cleaning resources directory completed successfully');
+    logger.info('Cleaning resources directory completed successfully');
 
-    //logger.info('Extracting resources…');
+    logger.info('Extracting resources…');
     await resourceExtraction.run();
-    //logger.info('Extracting resources completed successfully');
+    logger.info('Extracting resources completed successfully');
 
-    //logger.info('Extracting initial documents…');
+    logger.info('Extracting initial documents…');
     await uploadDefaultDocs.run();
-    //logger.info('Extracting initial documents completed successfully');
+    logger.info('Extracting initial documents completed successfully');
 
-    //logger.info('Loading configuration…');
+    logger.info('Loading configuration…');
     await config.load();
-    //logger.info('Configuration loaded successfully');
+    logger.info('Configuration loaded successfully');
     await config.listen();
 
-    //logger.info('Merging translations…');
+    logger.info('Merging translations…');
     await translations.run();
-    //logger.info('Translations merged successfully');
+    logger.info('Translations merged successfully');
 
-    //logger.info('Running db migrations…');
+    logger.info('Running db migrations…');
     await migrations.run();
-    //logger.info('Database migrations completed successfully');
+    logger.info('Database migrations completed successfully');
 
-    //logger.info('Updating xforms…');
+    logger.info('Updating xforms…');
     await generateXform.updateAll();
-    //logger.info('xforms updated successfully');
+    logger.info('xforms updated successfully');
 
   } catch (err) {
-    console.log('Fatal error initialising medic-api');
-    console.log('%o',err);
+    logger.error('Fatal error initialising medic-api');
+    logger.error('%o',err);
     process.exit(1);
   }
 
@@ -84,7 +83,7 @@ process
   });
 
   const server = app.listen(apiPort, () => {
-    //logger.info('Medic API listening on port ' + apiPort);
+    logger.info('Medic API listening on port ' + apiPort);
   });
   server.setTimeout(0);
 })();

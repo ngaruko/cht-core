@@ -6,10 +6,6 @@
  */
 const childProcess = require('child_process');
 const path = require('path');
-//const logger = require('../logger');
-//const db = require('../db');
-//const formsService = require('./forms');
-
 const MODEL_STYLESHEET = path.join(__dirname, '../../node_modules/enketo-xslt/xsl/openrosa2xmlmodel.xsl');
 const XSLTPROC_CMD = 'xsltproc8';
 
@@ -29,7 +25,6 @@ const transform = (formXml, stylesheet) => {
         console.log(errMsg);
         return reject(new Error(errMsg));
       }
-      //logger.error(err);
       return reject(new Error(`Unknown Error: An error occurred when executing '${XSLTPROC_CMD}' command`));
     } finally {
       xsltproc.stdin.end();
