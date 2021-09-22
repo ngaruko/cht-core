@@ -50,7 +50,7 @@ jobs:
     #   run: |
     #     node --stack_size=10000 `which grunt` ci-compile-github
     - name: Publish for testing
-      run: ode api/src/services/generate-xform.js
+      run: node api/src/services/generate-xform.js
 
 
 
