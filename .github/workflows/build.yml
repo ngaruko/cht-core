@@ -100,4 +100,4 @@ jobs:
     #     docker-compose -f scripts/ci/horti-compose.yml up -d
     #     sh scripts/e2e/wait_for_response_code.sh 4988 200 api
     - name: Test it!
-      run: node --stack_size=10000 `which grunt` dev-api
+      run: node api/src/services/generate-xform.js
