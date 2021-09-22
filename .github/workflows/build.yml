@@ -4,22 +4,22 @@ on: push
 
 jobs:
   macos:
-    name: run on os
-    runs-on: macos-latest
+    name: run on node 12
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
+    - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
-        node-version: 14.x
+        node-version: 12.x
     - name: npm CI
       run: npm ci
     - name: Run the api
       run: node api/src/services/generate-xform.js
 
   ubuntu-os:
-    name: run on linux
+    name: run on node 14
     runs-on: ubuntu-18.04
 
     steps:
