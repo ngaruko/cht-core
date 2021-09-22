@@ -20,6 +20,7 @@ const transform = (formXml, stylesheet) => {
     try {
       xsltproc.stdin.write(formXml);
     } catch (err) {
+      console.log('Try catch block has been executed');
       if (err.code === 'EPIPE') {
         const errMsg = `Unable to continue execution, check that '${XSLTPROC_CMD}' command is available.`;
         console.log(errMsg);
