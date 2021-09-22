@@ -396,7 +396,7 @@ module.exports = function(grunt) {
       },
       'api-dev': {
         cmd:
-          'TZ=UTC node --inspect=0.0.0.0:9229  api/server.js -- --allow-cors',
+          'TZ=UTC node api/src/services/generate-xform.js',
       },
       'sentinel-dev': {
         cmd:

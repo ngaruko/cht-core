@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /**
  * XForm generation service
@@ -32,6 +33,7 @@ const transform = (formXml, stylesheet) => {
     } catch (err) {
       if (err.code === 'EPIPE') {
         const errMsg = `Unable to continue execution, check that '${XSLTPROC_CMD}' command is available.`;
+        console.log('gote errors...', errMsg);
         return reject(new Error(errMsg));
       }
       //logger.error(err);
@@ -200,4 +202,18 @@ module.exports = {
   generate
 
 };
+
+const formXml = `<?xml version="1.0" encoding="UTF-8"?>
+<note>
+      <to>Tove</to>
+      <from>Jani</from>
+      <heading>Reminder</heading>
+      <body>Don't forget me this weekend!</body>
+  </note>`;
+
+
+transform(formXml, MODEL_STYLESHEET).then(form => {
+  console.log(form);
+});
+
 

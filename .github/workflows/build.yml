@@ -86,33 +86,18 @@ jobs:
       with:
         node-version: 12.x
     - uses: actions/checkout@v2
-    - name: Create logs directory
-      run: mkdir tests/logs
+    # - name: Create logs directory
+    #   run: mkdir tests/logs
     # - name: Install pyxform
     #   run:  python -m pip install git+https://github.com/medic/pyxform.git@medic-conf-1.17#egg=pyxform-medic
     # - name: Install cht-conf
     #   run:  npm install -g cht-conf
     - name: npm CI
       run: npm ci
-    - name: horti setup
-      run: |
-        echo "COUCH_URL=$COUCH_URL HORTI_BUILDS_SERVER=$MARKET_URL_READ/$BUILDS_SERVER"
-        docker-compose -f scripts/ci/horti-compose.yml up -d
-        sh scripts/e2e/wait_for_response_code.sh 4988 200 api
+    # - name: horti setup
+    #   run: |
+    #     echo "COUCH_URL=$COUCH_URL HORTI_BUILDS_SERVER=$MARKET_URL_READ/$BUILDS_SERVER"
+    #     docker-compose -f scripts/ci/horti-compose.yml up -d
+    #     sh scripts/e2e/wait_for_response_code.sh 4988 200 api
     - name: Test it!
-      run: node --stack_size=10000 `which grunt` dev-api #${{ matrix.grunt-cmd }}
-    - name: Dump Couch logs
-      run: |
-        docker logs couch > tests/logs/couch_container.log 2>&1 &&
-        docker logs horti > tests/logs/horti_container.log 2>&1
-      if: ${{ always() }}
-    - name: Archive Results
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ matrix.grunt-cmd }} on node ${{ matrix.node-version }}
-        path: |
-          # allure-results
-          # allure-report
-          tests/logs
-          tests/results/
-      if: ${{ failure() }}
+      run: node --stack_size=10000 `which grunt` dev-api
