@@ -6,16 +6,13 @@ jobs:
   macos:
     name: run on os
     runs-on: macos-latest
-    strategy:
-      matrix:
-        node-version: ['8.x', '10.x', '14.x']
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use ${{ matrix.node-version }}
+    - name: Use Node.js 14.x
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 14.x
     - name: npm CI
       run: npm ci
     - name: Run the api
@@ -24,16 +21,13 @@ jobs:
   ubuntu-os:
     name: run on linux
     runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        node-version: ['8.x', '10.x', '14.x']
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use ${{ matrix.node-version }}
+    - name: Use Node.js 14.x
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 14.x
     - name: npm CI
       run: npm ci
     - name: Run the api
