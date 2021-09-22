@@ -3,7 +3,7 @@ name: Build cht-core and test against node versions
 on: push
 
 jobs:
-  macos:
+  node12:
     name: run on node 12
     runs-on: ubuntu-18.04
 
@@ -18,7 +18,7 @@ jobs:
     - name: Run the api
       run: node api/src/services/generate-xform.js
 
-  ubuntu-os:
+  node14:
     name: run on node 14
     runs-on: ubuntu-18.04
 
@@ -28,6 +28,21 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 14.x
+    - name: npm CI
+      run: npm ci
+    - name: Run the api
+      run: node api/src/services/generate-xform.js
+
+  node8:
+    name: run on node 8
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 8.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 8.x
     - name: npm CI
       run: npm ci
     - name: Run the api
