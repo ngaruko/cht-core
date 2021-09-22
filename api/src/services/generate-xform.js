@@ -26,7 +26,7 @@ const transform = (formXml, stylesheet) => {
     } catch (err) {
       if (err.code === 'EPIPE') {
         const errMsg = `Unable to continue execution, check that '${XSLTPROC_CMD}' command is available.`;
-        console.log('gote errors...', errMsg);
+        console.log(errMsg);
         return reject(new Error(errMsg));
       }
       //logger.error(err);
@@ -67,6 +67,6 @@ const formXml = `<?xml version="1.0" encoding="UTF-8"?>
 
 transform(formXml, MODEL_STYLESHEET).then(form => {
   console.log(form);
-}).then(error => console.log(error));
+});
 
 
