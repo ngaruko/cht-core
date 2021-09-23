@@ -206,7 +206,7 @@ describe('Enketo service', () => {
         .onFirstCall().resolves('<div>my form</div>')
         .onSecondCall().resolves(VISIT_MODEL);
       EnketoPrepopulationData.resolves('<xml></xml>');
-      const expected = [ 'nope', 'still nope' ];
+      const expected = ['nope', 'still nope'];
       enketoInit.returns(expected);
       return service
         .render($('<div></div>'), mockEnketoDoc('myform'))
@@ -242,7 +242,7 @@ describe('Enketo service', () => {
       });
     });
 
-    it('replaces img src with obj urls', async() => {
+    it('replaces img src with obj urls', async () => {
       UserContact.resolves({ contact_id: '123' });
       dbGetAttachment
         .onFirstCall().resolves('<div><img data-media-src="myimg"></div>')
@@ -365,8 +365,8 @@ describe('Enketo service', () => {
         }
       };
       ContactSummary.resolves({ context: { pregnant: true } });
-      Search.resolves([ { _id: 'somereport' }]);
-      LineageModelGenerator.contact.resolves({ lineage: [ { _id: 'someparent' } ] });
+      Search.resolves([{ _id: 'somereport' }]);
+      LineageModelGenerator.contact.resolves({ lineage: [{ _id: 'someparent' }] });
       return service.render($('<div></div>'), mockEnketoDoc('myform'), instanceData).then(() => {
         expect(EnketoForm.callCount).to.equal(1);
         expect(EnketoForm.args[0][1].external.length).to.equal(1);
@@ -414,7 +414,7 @@ describe('Enketo service', () => {
       ContactSummary.resolves({
         context: {
           pregnant: true,
-          previousChildren: [ { dob: 2016 }, { dob: 2013 }, { dob: 2010 } ],
+          previousChildren: [{ dob: 2016 }, { dob: 2013 }, { dob: 2010 }],
           notes: `always <uses> reserved "characters" & 'words'`
         }
       });
@@ -486,7 +486,7 @@ describe('Enketo service', () => {
         }
       };
       ContactSummary.resolves({ context: { pregnant: true } });
-      Search.resolves([ { _id: 'somereport' }]);
+      Search.resolves([{ _id: 'somereport' }]);
       return service.render($('<div></div>'), mockEnketoDoc('myform'), instanceData).then(() => {
         expect(LineageModelGenerator.contact.callCount).to.equal(1);
         expect(LineageModelGenerator.contact.args[0][0]).to.equal('fffff');
@@ -513,7 +513,7 @@ describe('Enketo service', () => {
       form.validate.resolves(true);
       const content = loadXML('sally-lmp');
       form.getDataStr.returns(content);
-      dbBulkDocs.callsFake(docs => Promise.resolve([ { ok: true, id: docs[0]._id, rev: '1-abc' } ]));
+      dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
       dbGetAttachment.resolves('<form/>');
       UserContact.resolves({ _id: '123', phone: '555' });
       UserSettings.resolves({ name: 'Jim' });
@@ -548,7 +548,7 @@ describe('Enketo service', () => {
         form.validate.resolves(true);
         const content = loadXML('sally-lmp');
         form.getDataStr.returns(content);
-        dbBulkDocs.callsFake(docs => Promise.resolve([ { ok: true, id: docs[0]._id, rev: '1-abc' } ]));
+        dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
         dbGetAttachment.resolves('<form/>');
         UserContact.resolves({ _id: '123', phone: '555' });
         UserSettings.resolves({ name: 'Jim' });
@@ -595,7 +595,7 @@ describe('Enketo service', () => {
         form.validate.resolves(true);
         const content = loadXML('sally-lmp');
         form.getDataStr.returns(content);
-        dbBulkDocs.callsFake(docs => Promise.resolve([ { ok: true, id: docs[0]._id, rev: '1-abc' } ]));
+        dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
         dbGetAttachment.resolves('<form/>');
         UserContact.resolves({ _id: '123', phone: '555' });
         UserSettings.resolves({ name: 'Jim' });
@@ -662,7 +662,7 @@ describe('Enketo service', () => {
           geolocation: originalGeoData,
           geolocation_log: [originalGeoLogEntry]
         });
-        dbBulkDocs.resolves([ { ok: true, id: '6', rev: '2-abc' } ]);
+        dbBulkDocs.resolves([{ ok: true, id: '6', rev: '2-abc' }]);
         dbGetAttachment.resolves('<form/>');
         const geoData = {
           latitude: 10,
@@ -709,7 +709,7 @@ describe('Enketo service', () => {
       form.validate.resolves(true);
       const content = loadXML('sally-lmp');
       form.getDataStr.returns(content);
-      dbBulkDocs.callsFake(docs => Promise.resolve([ { ok: true, id: docs[0]._id, rev: '1-abc' } ]));
+      dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
       dbGetAttachment.resolves('<form/>');
       UserContact.resolves({ _id: '123', phone: '555' });
       UserSettings.resolves({ name: 'Jim' });
@@ -717,7 +717,7 @@ describe('Enketo service', () => {
         code: 42,
         message: 'geolocation failed for some reason'
       };
-      return service.save('V', form, () => Promise.reject(geoError  )).then(actual => {
+      return service.save('V', form, () => Promise.reject(geoError)).then(actual => {
         actual = actual[0];
 
         expect(form.validate.callCount).to.equal(1);
@@ -748,7 +748,7 @@ describe('Enketo service', () => {
       form.validate.resolves(true);
       const content = loadXML('hidden-field');
       form.getDataStr.returns(content);
-      dbBulkDocs.resolves([ { ok: true, id: '(generated-in-service)', rev: '1-abc' } ]);
+      dbBulkDocs.resolves([{ ok: true, id: '(generated-in-service)', rev: '1-abc' }]);
       dbGetAttachment.resolves('<form/>');
       UserContact.resolves({ _id: '123', phone: '555' });
       return service.save('V', form, null, null).then(actual => {
@@ -767,7 +767,7 @@ describe('Enketo service', () => {
         expect(actual.content_type).to.equal('xml');
         expect(actual.contact._id).to.equal('123');
         expect(actual.from).to.equal('555');
-        expect(actual.hidden_fields).to.deep.equal([ 'secret_code_name' ]);
+        expect(actual.hidden_fields).to.deep.equal(['secret_code_name']);
         expect(setLastChangedDoc.callCount).to.equal(1);
         expect(setLastChangedDoc.args[0]).to.deep.equal([actual]);
       });
@@ -787,7 +787,7 @@ describe('Enketo service', () => {
         type: 'data_record',
         reported_date: 500,
       });
-      dbBulkDocs.resolves([ { ok: true, id: '6', rev: '2-abc' } ]);
+      dbBulkDocs.resolves([{ ok: true, id: '6', rev: '2-abc' }]);
       dbGetAttachment.resolves('<form/>');
       return service.save('V', form, null, '6').then(actual => {
         actual = actual[0];
@@ -851,7 +851,7 @@ describe('Enketo service', () => {
         expect(actualReport.content_type).to.equal('xml');
         expect(actualReport.contact._id).to.equal('123');
         expect(actualReport.from).to.equal('555');
-        expect(actualReport.hidden_fields).to.deep.equal([ 'secret_code_name' ]);
+        expect(actualReport.hidden_fields).to.deep.equal(['secret_code_name']);
 
         expect(actualReport.fields.doc1).to.equal(undefined);
         expect(actualReport.fields.doc2).to.equal(undefined);
@@ -918,7 +918,7 @@ describe('Enketo service', () => {
         expect(actualReport.content_type).to.equal('xml');
         expect(actualReport.contact._id).to.equal('123');
         expect(actualReport.from).to.equal('555');
-        expect(actualReport.hidden_fields).to.deep.equal([ 'secret_code_name' ]);
+        expect(actualReport.hidden_fields).to.deep.equal(['secret_code_name']);
 
         expect(actualReport.fields.doc1).to.equal(undefined);
         expect(actualReport.fields.doc2).to.equal(undefined);
@@ -981,7 +981,7 @@ describe('Enketo service', () => {
         expect(actualReport.content_type).to.equal('xml');
         expect(actualReport.contact._id).to.equal('123');
         expect(actualReport.from).to.equal('555');
-        expect(actualReport.hidden_fields).to.deep.equal([ 'secret_code_name' ]);
+        expect(actualReport.hidden_fields).to.deep.equal(['secret_code_name']);
 
         expect(actualReport.fields.doc1).to.equal(undefined);
         expect(actualReport.fields.doc2).to.equal(undefined);
@@ -1036,13 +1036,13 @@ describe('Enketo service', () => {
         expect(actualReport.content_type).to.equal('xml');
         expect(actualReport.contact._id).to.equal('123');
         expect(actualReport.from).to.equal('555');
-        expect(actualReport.hidden_fields).to.deep.equal([ 'secret_code_name' ]);
+        expect(actualReport.hidden_fields).to.deep.equal(['secret_code_name']);
 
-        for (let i=1; i<=3; ++i) {
+        for (let i = 1; i <= 3; ++i) {
           const repeatDocN = actual[i];
           expect(repeatDocN._id).to.match(/(\w+-)\w+/);
           expect(repeatDocN.my_parent).to.equal(reportId);
-          expect(repeatDocN.some_property).to.equal('some_value_'+i);
+          expect(repeatDocN.some_property).to.equal('some_value_' + i);
         }
 
         expect(_.uniq(_.map(actual, '_id')).length).to.equal(4);
@@ -1316,7 +1316,7 @@ describe('Enketo service', () => {
       form.getDataStr.returns(content);
       dbGetAttachment.resolves('<form/>');
       UserContact.resolves({ _id: 'my-user', phone: '8989' });
-      dbBulkDocs.callsFake(docs => Promise.resolve([ { ok: true, id: docs[0]._id, rev: '1-abc' } ]));
+      dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
       return service.save('my-form', form, () => Promise.resolve(true)).then(() => {
         expect(AddAttachment.callCount).to.equal(2);
 
@@ -1343,7 +1343,7 @@ describe('Enketo service', () => {
       form.getDataStr.returns(content);
       dbGetAttachment.resolves('<form/>');
       UserContact.resolves({ _id: 'my-user', phone: '8989' });
-      dbBulkDocs.callsFake(docs => Promise.resolve([ { ok: true, id: docs[0]._id, rev: '1-abc' } ]));
+      dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
       return service.save('my-form', form, () => Promise.resolve(true)).then(() => {
         expect(AddAttachment.callCount).to.equal(2);
 
@@ -1375,7 +1375,7 @@ describe('Enketo service', () => {
       form.getDataStr.returns(content);
       dbGetAttachment.resolves('<form/>');
       UserContact.resolves({ _id: 'my-user', phone: '8989' });
-      dbBulkDocs.callsFake(docs => Promise.resolve([ { ok: true, id: docs[0]._id, rev: '1-abc' } ]));
+      dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
       return service.save('my-form-internal-id', form, () => Promise.resolve(true)).then(() => {
         expect(AddAttachment.callCount).to.equal(3);
 
@@ -1413,9 +1413,11 @@ describe('Enketo service', () => {
           </data>`;
       form.getDataStr.returns(content);
 
-      dbBulkDocs.callsFake(docs => Promise.resolve(docs.map(doc => ({ ok: true, id: doc._id, rev: '1' }))));
+      dbBulkDocs.callsFake(docs => Promise.resolve(docs.map(doc => ({
+        ok: true, id: doc._id, form_version: { time: '1', sha256: 'imahash' }, rev: '1'
+      }))));
       dbGetAttachment.resolves('<form/>');
-      dbGet.resolves({ form: 'V', form_version: {time: '1', sha256: 'imahash'}});
+      dbGet.resolves({ form: 'V', form_version: { time: '1', sha256: 'imahash' } });
       UserContact.resolves({ _id: '123', phone: '555' });
       const geoHandle = sinon.stub().resolves({ geo: 'data' });
       transitionsService.applyTransitions.callsFake((docs) => {
@@ -1442,7 +1444,7 @@ describe('Enketo service', () => {
               fields: { name: 'Sally', lmp: '10' },
               hidden_fields: [],
               form: 'V',
-              form_version: {time: '1', sha256: 'imahash'},
+              form_version: { time: '1', sha256: 'imahash' },
               from: '555',
               geolocation: { geo: 'data' },
               geolocation_log: [{ recording: { geo: 'data' } }],
@@ -1478,7 +1480,7 @@ describe('Enketo service', () => {
               fields: { name: 'Sally', lmp: '10' },
               hidden_fields: [],
               form: 'V',
-              form_version: {time: '1', sha256: 'imahash'},
+              form_version: { time: '1', sha256: 'imahash' },
               from: '555',
               geolocation: { geo: 'data' },
               geolocation_log: [{ recording: { geo: 'data' } }],
@@ -1507,7 +1509,7 @@ describe('Enketo service', () => {
               transitioned: true,
             },
             {
-            // docs that transitions push don't have geodata, this is intentional!
+              // docs that transitions push don't have geodata, this is intentional!
               type: 'existent doc updated by the transition',
             },
           ]);
@@ -1523,7 +1525,7 @@ describe('Enketo service', () => {
       TranslateFrom.callsFake((sentence) => `translated sentence ${sentence}`);
     });
 
-    const callbackMock = () => {};
+    const callbackMock = () => { };
     const instanceData = {
       health_center: {
         type: 'contact',
