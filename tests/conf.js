@@ -20,14 +20,14 @@ const baseConfig = {
   ],
   suites: {
     web: [
-      'e2e/!(cht)/**/*.js',
-      'e2e/**/*.js',
-      'cht-conf/**/*.js'
+      //'e2e/!(cht)/**/*.js',
+      'e2e/login/**/*.js',
+      //'cht-conf/**/*.js'
     ],
     cht: [
       'e2e/cht/*.spec.js'
     ],
-    mobile: ['mobile/**/*.js'],
+    mobile: ['mobile/login/**/*.js'],
     // performance: 'performance/**/*.js'
   },
   framework: 'jasmine2',
