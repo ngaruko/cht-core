@@ -5,7 +5,7 @@ on: push
 jobs:
   node12:
     name: run on node 12
-    runs-on: ubuntu-18.04
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -20,7 +20,7 @@ jobs:
 
   node14:
     name: run on node 14
-    runs-on: ubuntu-18.04
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
 
   node8:
     name: run on node 8
-    runs-on: ubuntu-18.04
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -50,7 +50,7 @@ jobs:
 
   node10:
     name: run on node 10
-    runs-on: ubuntu-18.04
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
