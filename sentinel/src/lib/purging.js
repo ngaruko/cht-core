@@ -217,7 +217,7 @@ const hasPatientError = (doc) => {
   return doc.errors &&
          doc.errors.length &&
          doc.errors.find(error => errorCodes.includes(error.code));
-}
+};
 
 const isRelevantRecordEmission = (row, groups) => {
   if (groups[row.id]) { // groups keys are contact ids, we already know everything about contacts
