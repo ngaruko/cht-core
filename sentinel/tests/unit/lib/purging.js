@@ -1256,6 +1256,16 @@ describe('ServerSidePurge', () => {
           doc: { _id: 'f2-r4', type: 'data_record', form: 'a', fields: { needs_signoff: true } },
           value: { submitter: 'other' },
         },
+        { id: 'f2-r5', key: 'f2',
+          doc: {
+            _id: 'f2-r5',
+            type: 'data_record',
+            form: 'a',
+            fields: { needs_signoff: true },
+            errors: [{ code:  'registration_not_found' }]
+          },
+          value: { submitter: 'f2' },
+        },
       ] });
 
       return service.__get__('purgeContacts')(roles, purgeFn).then(() => {
@@ -1270,13 +1280,13 @@ describe('ServerSidePurge', () => {
           doc_ids: [
             'purged:first',
             'purged:f1', 'purged:f1-m1',  'purged:f1-r1',
-            'purged:f2', 'purged:f2-r3',
+            'purged:f2', 'purged:f2-r3', 'purged:f2-r5'
           ],
-          batch_size: 7,
-          seq_interval: 6
+          batch_size: 8,
+          seq_interval: 7,
         }]);
 
-        chai.expect(purgeFn.callCount).to.equal(8);
+        chai.expect(purgeFn.callCount).to.equal(10);
         chai.expect(purgeFn.args[0]).to.deep.equal([
           { roles: roles['a'] },
           { _id: 'first', type: 'district_hospital' },
@@ -1302,6 +1312,19 @@ describe('ServerSidePurge', () => {
           { roles: roles['a'] },
           {},
           [{ _id: 'f2-r3', type: 'data_record', form: 'a', fields: { needs_signoff: true } }],
+          []
+        ]);
+
+        chai.expect(purgeFn.args[8]).to.deep.equal([
+          { roles: roles['a'] },
+          {},
+          [{
+            _id: 'f2-r5',
+            type: 'data_record',
+            form: 'a',
+            fields: { needs_signoff: true },
+            errors: [{ code:  'registration_not_found' }]
+          }],
           []
         ]);
       });

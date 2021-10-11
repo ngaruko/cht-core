@@ -212,6 +212,13 @@ const assignContactToGroups = (row, groups, subjectIds) => {
   subjectIds.push(...group.subjectIds);
 };
 
+const hasPatientError = (doc) => {
+  const errorCodes = ['registration_not_found', 'invalid_patient_id'];
+  return doc.errors &&
+         doc.errors.length &&
+         doc.errors.find(error => errorCodes.includes(error.code));
+}
+
 const isRelevantRecordEmission = (row, groups) => {
   if (groups[row.id]) { // groups keys are contact ids, we already know everything about contacts
     return false;
@@ -227,7 +234,8 @@ const isRelevantRecordEmission = (row, groups) => {
 
   const isNeedsSignoffReport = row.doc && row.doc.fields && row.doc.fields.needs_signoff;
   if (isNeedsSignoffReport) {
-    const subject = registrationUtils.getSubjectId(row.doc);
+    const patientError = hasPatientError(row.doc);
+    const subject = patientError ? row.value.submitter : registrationUtils.getSubjectId(row.doc);
     // reports with `needs_signoff` will emit for every contact from their submitter lineage,
     // but we only want to process them once, either associated to their subject, or to their submitter
     // when they have no subject or have an invalid subject.
