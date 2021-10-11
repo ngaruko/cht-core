@@ -221,17 +221,25 @@ const isRelevantRecordEmission = (row, groups) => {
     return false;
   }
 
-  if (row.value.type !== 'data_record') {
+  if (row.doc.type !== 'data_record') {
     return false;
   }
 
-  if (row.value.needs_signoff && row.key !== row.value.subject) {
+  const isNeedsSignoffReport = row.doc && row.doc.fields && row.doc.fields.needs_signoff;
+  if (isNeedsSignoffReport) {
+    const subject = registrationUtils.getSubjectId(row.doc);
     // reports with `needs_signoff` will emit for every contact from their submitter lineage,
     // but we only want to process them once, either associated to their subject, or to their submitter
     // when they have no subject or have an invalid subject.
     // if the report has a subject, but it's not the the same as the emission key, we hit the emit
-    // for the submitter or submitter lineage via the `needs_signoff` path. Skip.
-    return false;
+    // for the submitter or submitter lineage via the `needs_signoff` path.
+    if (subject && row.key !== subject) {
+      return false;
+    }
+
+    if (!subject && row.key !== row.value.submitter) {
+      return false;
+    }
   }
 
   return true;
@@ -250,34 +258,44 @@ const getRecordGroupInfo = (row) => {
   return { key: row.key, message: row.doc };
 };
 
-const assignRecords = (rows, groups) => {
-  const relevantRows = rows.filter(row => isRelevantRecordEmission(row, groups));
+const getAndAssignRecordsToGroups = async (groups, subjectIds) => {
+  const relevantRows = [];
+  let skip = 0;
+  let requestNext = true;
 
-  if (!relevantRows.length) {
-    return Promise.resolve();
+  if (!subjectIds.length) {
+    return;
   }
 
-  if (relevantRows.length >= MAX_BATCH_SIZE) {
-    return Promise.reject({
-      code: MAX_BATCH_SIZE_REACHED,
-      contactIds: Object.keys(groups),
-      message: `Purging skipped. Too many reports for contacts: ${Object.keys(groups).join(', ')}`,
-    });
-  }
+  do {
+    const opts = {
+      keys: subjectIds,
+      include_docs: true,
+      skip: skip,
+      limit: MAX_BATCH_SIZE,
+    };
+    const result = await db.medic.query('medic/docs_by_replication_key', opts);
+    const relevantRowsInBatch = result.rows.filter(row => isRelevantRecordEmission(row, groups));
+    relevantRows.push(...relevantRowsInBatch);
+
+    if (relevantRows.length >= MAX_BATCH_SIZE) {
+      return Promise.reject({
+        code: MAX_BATCH_SIZE_REACHED,
+        contactIds: Object.keys(groups),
+        message: `Purging skipped. Too many reports for contacts: ${Object.keys(groups).join(', ')}`,
+      });
+    }
+
+    skip += result.rows.length;
+    requestNext = result.rows.length === MAX_BATCH_SIZE;
+  } while (requestNext);
 
   if (relevantRows.length < MIN_BATCH_SIZE) {
     increaseBatchSize();
   }
 
-  const ids = relevantRows.map(row => row.id);
-  return db.medic.allDocs({ keys: ids, include_docs: true }).then(allDocsResult => {
-    const hydratedRows = relevantRows
-      .map((row, idx) => Object.assign(row, { doc: allDocsResult.rows[idx].doc }))
-      .filter(row => row.doc);
-
-    const recordsByKey = getRecordsByKey(hydratedRows);
-    assignRecordsToGroups(recordsByKey, groups);
-  });
+  const recordsByKey = getRecordsByKey(relevantRows);
+  assignRecordsToGroups(recordsByKey, groups);
 };
 
 const getRecordsByKey = (rows) => {
@@ -394,9 +412,8 @@ const batchedContactsPurge = (roles, purgeFn, startKey = '', startKeyDocId = '')
         assignContactToGroups(row, groups, subjectIds);
       });
 
-      return db.medic.query('medic/docs_by_replication_key', { keys: subjectIds });
+      return getAndAssignRecordsToGroups(groups, subjectIds);
     })
-    .then(result => assignRecords(result.rows, groups, subjectIds))
     .then(() => {
       docIds = getIdsFromGroups(groups);
       return getAlreadyPurgedDocs(rolesHashes, docIds);
