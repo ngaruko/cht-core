@@ -669,24 +669,39 @@ describe('ServerSidePurge', () => {
 
         chai.expect(db.medic.query.callCount).to.equal(15);
         chai.expect(db.medic.query.args[0][1].keys).to.have.members(getContactsIds(0, 1000));
+        chai.expect(db.medic.query.args[0][1].skip).to.equal(0);
         chai.expect(db.medic.query.args[1][1].keys).to.have.members(getContactsIds(0, 1000));
+        chai.expect(db.medic.query.args[1][1].skip).to.equal(20000);
         chai.expect(db.medic.query.args[2][1].keys).to.have.members(getContactsIds(0, 1000));
+        chai.expect(db.medic.query.args[2][1].skip).to.equal(40000);
 
         chai.expect(db.medic.query.args[3][1].keys).to.have.members(getContactsIds(0, 500));
+        chai.expect(db.medic.query.args[3][1].skip).to.equal(0);
         chai.expect(db.medic.query.args[4][1].keys).to.have.members(getContactsIds(0, 500));
+        chai.expect(db.medic.query.args[4][1].skip).to.equal(20000);
         chai.expect(db.medic.query.args[5][1].keys).to.have.members(getContactsIds(0, 500));
+        chai.expect(db.medic.query.args[5][1].skip).to.equal(40000);
 
         chai.expect(db.medic.query.args[6][1].keys).to.have.members(getContactsIds(500, 1000));
+        chai.expect(db.medic.query.args[6][1].skip).to.equal(0);
         chai.expect(db.medic.query.args[7][1].keys).to.have.members(getContactsIds(500, 1000));
+        chai.expect(db.medic.query.args[7][1].skip).to.equal(20000);
         chai.expect(db.medic.query.args[8][1].keys).to.have.members(getContactsIds(500, 1000));
+        chai.expect(db.medic.query.args[8][1].skip).to.equal(40000);
         chai.expect(db.medic.query.args[9][1].keys).to.have.members(getContactsIds(500, 1000));
+        chai.expect(db.medic.query.args[9][1].skip).to.equal(60000);
 
         chai.expect(db.medic.query.args[10][1].keys).to.have.members(getContactsIds(500, 750));
+        chai.expect(db.medic.query.args[10][1].skip).to.equal(0);
         chai.expect(db.medic.query.args[11][1].keys).to.have.members(getContactsIds(500, 750));
+        chai.expect(db.medic.query.args[11][1].skip).to.equal(20000);
         chai.expect(db.medic.query.args[12][1].keys).to.have.members(getContactsIds(500, 750));
+        chai.expect(db.medic.query.args[12][1].skip).to.equal(40000);
 
         chai.expect(db.medic.query.args[13][1].keys).to.have.members(getContactsIds(750, 1000));
+        chai.expect(db.medic.query.args[13][1].skip).to.equal(0);
         chai.expect(db.medic.query.args[14][1].keys).to.have.members(getContactsIds(1000, 1100));
+        chai.expect(db.medic.query.args[14][1].skip).to.equal(0);
       });
     });
 
@@ -1216,8 +1231,7 @@ describe('ServerSidePurge', () => {
       const purgeDbChanges = sinon.stub().resolves({ results: [] });
       sinon.stub(db, 'get').returns({ changes: purgeDbChanges, bulkDocs: sinon.stub() });
 
-      sinon.stub(db.medic, 'query');
-      db.medic.query.onCall(0).resolves({ rows: [
+      sinon.stub(db.medic, 'query').resolves({ rows: [
         { id: 'first', key: 'first', doc: { _id: 'first', type: 'district_hospital' } },
         { id: 'f1', key: 'f1', doc: { _id: 'f1', type: 'clinic', place_id: 's1' } },
         { id: 'f1-r1', key: 's1',

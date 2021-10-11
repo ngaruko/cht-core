@@ -274,6 +274,7 @@ const getAndAssignRecordsToGroups = async (groups, subjectIds) => {
       skip: skip,
       limit: MAX_BATCH_SIZE,
     };
+    logger.info(`Getting docs_by_replication_key with skip = ${skip}`);
     const result = await db.medic.query('medic/docs_by_replication_key', opts);
     const relevantRowsInBatch = result.rows.filter(row => isRelevantRecordEmission(row, groups));
     relevantRows.push(...relevantRowsInBatch);
@@ -285,6 +286,8 @@ const getAndAssignRecordsToGroups = async (groups, subjectIds) => {
         message: `Purging skipped. Too many reports for contacts: ${Object.keys(groups).join(', ')}`,
       });
     }
+
+    logger.info(`Have ${relevantRows.length} relevant rows`);
 
     skip += result.rows.length;
     requestNext = result.rows.length === MAX_BATCH_SIZE;
