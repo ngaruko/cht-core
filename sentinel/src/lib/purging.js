@@ -232,8 +232,8 @@ const isRelevantRecordEmission = (row, groups) => {
     return false;
   }
 
-  const isNeedsSignoffReport = row.doc && row.doc.fields && row.doc.fields.needs_signoff;
-  if (isNeedsSignoffReport) {
+  const hasNeedsSignoff = row.doc && row.doc.fields && row.doc.fields.needs_signoff;
+  if (hasNeedsSignoff) {
     const patientError = hasPatientError(row.doc);
     const subject = patientError ? row.value.submitter : registrationUtils.getSubjectId(row.doc);
     // reports with `needs_signoff` will emit for every contact from their submitter lineage,
@@ -288,6 +288,9 @@ const getAndAssignRecordsToGroups = async (groups, subjectIds) => {
     relevantRows.push(...relevantRowsInBatch);
 
     if (relevantRows.length >= MAX_BATCH_SIZE) {
+      const used = process.memoryUsage().heapUsed / 1024 / 1024;
+      logger.warn(`Sentinel uses approximately ${Math.round(used * 100) / 100} MB`);
+
       return Promise.reject({
         code: MAX_BATCH_SIZE_REACHED,
         contactIds: Object.keys(groups),
@@ -305,6 +308,8 @@ const getAndAssignRecordsToGroups = async (groups, subjectIds) => {
     increaseBatchSize();
   }
 
+  const used = process.memoryUsage().heapUsed / 1024 / 1024;
+  logger.warn(`Sentinel uses approximately ${Math.round(used * 100) / 100} MB`);
   const recordsByKey = getRecordsByKey(relevantRows);
   assignRecordsToGroups(recordsByKey, groups);
 };
