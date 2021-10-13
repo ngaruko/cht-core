@@ -288,9 +288,6 @@ const getAndAssignRecordsToGroups = async (groups, subjectIds) => {
     relevantRows.push(...relevantRowsInBatch);
 
     if (relevantRows.length >= MAX_BATCH_SIZE) {
-      const used = process.memoryUsage().heapUsed / 1024 / 1024;
-      logger.warn(`Sentinel uses approximately ${Math.round(used * 100) / 100} MB`);
-
       return Promise.reject({
         code: MAX_BATCH_SIZE_REACHED,
         contactIds: Object.keys(groups),
@@ -308,8 +305,6 @@ const getAndAssignRecordsToGroups = async (groups, subjectIds) => {
     increaseBatchSize();
   }
 
-  const used = process.memoryUsage().heapUsed / 1024 / 1024;
-  logger.warn(`Sentinel uses approximately ${Math.round(used * 100) / 100} MB`);
   const recordsByKey = getRecordsByKey(relevantRows);
   assignRecordsToGroups(recordsByKey, groups);
 };
