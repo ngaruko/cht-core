@@ -11,7 +11,8 @@ const {
   MARKET_URL,
   STAGING_SERVER,
   BUILDS_SERVER,
-  TRAVIS_BUILD_NUMBER
+  TRAVIS_BUILD_NUMBER,
+  CHROMEDRIVER_VERSION=94
 } = process.env;
 
 const releaseName = TRAVIS_TAG || TRAVIS_BRANCH || 'local-development';
@@ -98,6 +99,16 @@ module.exports = function(grunt) {
             to: `"_id": "medic:medic:test-${TRAVIS_BUILD_NUMBER}"`,
           },
         ],
+      },
+      'webdriver-version': {
+        src: ['node_modules/protractor/node_modules/webdriver-manager/built/config.json'],
+        overwrite: true,
+        replacements: [
+          {
+            from: /"maxChromedriver": ".*",/g,
+            to: `"maxChromedriver": "${CHROMEDRIVER_VERSION}",`,
+          },
+        ]
       },
     },
     'couch-compile': {
@@ -538,6 +549,10 @@ module.exports = function(grunt) {
           './node_modules/.bin/webdriver-manager update && ' +
           './node_modules/.bin/webdriver-manager start > tests/logs/webdriver.log & ' +
           'until nc -z localhost 4444; do sleep 1; done',
+      },
+      'start-webdriver-ci': {
+        cmd:
+          'scripts/e2e/start_webdriver.sh'
       },
       'check-env-vars':
         'if [ -z $COUCH_URL ] || [ -z $COUCH_NODE_NAME ]; then ' +
@@ -1037,8 +1052,8 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('start-webdriver', 'Starts Protractor Webdriver', [
-    'patch-webdriver',
-    'exec:start-webdriver',
+    'replace:webdriver-version',
+    MARKET_URL ? 'exec:start-webdriver-ci' : 'exec:start-webdriver',
   ]);
 
   // Test tasks
