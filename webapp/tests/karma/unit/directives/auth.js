@@ -7,7 +7,7 @@ describe('auth directive', () => {
   let Auth;
 
   beforeEach(() => {
-    module('adminApp');
+    module('inboxApp');
     module('inboxDirectives');
     Auth = sinon.stub();
     Auth.any = sinon.stub();
@@ -25,7 +25,7 @@ describe('auth directive', () => {
   const nextTick = () => new Promise(resolve => setTimeout(resolve, 20));
 
   it('should be shown when auth does not error',  () => {
-    Auth.resolves();
+    Auth.returns(Promise.resolve());
     const element = compile('<a mm-auth="can_do_stuff">')(scope);
     scope.$digest();
     return nextTick().then(() => {
@@ -36,18 +36,18 @@ describe('auth directive', () => {
   });
 
   it('should be hidden when auth fails', () => {
-    Auth.rejects('boom');
+    Auth.returns(Promise.reject('boom'));
     const element = compile('<a mm-auth="can_do_stuff">')(scope);
     scope.$digest();
     return nextTick().then(() => {
       chai.expect(element.hasClass('hidden')).to.equal(true);
-      chai.expect(Auth.has.callCount).to.equal(1);
-      chai.expect(Auth.has.args[0][0]).to.deep.equal(['can_do_stuff']);
+      chai.expect(Auth.callCount).to.equal(1);
+      chai.expect(Auth.args[0][0]).to.deep.equal(['can_do_stuff']);
     });
   });
 
   it('splits comma separated permissions', () => {
-    Auth.resolves(true);
+    Auth.returns(Promise.resolve());
     const element = compile('<a mm-auth="can_do_stuff,!can_not_do_stuff">')(scope);
     scope.$digest();
     return nextTick().then(() => {
@@ -70,7 +70,7 @@ describe('auth directive', () => {
     });
 
     it('should be hidden when auth errors', () => {
-      Auth.online.resolves();
+      Auth.online.rejects({ some: 'err' });
       const element = compile('<a mm-auth mm-auth-online="false">')(scope);
       scope.$digest();
       return nextTick().then(() => {
@@ -139,7 +139,7 @@ describe('auth directive', () => {
     });
 
     it('should be hidden when online fails and auth any succeeds', () => {
-      Auth.resolves();
+      Auth.any.resolves();
       Auth.online.rejects();
 
       const element = compile('<a mm-auth mm-auth-any="[\'permission_to_have\', \'another_permission\']" mm-auth-online="true">')(scope);
@@ -159,8 +159,8 @@ describe('auth directive', () => {
         chai.expect(element.hasClass('hidden')).to.equal(true);
         chai.expect(Auth.online.callCount).to.equal(1);
         chai.expect(Auth.online.args[0]).to.deep.equal([false]);
-        chai.expect(Auth.has.callCount).to.equal(1);
-        chai.expect(Auth.has.args[0][0]).to.deep.equal(['permission_to_have']);
+        chai.expect(Auth.callCount).to.equal(1);
+        chai.expect(Auth.args[0][0]).to.deep.equal(['permission_to_have']);
       });
     });
   });
@@ -190,7 +190,7 @@ describe('auth directive', () => {
 
     it('should be shown with at least one allowed permission', () => {
       const element = compile('<a mm-auth mm-auth-any="[\'perm1\', \'perm2\']">')(scope);
-      Auth.any.resolves();
+      Auth.any.returns(Promise.resolve());
 
       scope.$digest();
       return nextTick().then(() => {
@@ -202,7 +202,7 @@ describe('auth directive', () => {
 
     it('should be hidden with no allowed permissions', () => {
       const element = compile('<a mm-auth mm-auth-any="[\'perm1\', \'perm2\']">')(scope);
-      Auth.any.rejects();
+      Auth.any.returns(Promise.reject());
       scope.$digest();
       return nextTick().then(() => {
         chai.expect(element.hasClass('hidden')).to.equal(true);
@@ -213,7 +213,7 @@ describe('auth directive', () => {
 
     it('should work with stacked permissions', () => {
       const element = compile('<a mm-auth mm-auth-any="[[\'a\', \'b\'], [[\'c\', \'d\']], [[[\'e\', \'f\']]], \'g\']">')(scope);
-      Auth.any.withArgs([['a', 'b'], ['c', 'd'], ['e', 'f'], ['g']]).resolves();
+      Auth.any.withArgs([['a', 'b'], ['c', 'd'], ['e', 'f'], ['g']]).returns(Promise.resolve());
       scope.$digest();
 
       return nextTick().then(() => {
@@ -225,7 +225,7 @@ describe('auth directive', () => {
 
     it('should work with expressions ', () => {
       const element = compile('<a mm-auth mm-auth-any="[true && [\'a\', \'b\'], false && [\'c\', \'d\'], \'f\']">')(scope);
-      Auth.any.withArgs([['a', 'b'], ['f']]).rejects();
+      Auth.any.withArgs([['a', 'b'], ['f']]).returns(Promise.reject());
       scope.$digest();
 
       return nextTick().then(() => {
