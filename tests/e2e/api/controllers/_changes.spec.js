@@ -662,7 +662,7 @@ describe('changes handler', () => {
           requestChanges('bob', { feed: 'longpoll', since: currentSeq }),
           new Promise(resolve => {
             setTimeout(() => {
-              resolve(utils.updateSettings({ changes_controller: _.defaults({ reiterate_changes: false }, defaultSettings) }, true));},
+              resolve(utils.updateSettings({ changes_controller: _.defaults({ reiterate_changes: false }, defaultSettings) }, false));},
               300);
             })
         ])
@@ -703,7 +703,7 @@ describe('changes handler', () => {
       bobsIds.push(...newIds);
       newIds.push(...DEFAULT_EXPECTED);
       return utils
-        .updateSettings({ changes_controller: _.defaults({ reiterate_changes: false }, defaultSettings) }, true)
+        .updateSettings({ changes_controller: _.defaults({ reiterate_changes: false }, defaultSettings) }, false)
         .then(() => getCurrentSeq())
         .then(() => {
           return Promise
@@ -760,7 +760,7 @@ describe('changes handler', () => {
       stevesIds.push(..._.pluck(allowedSteve, '_id'));
 
       return utils
-        .updateSettings({ changes_controller: _.defaults({ reiterate_changes: true }, defaultSettings) }, true)
+        .updateSettings({ changes_controller: _.defaults({ reiterate_changes: true }, defaultSettings) }, false)
         .then(() => getCurrentSeq('steve'))
         .then(() => {
           return Promise
@@ -1082,7 +1082,7 @@ describe('changes handler', () => {
     describe('can_view_unallocated_data_records permission', () => {
 
       it('should be supplied if user has this permission and district_admins_access_unallocated_messages is enabled', () =>
-        utils.updateSettings({district_admins_access_unallocated_messages: true}, true)
+        utils.updateSettings({district_admins_access_unallocated_messages: true}, false)
           .then(() => utils.saveDoc({ _id:'unallocated_report', type:'data_record' }))
           .then(() => requestChanges('bob'))
           .then(changes =>
@@ -1114,7 +1114,7 @@ describe('changes handler', () => {
   describe('replication depth', () => {
 
     it('should show contacts to a user only if they are within the configured depth', () =>
-      utils.updateSettings({replication_depth: [{ role:'district_admin', depth:1 }]}, true)
+      utils.updateSettings({replication_depth: [{ role:'district_admin', depth:1 }]}, false)
         .then(() => utils.saveDoc({ _id:'should-be-visible', type:'clinic', parent: { _id:'fixture:chwville' } }))
         .then(() => utils.saveDoc({ _id:'should-be-hidden', reported_date: 1, type:'person', parent: { _id:'should-be-visible', parent:{ _id:'fixture:chwville' } } }))
         .then(() => requestChanges('chw'))
@@ -1219,7 +1219,7 @@ describe('changes handler', () => {
         };
 
         return utils
-          .updateSettings({replication_depth: [{ role:'district_admin', depth: 1 }]}, true)
+          .updateSettings({replication_depth: [{ role:'district_admin', depth: 1 }]}, false)
           .then(() => utils.saveDocs([ clinicReport, clinicReport2, healthCenterReport, bobReport ]))
           .then(() => Promise.all([
             requestChanges('chw'), // chw > chwvillw > chw-bossville > parent_place
@@ -1309,7 +1309,7 @@ describe('changes handler', () => {
         };
 
         return utils
-          .updateSettings({replication_depth: [{ role:'district_admin', depth: 1 }]}, true)
+          .updateSettings({replication_depth: [{ role:'district_admin', depth: 1 }]}, false)
           .then(() => utils.saveDocs([ clinicReport, clinicReport2, healthCenterReport, bobReport ]))
           .then(() => Promise.all([
             requestChanges('chw'), // chw > chwvillw > chw-bossville > parent_place
