@@ -5,9 +5,10 @@ on: [push, pull_request]
 env:
   COUCH_URL: http://admin:pass@localhost:5984/medic-test
   COUCH_NODE_NAME: nonode@nohost
-  BUILDS_SERVER: _couch/builds_testing
-  STAGING_SERVER: _couch/builds
-  UPLOAD_URL: ${{ secrets.MARKET_URL }}
+  BUILDS_SERVER: ${{ secrets.AUTH_MARKET_URL && '_couch/builds_testing' || '_couch/builds_external' }}
+  STAGING_SERVER: ${{ secrets.AUTH_MARKET_URL && '_couch/builds' || '_couch/builds_external' }}
+  MARKET_URL_READ: 'https://staging.dev.medicmobile.org'
+  MARKET_URL: ${{ secrets.AUTH_MARKET_URL || 'https://staging.dev.medicmobile.org' }}
 
 jobs:
   build:
@@ -24,13 +25,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
       if: steps.get-docker-hub-username.outputs.dockerhub_username
-    - name: Set UPLOAD_URL var
-      run: |
-        if [[ -z "$UPLOAD_URL" ]]; then
-          echo "UPLOAD_URL=https://staging.dev.medicmobile.org" >> $GITHUB_ENV
-          echo "BUILDS_SERVER=_couch/builds_external" >> $GITHUB_ENV
-          echo "STAGING_SERVER=_couch/builds_external" >> $GITHUB_ENV
-        fi
     - name: Get branch name
       uses: nelonoel/branch-name@1ea5c86cb559a8c4e623da7f188496208232e49f
     - name: Set Travis Vars
