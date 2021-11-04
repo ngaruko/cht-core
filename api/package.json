@@ -90,8 +90,11 @@
   "sharedLibs": [
     "bulk-docs-utils",
     "contact-types-utils",
+    "db",
+    "environment",
     "infodoc",
     "lineage",
+    "logger",
     "message-utils",
     "phone-number",
     "purging-utils",

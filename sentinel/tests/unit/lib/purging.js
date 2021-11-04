@@ -4,6 +4,7 @@ const rewire = require('rewire');
 const moment = require('moment');
 
 const registrationUtils = require('@medic/registration-utils');
+const environment = require('@medic/environment');
 const tombstoneUtils = require('@medic/tombstone-utils');
 const config = require('../../../src/config');
 const purgingUtils = require('@medic/purging-utils');
@@ -125,7 +126,7 @@ describe('ServerSidePurge', () => {
         'hash2': ['b'],
         'hash3': ['c'],
       };
-      db.medicDbName = 'dummy';
+      sinon.stub(environment, 'db').value('dummy');
 
       return service.__get__('initPurgeDbs')(roles).then(() => {
         chai.expect(db.get.callCount).to.equal(3);
@@ -147,7 +148,7 @@ describe('ServerSidePurge', () => {
         'hash-': ['2', '3'],
         'hash--': ['4', '5', '6'],
       };
-      db.medicDbName = 'not-medic';
+      sinon.stub(environment, 'db').value('not-medic');
 
       return service.__get__('initPurgeDbs')(roles).then(() => {
         chai.expect(db.get.callCount).to.equal(3);
@@ -165,7 +166,7 @@ describe('ServerSidePurge', () => {
       const purgedb = { put: sinon.stub().resolves() };
       db.get.returns(purgedb);
       const roles = { 'hash': ['1'] };
-      db.medicDbName = 'not-medic';
+      sinon.stub(environment, 'db').value('not-medic');
 
       return service.__get__('initPurgeDbs')(roles).then(() => {
         chai.expect(db.get.callCount).to.equal(1);
@@ -183,7 +184,7 @@ describe('ServerSidePurge', () => {
         'hash-': ['2', '3'],
         'hash--': ['4', '5', '6'],
       };
-      db.medicDbName = 'not-medic';
+      sinon.stub(environment, 'db').value('not-medic');
 
       return service
         .__get__('initPurgeDbs')(roles)
@@ -400,7 +401,7 @@ describe('ServerSidePurge', () => {
     beforeEach(() => {
       roles = { 'a': [1, 2, 3], 'b': [4, 5, 6] };
       purgeFn = sinon.stub();
-      db.couchUrl = 'http://a:p@localhost:6500/medic';
+      sinon.stub(environment, 'couchUrl').value('http://a:p@localhost:6500/medic');
     });
 
     it('should grab contacts_by_type', () => {
@@ -1423,7 +1424,7 @@ describe('ServerSidePurge', () => {
     beforeEach(() => {
       roles = { 'a': [1, 2, 3], 'b': [4, 5, 6] };
       purgeFn = sinon.stub();
-      db.couchUrl = 'http://a:p@localhost:6500/medic';
+      sinon.stub(environment, 'couchUrl').value('http://a:p@localhost:6500/medic');
     });
 
     it('should request first batch', () => {
@@ -1734,7 +1735,7 @@ describe('ServerSidePurge', () => {
 
     beforeEach(() => {
       roles = { 'a': [1, 2, 3], 'b': [4, 5, 6] };
-      db.couchUrl = 'http://a:p@localhost:6500/medic';
+      sinon.stub(environment, 'couchUrl').value('http://a:p@localhost:6500/medic');
     });
 
     it('should request first batch', () => {
@@ -1909,7 +1910,7 @@ describe('ServerSidePurge', () => {
 
     beforeEach(() => {
       roles = { 'a': [1, 2, 3], 'b': [4, 5, 6] };
-      db.couchUrl = 'http://a:p@localhost:6500/medic';
+      sinon.stub(environment, 'couchUrl').value('http://a:p@localhost:6500/medic');
     });
 
     it('should request first batch, preserving last 6 months of target docs', () => {

@@ -6,6 +6,7 @@ const rewire = require('rewire');
 
 const db = require('../../../src/db');
 const replications = rewire('../../../src/schedule/replications');
+const environment = require('@medic/environment');
 
 describe('replications', () => {
 
@@ -41,18 +42,18 @@ describe('replications', () => {
       .resolves([
         'medic-b',
         'medic-s',
-        `${db.medicDbName}-user-x-meta`,
-        `${db.medicDbName}-user-y-meta`,
-        `${db.medicDbName}-user-xx-yy-meta`
+        `${environment.db}-user-x-meta`,
+        `${environment.db}-user-y-meta`,
+        `${environment.db}-user-xx-yy-meta`
       ]);
     return replications.execute().then(() => {
       assert.equal(replicateDbs.callCount, 1);
       assert.deepEqual(replicateDbs.args[0][0], [
-        `${db.medicDbName}-user-x-meta`,
-        `${db.medicDbName}-user-y-meta`,
-        `${db.medicDbName}-user-xx-yy-meta`
+        `${environment.db}-user-x-meta`,
+        `${environment.db}-user-y-meta`,
+        `${environment.db}-user-xx-yy-meta`
       ]);
-      assert.equal(replicateDbs.args[0][1], `${db.medicDbName}-users-meta`);
+      assert.equal(replicateDbs.args[0][1], `${environment.db}-users-meta`);
     });
   });
 

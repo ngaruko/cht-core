@@ -6,6 +6,7 @@ chai.use(chaiExclude);
 const moment = require('moment');
 const utils = require('../../src/lib/utils');
 const db = require('../../src/db');
+const environment = require('@medic/environment');
 const rpn = require('request-promise-native');
 const schedule = require('../../src/schedule/due_tasks');
 const date = require('../../src/date');
@@ -947,7 +948,7 @@ describe('due tasks', () => {
   it('should query with a limit and correct start and end key', () => {
     const now = moment('2020-02-01 00:00:00');
     sinon.stub(date, 'getDate').returns(now);
-    sinon.stub(db, 'couchUrl').value('http://admin:pass@127.0.0.1:5984/medic');
+    sinon.stub(environment, 'couchUrl').value('http://admin:pass@127.0.0.1:5984/medic');
     const view = sinon.stub(rpn, 'get').resolves({ rows: [] });
 
     return schedule.execute().then(() => {
@@ -969,7 +970,7 @@ describe('due tasks', () => {
   it('should keep querying until no more results', () => {
     const now = moment('2020-02-01 00:00:00');
     sinon.stub(date, 'getDate').returns(now);
-    sinon.stub(db, 'couchUrl').value('http://admin:pass@127.0.0.1:5984/medic');
+    sinon.stub(environment, 'couchUrl').value('http://admin:pass@127.0.0.1:5984/medic');
     sinon.stub(db.medic, 'put').resolves({});
 
     const firstResults = [
@@ -1180,7 +1181,7 @@ describe('due tasks', () => {
   it('should keep querying until same result', () => {
     const now = moment('2020-02-01 00:00:00');
     sinon.stub(date, 'getDate').returns(now);
-    sinon.stub(db, 'couchUrl').value('http://admin:pass@127.0.0.1:5984/medic');
+    sinon.stub(environment, 'couchUrl').value('http://admin:pass@127.0.0.1:5984/medic');
     sinon.stub(db.medic, 'put').resolves({});
 
     const firstResults = [

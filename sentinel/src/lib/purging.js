@@ -6,6 +6,7 @@ const serverSidePurgeUtils = require('@medic/purging-utils');
 const logger = require('./logger');
 const { performance } = require('perf_hooks');
 const db = require('../db');
+const environment = require('@medic/environment');
 const moment = require('moment');
 
 const TASK_EXPIRATION_PERIOD = 60; // days
@@ -15,7 +16,7 @@ const purgeDbs = {};
 let currentlyPurging = false;
 const getPurgeDb = (hash, refresh) => {
   if (!purgeDbs[hash] || refresh) {
-    purgeDbs[hash] = db.get(serverSidePurgeUtils.getPurgeDbName(db.medicDbName, hash));
+    purgeDbs[hash] = db.get(serverSidePurgeUtils.getPurgeDbName(environment.db, hash));
   }
   return purgeDbs[hash];
 };
@@ -330,7 +331,7 @@ const batchedContactsPurge = (roles, purgeFn, startKey = '', startKeyDocId = '')
   // using `request` library because PouchDB doesn't support `startkey_docid` in view queries
   // using `startkey_docid` because using `skip` is *very* slow
   return request
-    .get(`${db.couchUrl}/_design/medic-client/_view/contacts_by_type`, { qs: queryString, json: true })
+    .get(`${environment.couchUrl}/_design/medic-client/_view/contacts_by_type`, { qs: queryString, json: true })
     .then(result => {
       result.rows.forEach(row => {
         if (row.id === startKeyDocId) {
@@ -358,7 +359,7 @@ const batchedContactsPurge = (roles, purgeFn, startKey = '', startKeyDocId = '')
 
 const batchedUnallocatedPurge = (roles, purgeFn) => {
   const type = 'unallocated';
-  const url = `${db.couchUrl}/_design/medic/_view/docs_by_replication_key`;
+  const url = `${environment.couchUrl}/_design/medic/_view/docs_by_replication_key`;
   const getQueryParams = (startKeyDocId) => ({
     limit: BATCH_SIZE,
     key: JSON.stringify('_unassigned'),
@@ -391,7 +392,7 @@ const batchedUnallocatedPurge = (roles, purgeFn) => {
 
 const batchedTasksPurge = (roles) => {
   const type = 'tasks';
-  const url = `${db.couchUrl}/_design/medic/_view/tasks_in_terminal_state`;
+  const url = `${environment.couchUrl}/_design/medic/_view/tasks_in_terminal_state`;
   const maximumEmissionEndDate = moment().subtract(TASK_EXPIRATION_PERIOD, 'days').format('YYYY-MM-DD');
 
   const getQueryParams = (startKeyDocId, startKey) => ({
@@ -417,7 +418,7 @@ const batchedTasksPurge = (roles) => {
 
 const batchedTargetsPurge = (roles) => {
   const type = 'targets';
-  const url = `${db.couchUrl}/_all_docs`;
+  const url = `${environment.couchUrl}/_all_docs`;
 
   const lastAllowedReportingIntervalTag = moment().subtract(TARGET_EXPIRATION_PERIOD, 'months').format('YYYY-MM');
   const getQueryParams = (startKeyDocId) => ({

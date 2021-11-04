@@ -8,6 +8,7 @@ const db = require('../db');
 const rpn = require('request-promise-native');
 const lineage = require('@medic/lineage')(Promise, db.medic);
 const messageUtils = require('@medic/message-utils');
+const environment = require('@medic/environment');
 
 const BATCH_SIZE = 1000;
 
@@ -88,7 +89,7 @@ const getBatch = (query, startKey, startKeyDocId) => {
   }
 
   const options = {
-    baseUrl: db.couchUrl,
+    baseUrl: environment.couchUrl,
     uri: '/_design/medic/_view/messages_by_state',
     qs: queryString,
     json: true

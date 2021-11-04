@@ -1,0 +1,26 @@
+{
+  "name": "@medic/db",
+  "version": "1.0.0",
+  "description": "CHT-Core Database interface",
+  "main": "src/db.js",
+  "scripts": {
+    "test": "mocha ./test"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^7.2.0",
+    "sinon": "^11.1.2"
+  },
+  "dependencies": {
+    "@medic/environment": "file:../environment",
+    "@medic/logger": "file:../logger",
+    "pouchdb-adapter-http": "^7.2.2",
+    "pouchdb-core": "^7.2.2",
+    "pouchdb-find": "^7.2.2",
+    "pouchdb-mapreduce": "^7.2.2",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9"
+  }
+}

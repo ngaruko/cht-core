@@ -1,0 +1,19 @@
+{
+  "name": "@medic/environment",
+  "version": "1.0.0",
+  "description": "CHT-Core ENV interface",
+  "main": "src/environment.js",
+  "scripts": {
+    "test": "mocha ./test"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@medic/logger": "file:../logger"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^7.2.0",
+    "sinon": "^11.1.2"
+  }
+}

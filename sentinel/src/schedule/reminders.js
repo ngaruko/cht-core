@@ -11,6 +11,7 @@ const lineage = require('@medic/lineage')(Promise, db.medic);
 const logger = require('../lib/logger');
 const messages = config.getTransitionsLib().messages;
 const contactTypesUtils = require('@medic/contact-types-utils');
+const environment = require('@medic/environment');
 
 const BATCH_SIZE = 1000;
 
@@ -108,7 +109,7 @@ const getPlaceIds = (keys, startDocId) => {
   // using `request` library because PouchDB doesn't support `start_key_doc_id` in view queries
   // using `start_key_doc_id` because using `skip` is *very* slow
   return request
-    .get(`${db.couchUrl}/_design/medic-client/_view/contacts_by_type`, { qs: query, json: true })
+    .get(`${environment.couchUrl}/_design/medic-client/_view/contacts_by_type`, { qs: query, json: true })
     .then(result => result.rows.map(row => row.id));
 };
 

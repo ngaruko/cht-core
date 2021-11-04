@@ -7,6 +7,7 @@ const assert = require('chai').assert;
 const rewire = require('rewire');
 const db = require('../../../src/db');
 const request = require('request-promise-native');
+const environment = require('@medic/environment');
 
 let reminders;
 let clock;
@@ -18,11 +19,11 @@ describe('reminders', () => {
   afterEach(() => {
     sinon.restore();
     clock.restore();
-    db.couchUrl = 'someURL';
   });
   beforeEach(() => {
     clock = sinon.useFakeTimers();
     reminders = rewire('../../../src/schedule/reminders');
+    sinon.stub(environment, 'couchUrl').value('someURL');
   });
 
   describe('execute', () => {

@@ -1,6 +1,7 @@
 const later = require('later');
 const db = require('../db');
 const logger = require('../lib/logger');
+const environment = require('@medic/environment');
 const rpn = require('request-promise-native');
 
 const PURGE_LOG_ID = '_local/purge_log';
@@ -121,8 +122,8 @@ module.exports = {
     return Promise.resolve();
   },
   runReplication: () => {
-    const SRC_DB_REGEX = new RegExp(`${db.medicDbName}-user-.+-meta`);
-    const TO_DB_NAME = `${db.medicDbName}-users-meta`;
+    const SRC_DB_REGEX = new RegExp(`${environment.db}-user-.+-meta`);
+    const TO_DB_NAME = `${environment.db}-users-meta`;
     return db.allDbs().then(dbs => {
       const srcDbs = dbs.filter(db => SRC_DB_REGEX.exec(db));
       return module.exports.replicateDbs(srcDbs, TO_DB_NAME);

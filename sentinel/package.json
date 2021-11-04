@@ -55,8 +55,11 @@
   ],
   "sharedLibs": [
     "contact-types-utils",
+    "db",
+    "environment",
     "infodoc",
     "lineage",
+    "logger",
     "message-utils",
     "outbound",
     "phone-number",
