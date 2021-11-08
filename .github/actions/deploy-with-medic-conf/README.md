@@ -1,8 +1,8 @@
-# deploy-with-cht-conf Shared GitHub Action
-The `deploy-with-cht-conf` is a parameterised reusable GitHub action that deploys of CHT applications to a running CHT instance.
+# deploy-with-medic-conf Shared GitHub Action
+The `deploy-with-medic-conf` is a parameterised reusable GitHub action that deploys of CHT applications to a running CHT instance.
 
 ## CHT App Requirements
-* cht-conf@3.3 or above
+* medic-conf@3.3 or above
 
 ## Example GitHub Step
 
