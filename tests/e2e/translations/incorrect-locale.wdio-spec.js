@@ -37,7 +37,6 @@ describe('Incorrect locale', () => {
   afterEach(async () => {
     await browser.setCookies({ name: 'locale', value: 'en' });
     await browser.refresh();
-    await utils.revertDb([], true);
   });
 
   it('should work with incorrect locale',async () => {
@@ -57,7 +56,7 @@ describe('Incorrect locale', () => {
     // we have correct language!
     const text = await commonElements.getReportsButtonLabel().getText();
     expect(text).to.equal('HilReports');
-    
+
     await commonElements.goToPeople();
     await contactElements.selectLHSRowByText('hil district');
 
