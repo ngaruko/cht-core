@@ -1,3 +1,5 @@
+const utils = require('../../utils');
+
 const reportListID = '#reports-list';
 const reportBodyDetails = '#reports-content .report-body .details';
 const reportBody = () => $(reportBodyDetails);
@@ -138,7 +140,7 @@ const getCurrentReportId = async () => {
   }
 
   return currentUrl.slice(reportBaseUrl.length);
-}
+};
 
 module.exports = {
   getCurrentReportId,
