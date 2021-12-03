@@ -130,7 +130,18 @@ const filterByDate = async (startDate, endDate) => {
 
 const firstReportDetailField = () => $('#reports-content .details ul li:first-child p');
 
+const getCurrentReportId = async () => {
+  const currentUrl = await browser.getUrl();
+  const reportBaseUrl = utils.getBaseUrl() + 'reports/';
+  if (!currentUrl.startsWith(reportBaseUrl)) {
+    return;
+  }
+
+  return currentUrl.slice(reportBaseUrl.length);
+}
+
 module.exports = {
+  getCurrentReportId,
   reportList,
   firstReport,
   submitterName,
