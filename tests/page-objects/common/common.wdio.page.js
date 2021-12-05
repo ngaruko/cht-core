@@ -12,12 +12,18 @@ const modal = require('./modal.wdio.page');
 const loaders = () => $$('.container-fluid .loader');
 const syncSuccess = () => $(`${hamburgerMenuItemSelector}.sync-status .success`);
 const reloadModalCancel = () => $('#update-available .btn.cancel:not(.disabled)');
+
 //languages
 const languagePreferenceHeading = () => $('#language-preference-heading');
 const selectedPreferenceHeading = () => $('#language-preference-heading > h4:nth-child(1) > span:nth-child(3)');
 const messagesLanguage = () => $('.locale a.selected span.rectangle');
 const defaultLanguage = () => $('.locale-outgoing a.selected span.rectangle');
 
+
+const activeSnackbar = () => $('#snackbar.active');
+const inactiveSnackbar = () => $('#snackbar:not(.active)');
+const snackbarMessage = async () => (await $('#snackbar.active .snackbar-message')).getText();
+const snackbarAction = () => $('#snackbar.active .snackbar-action');
 
 const isHamburgerMenuOpen = async () => {
   return await (await $('.header .dropdown.open #header-dropdown-link')).isExisting();
@@ -171,7 +177,7 @@ const syncAndWaitForSuccess = async () => {
   await openHamburgerMenu();
   await (await syncButton()).click();
   await openHamburgerMenu();
-  await (await syncSuccess()).waitForDisplayed();
+  await (await syncSuccess()).waitForDisplayed({ timeout: 20000 });
 };
 
 const sync = async (expectReload) => {
@@ -257,6 +263,7 @@ module.exports = {
   hideSnackbar,
   waitForLoaders,
   sync,
+  syncButton,
   closeReloadModal,
   goToMessages,
   goToTasks,
@@ -276,5 +283,8 @@ module.exports = {
   waitForLoaderToDisappear,
   goToAboutPage,
   waitForPageLoaded,
-  getDefaultLanguages
+  activeSnackbar,
+  inactiveSnackbar,
+  snackbarMessage,
+  snackbarAction,
 };
