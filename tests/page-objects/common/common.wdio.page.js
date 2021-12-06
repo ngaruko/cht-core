@@ -287,4 +287,5 @@ module.exports = {
   inactiveSnackbar,
   snackbarMessage,
   snackbarAction,
+  getDefaultLanguages
 };
