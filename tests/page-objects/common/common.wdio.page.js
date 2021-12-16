@@ -16,8 +16,8 @@ const reloadModalCancel = () => $('#update-available .btn.cancel:not(.disabled)'
 //languages
 const languagePreferenceHeading = () => $('#language-preference-heading');
 const selectedPreferenceHeading = () => $('#language-preference-heading > h4:nth-child(1) > span:nth-child(3)');
-const messagesLanguage = () => $('.locale a.selected span.rectangle');
-const defaultLanguage = () => $('.locale-outgoing a.selected span.rectangle');
+const messagesLanguage = () => $('.locale a.selected span');
+const defaultLanguage = () => $('.locale-outgoing a.selected span');
 
 
 const activeSnackbar = () => $('#snackbar.active');
