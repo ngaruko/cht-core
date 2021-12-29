@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link href="/admin/css/main.css" rel="stylesheet" type="text/css" media="screen">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <title translate>admin.app.name</title>
+  </head>
+  <body ng-controller="MainCtrl" ng-cloak>
+    <div ng-hide="authorized">
+      <div class="loader"></div>
+    </div>
+    <div ng-show="authorized">
+      <mm-header></mm-header>
+
+      <div class="body container">
+        <div class="navigation">
+          <ul>
+            <li ng-class="{'active-nav': checkActive('display')}" mm-auth="can_configure"><a routerLink="display.date-time" translate>admin.display</a></li>
+            <li ui-sref-active="active-nav" mm-auth="can_configure"><a routerLink="users" translate>Users</a></li>
+            <li ng-class="{'active-nav': checkActive('authorization')}" mm-auth="can_configure"><a routerLink="authorization.permissions" translate>configuration.authorization</a></li>
+            <li ng-class="{'active-nav': checkActive('sms')}" mm-auth="can_configure"><a routerLink="sms.settings" translate>configuration.sms</a></li>
+            <li ui-sref-active="active-nav" mm-auth="can_configure"><a routerLink="forms" translate>Forms</a></li>
+            <li ng-class="{'active-nav': checkActive('targets')}" mm-auth="can_configure"><a routerLink="targets" translate>analytics.targets</a></li>
+            <li ng-class="{'active-nav': checkActive('images')}" mm-auth="can_configure"><a [routerLink]="['images', '/icons']" translate>images</a></li>
+            <li ng-class="{'active-nav': checkActive('message-queue')}" mm-auth="can_view_outgoing_messages"><a routerLink="message-queue.due" translate>admin.message.queue</a></li>
+            <li ui-sref-active="active-nav" mm-auth="can_configure"><a routerLink="upgrade" translate>instance.upgrade</a></li>
+            <li ng-class="{'active-nav': checkActive('export')}" mm-auth="can_export_all"><a routerLink="export.messages" translate>import.export</a></li>
+            <li ui-sref-active="active-nav" mm-auth="can_configure"><a routerLink="backup" translate>settings.backuprestore</a></li>
+          </ul>
+        </div>
+        <div class="content" ui-view></div>
+      </div>
+    </div>
+    <script src="/admin/js/main.js"></script>
+    <script src="/admin/js/templates.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Toolbar -->
+<!-- <div class="toolbar" role="banner"> header here
+ <mm-header></mm-header>
+</div> -->
+<!-- content -->
+<!-- <div class="content" role="main">
+
+  <mm-authorization></mm-authorization>
+</div>
+
+ <mm-authorization-permissions></mm-authorization-permissions> -->
+ <!-- <mm-authorization-roles></mm-authorization-roles> -->
+ <!-- <mm-backup></mm-backup> -->
+ <!-- <mm-users></mm-users> -->
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<!-- <router-outlet></router-outlet> -->
+

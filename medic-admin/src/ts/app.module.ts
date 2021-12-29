@@ -49,6 +49,7 @@ import { EditTranslationComponent } from './components/edit-translation/edit-tra
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { MmModalComponent } from './modals/mm-modal/mm-modal.component';
 import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { HttpClientModule } from '@angular/common/http';
     EditLanguageComponent,
     EditTranslationComponent,
     EditUserComponent,
-    MmModalComponent
+    MmModalComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

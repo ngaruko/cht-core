@@ -3,7 +3,7 @@ import { combineLatest, Subscription } from 'rxjs';
 // import { SettingsService } from '@mm-services/settings.service';
 // import { HeaderTabsService } from '@mm-services/header-tabs.service';
 // import { AuthService } from '@mm-services/auth.service';
-import { SessionService } from '@mm-services/session.service';
+//import { SessionService } from '@mm-services/session.service';
 // import { GlobalActions } from '@mm-actions/global';
 // import { Selectors } from '@mm-selectors/index';
 
@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // private settingsService: SettingsService,
     // private headerTabsService: HeaderTabsService,
     // private authService: AuthService,
-     private sessionService: SessionService
+     //private sessionService: SessionService
   ) {
     //this.globalActions = new GlobalActions(store);
   }
@@ -46,7 +46,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
 logout(){
-  this.sessionService.logout();
+  //this.sessionService.logout();
+  alert('logged out...')
 }
 }
 

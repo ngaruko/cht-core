@@ -1,10 +1,28 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { UsersComponent } from '@mm-components/users/users.component';
+import { BackupComponent } from '@mm-components/backup/backup.component';
+import { UpgdradeComponent } from '@mm-components/upgdrade/upgdrade.component';
+import { TargetsComponent } from '@mm-components/targets/targets.component';
+import { ImagesComponent } from '@mm-components/images/images.component';
+import { HomeComponent } from '@mm-components/home/home.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  //{ path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'users', component: UsersComponent},
+  { path: 'images', component: ImagesComponent },
+  { path: 'sms', component: UsersComponent},
+  { path: 'targets', component: TargetsComponent},
+  { path: 'upgrade', component: UpgdradeComponent},
+  { path: 'backup', component: BackupComponent},
+
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
