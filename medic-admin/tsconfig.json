@@ -32,7 +32,7 @@
       "@mm-providers/*": ["src/ts/providers/*"],
       "@mm-reducers/*": ["src/ts/reducers/*"],
       "@mm-selectors/*": ["src/ts/selectors/*"],
-      "@mm-services/*": ["src/ts/services/*"]
+      "@mm-services/*": ["../webapp/src/ts/services/*"]
     }
   },
   "angularCompilerOptions": {
