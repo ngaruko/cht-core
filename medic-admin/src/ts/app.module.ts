@@ -47,6 +47,7 @@ import { DisplayTranslationsComponent } from './components/display-translations/
 import { EditLanguageComponent } from './components/edit-language/edit-language.component';
 import { EditTranslationComponent } from './components/edit-translation/edit-translation.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { MmModalComponent } from './modals/mm-modal/mm-modal.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
     DisplayTranslationsComponent,
     EditLanguageComponent,
     EditTranslationComponent,
-    EditUserComponent
+    EditUserComponent,
+    MmModalComponent
   ],
   imports: [
     BrowserModule,
