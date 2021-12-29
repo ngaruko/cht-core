@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/ts/services/user';
+import { UsersService } from '../../services/users.service';
+
 
 @Component({
   selector: 'mm-users',
@@ -7,22 +10,34 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class UsersComponent implements OnInit {
-users = [
-  {
-    name: "Me",
-    fullname: "james bond",
-    roles : [0, 1, 2],
-    phone : '097465'
-}]
 
+  users: User[];
+
+
+  constructor(
+    private usersService: UsersService,
+  ) { }
+
+  ngOnInit(): void {
+    this.getUsers();
+  }
+
+
+getUsers(){
+  this.usersService.getUsers().subscribe(data => {
+    this.users = data;
+    console.log('some user...', data);
+   });
+}
 roles =[{
   name : 'regular user'
 }]
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+editUser(user:User | any){
+  alert('edit user...')
+}
+deleteUserPrepare(user:User, event:any){
+  alert('deleteUserPrepare');
+}
 }
 
