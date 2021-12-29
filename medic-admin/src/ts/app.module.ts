@@ -48,6 +48,7 @@ import { EditLanguageComponent } from './components/edit-language/edit-language.
 import { EditTranslationComponent } from './components/edit-translation/edit-translation.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { MmModalComponent } from './modals/mm-modal/mm-modal.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { MmModalComponent } from './modals/mm-modal/mm-modal.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

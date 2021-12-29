@@ -31,9 +31,4 @@ export class AppComponent implements OnInit {
     //this.globalActions.setIsAdmin(this.sessionService.isAdmin())
     //this.setAppTitle();
   }
-
-  logout() {
-    //this.sessionService.logout();
-   console.log('I am out...')
-  }
 }
