@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-authorization',
+  selector: 'mm-authorization',
   templateUrl: './authorization.component.html',
   styles: [
   ]
