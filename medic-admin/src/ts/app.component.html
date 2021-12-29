@@ -1,9 +1,36 @@
+<div class="app-root">
+  <div class="bootstrap-layer">
+    <div>
+      <div class="loader"></div>
+      <div class="status"></div>
+      <div class="error"></div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <mm-header
+      [webAppUrl]="webAppUrl"
+      [title]="title"
+    ></mm-header>
+    <div class="row content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
 
 
 <!-- Toolbar -->
-<div class="toolbar" role="banner"> header here
+<!-- <div class="toolbar" role="banner"> header here
  <mm-header></mm-header>
-</div>
+</div> -->
 <!-- content -->
 <!-- <div class="content" role="main">
 
@@ -13,7 +40,7 @@
  <mm-authorization-permissions></mm-authorization-permissions> -->
  <!-- <mm-authorization-roles></mm-authorization-roles> -->
  <!-- <mm-backup></mm-backup> -->
- <mm-users></mm-users>
+ <!-- <mm-users></mm-users> -->
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
