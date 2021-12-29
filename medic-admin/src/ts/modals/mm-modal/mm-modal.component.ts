@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-mm-modal',
+  selector: 'mm-modal',
   templateUrl: './mm-modal.component.html',
   styles: [
   ]
