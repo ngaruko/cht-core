@@ -82,7 +82,7 @@ export const displayDateTime = {
         }
       }
     };
-    export const  backup = { name :'backup',
+    export const  backupState = { name :'backup',
       url: '/backup',
       component: BackupComponent,
       templateUrl: 'templates/backup.html'
@@ -92,7 +92,7 @@ export const displayDateTime = {
       component: UsersComponent,
       templateUrl: 'templates/users.html'
     };
-    export const  dexport = { name :'export',
+    export const  exportState = { name :'export',
       url: '/export',
       templateUrl: 'templates/export.html'
     };
@@ -312,6 +312,38 @@ export const displayDateTime = {
       }
     };
 
-		export const APP_STATES = [
-		
-		];
+		export const APP_STATES = [displayState,
+			displayDateTime,
+			displayLanguagesState,
+			displayrivacyPoliciesState,
+			displayTranslationsState ,
+			backupState,
+			usersState ,
+			exportState,
+			exportMessagesState,
+			exportReportsState,
+			exportContactsState,
+			exportDhisState,
+			exportFeedbackState,
+			formsXmlState,
+			smsState ,
+			smsSettingsState,
+			smsFormsState,
+			smsTestState,
+			imagesState,
+			iconsState,
+			imagesBrandingState,
+			imagesPartnersState,
+			imagesTabsIconsState,
+			authorizationState,
+			authorizationPermissionsStatesState,
+			authorizationRolesState,
+			targetsState,
+			targetEditState,
+			upgradeState,
+			messageQueueState ,
+			messageQueueScheduledState,
+			messageQueueDueState,
+			messageQueueMutedFutureState,
+			messageQueueMutedPastState
+			];
