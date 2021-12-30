@@ -50,6 +50,9 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { MmModalComponent } from './modals/mm-modal/mm-modal.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
+import { APP_STATES } from './app.states';
+//import { GlobalModule } from './global/global.module';
+import { routerConfigFn } from './router.config';
 
 @NgModule({
   declarations: [
@@ -102,6 +105,12 @@ import { HomeComponent } from './components/home/home.component';
     HomeComponent
   ],
   imports: [
+    UIRouterModule.forRoot({
+      states: APP_STATES,
+      useHash: true,
+      initial: { state: 'app' },
+      config: routerConfigFn,
+    }),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule

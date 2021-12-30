@@ -34,6 +34,11 @@ import { UpgradeComponent } from '@mm-components/upgdrade/upgrade.component';
  * 1) Shows the outermost chrome (including the navigation and logout for authenticated users)
  * 2) Provide a viewport (ui-view) for a substate to plug into
  */
+ export const appState = {
+  name: 'app',
+  url: '/admin',
+  component: AppComponent,
+};
 
 export const displayState = {
 	name: 'display',
