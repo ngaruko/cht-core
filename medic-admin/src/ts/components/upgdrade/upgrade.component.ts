@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class UpgdradeComponent implements OnInit {
+export class UpgradeComponent implements OnInit {
 
   constructor() { }
 

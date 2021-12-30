@@ -30,7 +30,7 @@ import { SmsTestComponent } from './components/sms-test/sms-test.component';
 import { TargetsComponent } from './components/targets/targets.component';
 import { TargetsEditComponent } from './components/targets-edit/targets-edit.component';
 import { TranslationComponent } from './components/translation/translation.component';
-import { UpgdradeComponent } from './components/upgdrade/upgdrade.component';
+import { UpgradeComponent } from './components/upgdrade/upgrade.component';
 import { UpgradeConfirmComponent } from './components/upgrade-confirm/upgrade-confirm.component';
 import { UsersComponent } from './components/users/users.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
@@ -81,7 +81,7 @@ import { HomeComponent } from './components/home/home.component';
     TargetsComponent,
     TargetsEditComponent,
     TranslationComponent,
-    UpgdradeComponent,
+    UpgradeComponent,
     UpgradeConfirmComponent,
     UsersComponent,
     AuthorizationComponent,

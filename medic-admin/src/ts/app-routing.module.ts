@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UsersComponent } from '@mm-components/users/users.component';
 import { BackupComponent } from '@mm-components/backup/backup.component';
-import { UpgdradeComponent } from '@mm-components/upgdrade/upgdrade.component';
+import { UpgradeComponent } from '@mm-components/upgdrade/upgrade.component';
 import { TargetsComponent } from '@mm-components/targets/targets.component';
 import { ImagesComponent } from '@mm-components/images/images.component';
 import { HomeComponent } from '@mm-components/home/home.component';
@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'images', component: ImagesComponent },
   { path: 'sms', component: UsersComponent},
   { path: 'targets', component: TargetsComponent},
-  { path: 'upgrade', component: UpgdradeComponent},
+  { path: 'upgrade', component: UpgradeComponent},
   { path: 'backup', component: BackupComponent},
 
 ];
