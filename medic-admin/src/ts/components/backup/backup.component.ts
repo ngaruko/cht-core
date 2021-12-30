@@ -11,6 +11,7 @@ export class BackupComponent implements OnInit {
     name:'Download Current Settings',
     url:'http://somelink.com'
   }
+  status ={error:false, uploading:false }
 
   constructor() { }
 

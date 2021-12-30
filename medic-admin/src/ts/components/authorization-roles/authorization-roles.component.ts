@@ -16,6 +16,8 @@ export class AuthorizationRolesComponent implements OnInit {
   //     {name :2}
   //   ]
   // };
+  submitting = false;
+  loading = false
 
   roles = [
 

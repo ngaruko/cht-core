@@ -12,6 +12,8 @@ import { UsersService } from '../../services/users.service';
 export class UsersComponent implements OnInit {
 
   users: User[];
+  loading =false;
+  error = false
 
 
   constructor(

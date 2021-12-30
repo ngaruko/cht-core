@@ -13,4 +13,6 @@ export class ExportContactsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  error = 'some error'
+
 }

@@ -1,1 +1,10 @@
-<p>display-privacy-policies-preview works!</p>
+<mm-modal
+  status="status"
+  title-key="'display.privacy.policies.preview.title'"
+  title-params="{ language: model.language.name }"
+  cancel-key="'close'"
+  id="'privacy-policy-preview'"
+  on-cancel="cancel()"
+>
+  <div ng-bind-html="content"></div>
+</mm-modal>

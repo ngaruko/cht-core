@@ -12,5 +12,18 @@ export class EditTranslationComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  errors = {code:'401', name:'forbdden', key:'key'}
 
+
+  submit(){
+    alert('submit')
+  }
+
+  cancel(){
+    alert('cancel')
+  }
+  delete(){
+    alert('delte')
+  }
+   locale={name:'en'}
 }

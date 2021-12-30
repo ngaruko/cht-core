@@ -29,7 +29,7 @@
         <i class="fa fa-plus"></i>
         <span translate>Submit</span>
       </button>
-      <div class="loader inline small" ng-show="submitting"></div>
+      <div class="loader inline small" *ngIf="submitting"></div>
       <p class="error" ng-if="error">{{error}}</p>
     </div>
   </form>
@@ -38,7 +38,7 @@
 <div class="tab-content">
   <legend translate>configuration.roles</legend>
 
-  <div class="loader" ng-show="loading"></div>
+  <div class="loader" *ngIf="loading"></div>
 
   <div class="tab-content container-fluid deletable" ng-hide="loading">
 

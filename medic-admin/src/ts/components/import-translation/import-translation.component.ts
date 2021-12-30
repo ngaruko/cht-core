@@ -12,5 +12,14 @@ export class ImportTranslationComponent implements OnInit {
 
   ngOnInit(): void {
   }
+   cancel(){
+     alert('cacen');
+   }
+     submit (){
+       alert('sum');
+     }
+   
+
+   validationError = 'validationError'
 
 }

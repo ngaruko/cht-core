@@ -12,5 +12,8 @@ export class DisplayPrivacyPoliciesPreviewComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  cancel(){
+    alert('cancelled')
+  }
 
 }

@@ -1,4 +1,4 @@
-<div class="loader" ng-show="loading"></div>
+<div class="loader" *ngIf="loading"></div>
 
 <form class="tab-content permissions" ng-hide="loading">
 
@@ -29,8 +29,8 @@
 
   <div class="form-actions">
     <button type="submit" class="btn btn-primary" ng-click="submit()" ng-disabled="submitting" translate>Submit</button>
-    <div class="loader inline small" ng-show="submitting"></div>
-    <p class="error" ng-show="error" translate>{{error}}</p>
+    <div class="loader inline small" *ngIf="submitting"></div>
+    <p class="error" *ngIf="error" translate>{{error}}</p>
   </div>
 
 </form>

@@ -12,5 +12,9 @@ export class ImagesPartnersComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  error = 'error';
+  loading:false;
+  uploading:false;
+  submitting:false;
 
 }

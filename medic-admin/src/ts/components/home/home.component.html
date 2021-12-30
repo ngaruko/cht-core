@@ -9,7 +9,7 @@
     <div ng-hide="authorized">
       <div class="loader"></div>
     </div>
-    <div ng-show="authorized">
+    <div *ngIf="authorized">
       <mm-header></mm-header>
 
       <div class="body container">

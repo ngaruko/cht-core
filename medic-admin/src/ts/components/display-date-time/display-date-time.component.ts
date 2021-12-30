@@ -12,5 +12,8 @@ export class DisplayDateTimeComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  dateFormatExample ='dateFormatExample'
+  datetimeFormatExample ='datetimeFormatExample'
+  status = {msg:'pass', loading:false, error:false, success:true}
 
 }

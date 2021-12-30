@@ -12,5 +12,10 @@ export class ImagesBrandingComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  error = 'some error';
+  favicon ={content_type:'png', data:'some data'};
+  loading:false;
+  uploading:false;
+  submitting:false;
 
 }

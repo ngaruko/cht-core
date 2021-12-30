@@ -12,5 +12,12 @@ export class DisplayTranslationsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  translation = {
+    key:'keys',
+    lhs:'lhs',
+    rhs:'rhs'
+  }
+
+  translationModels:true
 
 }

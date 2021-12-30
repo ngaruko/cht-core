@@ -12,5 +12,6 @@ export class PaginationComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+p= 'paragraph';
+pagination = {detail:{displayFirstLastLinks:true}}
 }

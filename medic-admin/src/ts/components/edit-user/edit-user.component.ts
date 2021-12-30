@@ -12,5 +12,20 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  errors = {code:'401', username:'forbdden', email:'email'}
+
+
+  submit(){
+    alert('submit')
+  }
+
+  cancel(){
+    alert('cancel')
+  }
+  editUser(){
+    alert('edit')
+  }
+   locale={name:'en'}
+
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 //import { SessionService } from '@mm-services/session.service';
+//import { ModalService } from '@mm-modals/mm-modal/mm-modal';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,6 +16,7 @@ export class AppComponent implements OnInit {
     // private resourceIconsService:ResourceIconsService,
     // private locationService:LocationService,
     // private formatDateService:FormatDateService,
+    //private modalService:ModalService,
   ) {
     //this.globalActions = new GlobalActions(store);
     //this.analyticsActions = new AnalyticsActions(store);

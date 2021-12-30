@@ -12,5 +12,9 @@ export class ImagesTabsIconsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  icon = {name:'name'};
+  error ='some error';
+  loading:false;
+  uploading:false;
+  submitting:false;
 }

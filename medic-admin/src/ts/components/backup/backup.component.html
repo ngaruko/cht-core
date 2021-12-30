@@ -18,8 +18,8 @@
         <i class="fa fa-arrow-up"></i>
         <span translate>settings.restore.action</span>
       </a>
-      <div class="error" ng-show="status.error" translate>Upload failed</div>
-      <div class="loader small inline" ng-show="status.uploading"></div>
+      <div class="error" *ngIf="status.error" translate>Upload failed</div>
+      <div class="loader small inline" *ngIf="status.uploading"></div>
       <div class="hide">
         <input class="uploader" type="file" accept="application/json">
       </div>

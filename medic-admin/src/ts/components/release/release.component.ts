@@ -12,5 +12,7 @@ export class ReleaseComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  release = '1.23'
+  buildVersion = '12.12'
 
 }

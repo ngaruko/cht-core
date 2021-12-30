@@ -12,5 +12,15 @@ export class EditLanguageComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  errors = {code:'401', name:'forbdden'}
+
+
+  submit(){
+    alert('submit')
+  }
+
+  cancel(){
+    alert('cancel')
+  }
 
 }

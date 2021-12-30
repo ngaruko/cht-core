@@ -12,5 +12,6 @@ export class SmsTestComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  errors ={from:'28374', message:'errort message'}
 
 }
