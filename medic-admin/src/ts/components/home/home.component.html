@@ -10,7 +10,7 @@
       <div class="loader"></div>
     </div>
     <div *ngIf="authorized">
-      <mm-header></mm-header>
+      <!-- <mm-header></mm-header> -->
 
       <div class="body container">
         <div class="navigation">
@@ -28,7 +28,9 @@
             <li ui-sref-active="active-nav" mm-auth="can_configure"><a routerLink="backup" translate>settings.backuprestore</a></li>
           </ul>
         </div>
-        <div class="content" ui-view></div>
+        <div class="content" ui-view>
+        
+        </div>
       </div>
     </div>
     <script src="/admin/js/main.js"></script>

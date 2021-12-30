@@ -17,4 +17,7 @@ export class ImagesTabsIconsComponent implements OnInit {
   loading:false;
   uploading:false;
   submitting:false;
+  tab = {defaultIcon:'home', translation:'home', name:0}
+  resourceIcon='icon';
+  tabsConfig = [{icon:'someicon'}]
 }
