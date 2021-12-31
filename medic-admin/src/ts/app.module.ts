@@ -5,56 +5,57 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
-import { ExportComponent } from './components/export/export.component';
-import { BackupComponent } from './components/backup/backup.component';
-import { ImagesComponent } from './components/images/images.component';
 import { ModalComponent } from './components/modal/modal.component';
-import { ExportContactsComponent } from './components/export-contacts/export-contacts.component';
-import { ExportDhisComponent } from './components/export-dhis/export-dhis.component';
-import { ExportFeedbackComponent } from './components/export-feedback/export-feedback.component';
-import { ExportMessagesComponent } from './components/export-messages/export-messages.component';
-import { ExportReportsComponent } from './components/export-reports/export-reports.component';
-import { FormsXmlComponent } from './components/forms-xml/forms-xml.component';
-import { ImagesBrandingComponent } from './components/images-branding/images-branding.component';
-import { ImagesIconsComponent } from './components/images-icons/images-icons.component';
-import { ImagesPartnersComponent } from './components/images-partners/images-partners.component';
-import { ImagesTabsIconsComponent } from './components/images-tabs-icons/images-tabs-icons.component';
-import { ImportTranslationComponent } from './components/import-translation/import-translation.component';
-import { MessageQueueComponent } from './components/message-queue/message-queue.component';
-import { MessageQueueTabComponent } from './components/message-queue-tab/message-queue-tab.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { ReleaseComponent } from './components/release/release.component';
-import { SmsComponent } from './components/sms/sms.component';
-import { SmsFormsComponent } from './components/sms-forms/sms-forms.component';
-import { SmsSettingsComponent } from './components/sms-settings/sms-settings.component';
-import { SmsTestComponent } from './components/sms-test/sms-test.component';
-import { TargetsComponent } from './components/targets/targets.component';
-import { TargetsEditComponent } from './components/targets-edit/targets-edit.component';
-import { TranslationComponent } from './components/translation/translation.component';
-import { UpgradeComponent } from './components/upgdrade/upgrade.component';
-import { UpgradeConfirmComponent } from './components/upgrade-confirm/upgrade-confirm.component';
-import { UsersComponent } from './components/users/users.component';
-import { AuthorizationComponent } from './components/authorization/authorization.component';
-import { AuthorizationPermissionsComponent } from './components/authorization-permissions/authorization-permissions.component';
-import { AuthorizationRolesComponent } from './components/authorization-roles/authorization-roles.component';
 import { DeleteDocConfirmComponent } from './components/delete-doc-confirm/delete-doc-confirm.component';
 import { DeleteUserConfirmComponent } from './components/delete-user-confirm/delete-user-confirm.component';
-import { DisplayComponent } from './components/display/display.component';
-import { DisplayDateTimeComponent } from './components/display-date-time/display-date-time.component';
-import { DisplayLanguagesComponent } from './components/display-languages/display-languages.component';
-import { DisplayPrivacyPoliciesComponent } from './components/display-privacy-policies/display-privacy-policies.component';
-import { DisplayPrivacyPoliciesPreviewComponent } from './components/display-privacy-policies-preview/display-privacy-policies-preview.component';
-import { DisplayTranslationsComponent } from './components/display-translations/display-translations.component';
 import { EditLanguageComponent } from './components/edit-language/edit-language.component';
 import { EditTranslationComponent } from './components/edit-translation/edit-translation.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { MmModalComponent } from './modals/mm-modal/mm-modal.component';
 import { HttpClientModule } from '@angular/common/http';
-import { HomeComponent } from './components/home/home.component';
 import { APP_STATES } from './app.states';
 //import { GlobalModule } from './global/global.module';
 import { routerConfigFn } from './router.config';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { ErrorComponent } from './modules/error/error.component';
+import { AuthorizationPermissionsComponent } from '@mm-modules/authorization-permissions/authorization-permissions.component';
+import { AuthorizationRolesComponent } from '@mm-modules/authorization-roles/authorization-roles.component';
+import { AuthorizationComponent } from '@mm-modules/authorization/authorization.component';
+import { BackupComponent } from '@mm-modules/backup/backup.component';
+import { DisplayDateTimeComponent } from '@mm-modules/display-date-time/display-date-time.component';
+import { DisplayLanguagesComponent } from '@mm-modules/display-languages/display-languages.component';
+import { DisplayPrivacyPoliciesPreviewComponent } from '@mm-modules/display-privacy-policies-preview/display-privacy-policies-preview.component';
+import { DisplayPrivacyPoliciesComponent } from '@mm-modules/display-privacy-policies/display-privacy-policies.component';
+import { DisplayTranslationsComponent } from '@mm-modules/display-translations/display-translations.component';
+import { DisplayComponent } from '@mm-modules/display/display.component';
+import { ExportContactsComponent } from '@mm-modules/export-contacts/export-contacts.component';
+import { ExportDhisComponent } from '@mm-modules/export-dhis/export-dhis.component';
+import { ExportFeedbackComponent } from '@mm-modules/export-feedback/export-feedback.component';
+import { ExportMessagesComponent } from '@mm-modules/export-messages/export-messages.component';
+import { ExportReportsComponent } from '@mm-modules/export-reports/export-reports.component';
+import { ExportComponent } from '@mm-modules/export/export.component';
+import { FormsXmlComponent } from '@mm-modules/forms-xml/forms-xml.component';
+import { HomeComponent } from '@mm-modules/home/home.component';
+import { ImagesBrandingComponent } from '@mm-modules/images-branding/images-branding.component';
+import { ImagesIconsComponent } from '@mm-modules/images-icons/images-icons.component';
+import { ImagesPartnersComponent } from '@mm-modules/images-partners/images-partners.component';
+import { ImagesTabsIconsComponent } from '@mm-modules/images-tabs-icons/images-tabs-icons.component';
+import { ImagesComponent } from '@mm-modules/images/images.component';
+import { ImportTranslationComponent } from '@mm-modules/import-translation/import-translation.component';
+import { MessageQueueTabComponent } from '@mm-modules/message-queue-tab/message-queue-tab.component';
+import { MessageQueueComponent } from '@mm-modules/message-queue/message-queue.component';
+import { SmsFormsComponent } from '@mm-modules/sms-forms/sms-forms.component';
+import { SmsSettingsComponent } from '@mm-modules/sms-settings/sms-settings.component';
+import { SmsTestComponent } from '@mm-modules/sms-test/sms-test.component';
+import { SmsComponent } from '@mm-modules/sms/sms.component';
+import { TargetsEditComponent } from '@mm-modules/targets-edit/targets-edit.component';
+import { TargetsComponent } from '@mm-modules/targets/targets.component';
+import { TranslationComponent } from '@mm-modules/translation/translation.component';
+import { UpgradeComponent } from '@mm-modules/upgdrade/upgrade.component';
+import { UpgradeConfirmComponent } from '@mm-modules/upgrade-confirm/upgrade-confirm.component';
+import { UsersComponent } from '@mm-modules/users/users.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     EditUserComponent,
     MmModalComponent,
     HomeComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    ErrorComponent
   ],
   imports: [
     // UIRouterModule.forRoot({
@@ -116,7 +118,8 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     // }),
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
