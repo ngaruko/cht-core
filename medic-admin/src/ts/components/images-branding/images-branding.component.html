@@ -1,6 +1,6 @@
 <div id="images-branding">
   <div class="loader" *ngIf="loading"></div>
-  <div ng-hide="loading">
+  <div [hidden]="loading">
     <form>
       <div class="form-group required">
         <label for="title" translate>branding.title.field</label>

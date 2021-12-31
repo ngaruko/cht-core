@@ -6,7 +6,7 @@
     <title translate>admin.app.name</title>
   </head>
   <body ng-controller="MainCtrl" ng-cloak>
-    <div ng-hide="authorized">
+    <div [hidden]="authorized">
       <div class="loader"></div>
     </div>
     <div *ngIf="authorized">
@@ -29,7 +29,7 @@
           </ul>
         </div>
         <div class="content" ui-view>
-        
+
         </div>
       </div>
     </div>

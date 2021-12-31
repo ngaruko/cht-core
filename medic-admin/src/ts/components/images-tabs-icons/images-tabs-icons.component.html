@@ -3,14 +3,14 @@
   <a href="https://fontawesome.com/v4.7.0/" target="_blank" rel="noopener noreferrer" translate>images.header.tabs.icons.fontawesome.link</a>
   <p *ngIf="error" class="alert alert-danger" role="alert" translate>images.header.tabs.icons.request.error</p>
   <div class="col-xs-12">
-    <div class="row selection-heading" ng-hide="error">
+    <div class="row selection-heading" [hidden]="error">
       <div class="col-sm-3" translate>images.header.tabs.icons.tab</div>
       <div class="col-sm-3" translate>images.header.tabs.icons.default</div>
       <div class="col-sm-3" translate>images.header.tabs.icons.fa.icon</div>
       <div class="col-sm-3" translate>images.header.tabs.icons.resource.icon</div>
     </div>
     <div class="loader" *ngIf="loading"></div>
-    <form ng-hide="loading || error">
+    <form [hidden]="loading || error">
       <ul class="list">
         <li ng-repeat="tab in tabs" class="row">
           <div class="col-sm-3">

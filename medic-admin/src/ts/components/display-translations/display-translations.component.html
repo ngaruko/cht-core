@@ -6,7 +6,7 @@
   </a>
 </div>
 
-<div class="loader" ng-hide="translationModels"></div>
+<div class="loader" [hidden]="translationModels"></div>
 
 <div class="translation-section translations" *ngIf="translationModels">
   <div class="container-fluid">

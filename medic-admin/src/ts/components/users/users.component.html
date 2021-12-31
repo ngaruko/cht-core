@@ -11,11 +11,11 @@
 
   <div class="loader" *ngIf="loading"></div>
 
-  <div class="tab-content deletable" ng-hide="loading">
+  <div class="tab-content deletable" [hidden]="loading">
 
     <p *ngIf="error" class="alert alert-danger" role="alert" translate>Error fetching users</p>
     <div class="container-fluid">
-      <div class="row selection-heading" ng-hide="error">
+      <div class="row selection-heading" [hidden]="error">
         <div class="col-xs-2" translate>User Name</div>
         <div class="col-xs-2" translate>Full Name</div>
         <div class="col-xs-3" translate>configuration.role</div>

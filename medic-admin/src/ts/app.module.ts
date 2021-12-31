@@ -105,12 +105,12 @@ import { routerConfigFn } from './router.config';
     HomeComponent
   ],
   imports: [
-    UIRouterModule.forRoot({
-      states: APP_STATES,
-      useHash: true,
-      initial: { state: 'app' },
-      config: routerConfigFn,
-    }),
+    // UIRouterModule.forRoot({
+    //   states: APP_STATES,
+    //   useHash: true,
+    //   initial: { state: 'app' },
+    //   config: routerConfigFn,
+    // }),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
