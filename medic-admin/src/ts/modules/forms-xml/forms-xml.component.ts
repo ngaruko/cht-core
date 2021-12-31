@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class FormsXmlComponent implements OnInit {
+  upload(){
+    alert('upload');
+  }
+  
+  form = {_id:'form-id', translation_key : 'key'}
+  status = {errorMessage:'Eror, ', uploading:false, error:false }
 
   constructor() { }
 

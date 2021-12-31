@@ -8,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UpgradeComponent implements OnInit {
 
+  currentDeploy = false;
+loading = false;
+instance = {upgrade: {no_horti: {detail:'090'}}}
+
   constructor() { }
 
   ngOnInit(): void {

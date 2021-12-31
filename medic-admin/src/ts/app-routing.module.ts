@@ -15,21 +15,27 @@ import { routes as targetsRoutes } from '@mm-modules/targets/targets.routes';
 import { routes as upgradeRoutes } from '@mm-modules/upgrade/upgrade.routes';
 import { routes as usersRoutes } from '@mm-modules/users/users.routes';
 import { UsersComponent } from '@mm-modules/users/users.component';
+import { HomeComponent } from '@mm-modules/home/home.component';
 
 const routes: Routes = [
-  ...homeRoutes,
-  ...authorizationRoutes,
-  ...backupRoutes,
-  ...displayRoutes,
+  {
+    path: '', component: HomeComponent,
+    children: [
+      ...authorizationRoutes,
+      ...backupRoutes,
+      ...displayRoutes,
+      ...exportRoutes,
+      ...formsRoutes,
+      ...imagesRoutes,
+      ...messageQueueRoutes,
+      ...smsRoutes,
+      ...targetsRoutes,
+      ...upgradeRoutes,
+      ...usersRoutes
+    ]
+  },
   //...errorRoutes,
-  ...exportRoutes,
-  ...formsRoutes,
-  ...imagesRoutes,
-  ...messageQueueRoutes,
-  ...smsRoutes,
-  ...targetsRoutes,
-  ...upgradeRoutes,
-  ...usersRoutes,
+
 ];
 
 @NgModule({

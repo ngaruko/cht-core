@@ -28,9 +28,13 @@
             <li ui-sref-active="active-nav" mm-auth="can_configure"><a routerLink="backup" translate>settings.backuprestore</a></li>
           </ul>
         </div>
-        <div class="content" ui-view>
+        <!-- <div class="content" ui-view>
 
+        </div> -->
+        <div class="content">
+          <router-outlet></router-outlet>
         </div>
+
       </div>
     </div>
     <script src="/admin/js/main.js"></script>
