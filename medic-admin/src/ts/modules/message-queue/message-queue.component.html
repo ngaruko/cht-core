@@ -1,15 +1,16 @@
 <ul class="nav nav-tabs">
   <li role="presentation" ui-sref-active="active">
-    <a ui-sref="message-queue.scheduled" translate>admin.message.queue.tab.scheduled</a>
+    <a [routerLink]="['/message-queue','scheduled']" translate>admin.message.queue.tab.scheduled</a>
   </li>
   <li role="presentation" ui-sref-active="active">
-    <a ui-sref="message-queue.due" translate>admin.message.queue.tab.due</a>
+    <a [routerLink]="['/message-queue','due']" translate>admin.message.queue.tab.due</a>
   </li>
   <li role="presentation" ui-sref-active="active">
-    <a ui-sref="message-queue.muted-future" translate>admin.message.queue.tab.muted.future</a>
+    <a [routerLink]="['/message-queue','will-not-send']" translate>admin.message.queue.tab.muted.future</a>
   </li>
   <li role="presentation" ui-sref-active="active">
-    <a ui-sref="message-queue.muted-past" translate>admin.message.queue.tab.muted.past</a>
+    <a [routerLink]="['/message-queue','did-not-send']" translate>admin.message.queue.tab.muted.past</a>
   </li>
 </ul>
-<div class="tab-content message-queue" ui-view="tab"></div>
+<!-- <div class="tab-content message-queue" ui-view="tab"></div> -->
+<router-outlet></router-outlet>

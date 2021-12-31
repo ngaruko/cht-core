@@ -11,7 +11,23 @@ import { UsersService } from '../../services/users.service';
 })
 export class UsersComponent implements OnInit {
 
-  users: User[];
+  users =  [
+    {
+      name: "Me",
+      fullname: "james bond",
+      roles : [0, 1, 2],
+      phone : '097465',
+      inactive: false
+  },
+  {
+    name: "You",
+    fullname: "clara love",
+    roles : [0, 1, 2],
+    phone : '097465',
+    inactive: false
+}
+]
+
   loading =false;
   error = false
 
@@ -21,16 +37,16 @@ export class UsersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getUsers();
+    //this.getUsers();
   }
 
 
-getUsers(){
-  this.usersService.getUsers().subscribe(data => {
-    this.users = data;
-    console.log('some user...', data);
-   });
-}
+// getUsers(){
+//   this.usersService.getUsers().subscribe(data => {
+//     this.users = data;
+//     console.log('some user...', data);
+//    });
+// }
 roles =[{
   name : 'regular user'
 }]

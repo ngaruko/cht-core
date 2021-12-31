@@ -26,12 +26,40 @@ export class UsersService {
 
   // }
 
+   users =  [
+      {
+        name: "Me",
+        fullname: "james bond",
+        roles : [0, 1, 2],
+        phone : '097465'
+    },
+    {
+      name: "Me",
+      fullname: "james bond",
+      roles : [0, 1, 2],
+      phone : '097465'
+  },
+  {
+    name: "Me",
+    fullname: "james bond",
+    roles : [0, 1, 2],
+    phone : '097465'
+}]
+
+
+
   getUsers():Observable<any> {
-
-    const url = 'http://admin:pass@localhost:5988/api/v1/users';
-
     console.log('looking for users')
+
+    try {
+      const url = 'http://admin:pass@localhost:5988/api/v1/users';
     return this.httpClient.get(url);
+
+    } catch (error) {
+      console.log('errors, connections fecth users' )
+      //return users
+
+    }
 
     //return this.httpClient.get<any[]>(url);//.toPromise();
   }
