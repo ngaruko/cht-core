@@ -15,7 +15,6 @@ import { EditTranslationComponent } from './components/edit-translation/edit-tra
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { MmModalComponent } from './modals/mm-modal/mm-modal.component';
 import { HttpClientModule } from '@angular/common/http';
-import { APP_STATES } from './app.states';
 //import { GlobalModule } from './global/global.module';
 import { routerConfigFn } from './router.config';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
