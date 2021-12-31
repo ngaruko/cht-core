@@ -53,6 +53,7 @@ import { HomeComponent } from './components/home/home.component';
 import { APP_STATES } from './app.states';
 //import { GlobalModule } from './global/global.module';
 import { routerConfigFn } from './router.config';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { routerConfigFn } from './router.config';
     EditTranslationComponent,
     EditUserComponent,
     MmModalComponent,
-    HomeComponent
+    HomeComponent,
+    SnackbarComponent
   ],
   imports: [
     // UIRouterModule.forRoot({
