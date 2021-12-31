@@ -21,7 +21,7 @@ export const routes:Routes = [
       },
       {
         path: 'did-not-send',
-        component: MessageQueueComponent
+        component: MessageQueueTabComponent
       }
     ]
 
