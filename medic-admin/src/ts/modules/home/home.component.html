@@ -9,22 +9,22 @@
     <div [hidden]="authorized">
       <div class="loader"></div>
     </div>
-    <div *ngIf="authorized">
-      <!-- <mm-header></mm-header> -->
+    <!-- <div *ngIf="authorized"> -->
 
+    <div>
       <div class="body container">
         <div class="navigation">
           <ul>
-            <li ng-class="{'active-nav': checkActive('display')}" mm-auth="can_configure"><a [routerLink]="['display', '/date-time']" translate>admin.display</a></li>
+            <li ng-class="{'active-nav': checkActive('display')}" mm-auth="can_configure"><a [routerLink]="['/display', 'date-time']" translate>admin.display</a></li>
             <li ui-sref-active="active-nav" mm-auth="can_configure"><a routerLink="users" translate>Users</a></li>
-            <li ng-class="{'active-nav': checkActive('authorization')}" mm-auth="can_configure"><a [routerLink]="['authorization', '/permissions']" translate>configuration.authorization</a></li>
-            <li ng-class="{'active-nav': checkActive('sms')}" mm-auth="can_configure"><a [routerLink]="['sms', '/settings']" translate>configuration.sms</a></li>
+            <li ng-class="{'active-nav': checkActive('authorization')}" mm-auth="can_configure"><a [routerLink]="['/authorization', 'permissions']" translate>configuration.authorization</a></li>
+            <li ng-class="{'active-nav': checkActive('sms')}" mm-auth="can_configure"><a [routerLink]="['/sms', 'settings']" translate>configuration.sms</a></li>
             <li ui-sref-active="active-nav" mm-auth="can_configure"><a routerLink="forms" translate>Forms</a></li>
-            <li ng-class="{'active-nav': checkActive('targets')}" mm-auth="can_configure"><a routerLink="targets" translate>analytics.targets</a></li>
-            <li ng-class="{'active-nav': checkActive('images')}" mm-auth="can_configure"><a [routerLink]="['images', '/icons']" translate>images</a></li>
-            <li ng-class="{'active-nav': checkActive('message-queue')}" mm-auth="can_view_outgoing_messages"><a [routerLink]="['message-queue', 'due']" translate>admin.message.queue</a></li>
+            <li ng-class="{'active-nav': checkActive('targets')}" mm-auth="can_configure"><a routerLink="/targets" translate>analytics.targets</a></li>
+            <li ng-class="{'active-nav': checkActive('images')}" mm-auth="can_configure"><a [routerLink]="['/images', 'icons']" translate>images</a></li>
+            <li ng-class="{'active-nav': checkActive('message-queue')}" mm-auth="can_view_outgoing_messages"><a [routerLink]="['/message-queue', 'due']" translate>admin.message.queue</a></li>
             <li ui-sref-active="active-nav" mm-auth="can_configure"><a routerLink="upgrade" translate>instance.upgrade</a></li>
-            <li ng-class="{'active-nav': checkActive('export')}" mm-auth="can_export_all"><a [routerLink]="['export', 'messages']" translate>import.export</a></li>
+            <li ng-class="{'active-nav': checkActive('export')}" mm-auth="can_export_all"><a [routerLink]="['/export', 'messages']" translate>import.export</a></li>
             <li ui-sref-active="active-nav" mm-auth="can_configure"><a routerLink="backup" translate>settings.backuprestore</a></li>
           </ul>
         </div>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-upgdrade',
-  templateUrl: './upgdrade.component.html',
+  selector: 'app-upgrade',
+  templateUrl: './upgrade.component.html',
   styles: [
   ]
 })

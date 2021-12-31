@@ -4,11 +4,6 @@ import { RouterModule } from '@angular/router';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { FormsModule } from '@angular/forms';
-import { EditLanguageComponent } from '@mm-components/edit-language/edit-language.component';
-import { EditTranslationComponent } from '@mm-components/edit-translation/edit-translation.component';
-import { EditUserComponent } from '@mm-components/edit-user/edit-user.component';
-import { ModalComponent } from '@mm-components/modal/modal.component';
-import { AppComponent } from '../app.component';
 import { AuthorizationPermissionsComponent } from '@mm-modules/authorization-permissions/authorization-permissions.component';
 import { AuthorizationRolesComponent } from '@mm-modules/authorization-roles/authorization-roles.component';
 import { AuthorizationComponent } from '@mm-modules/authorization/authorization.component';
@@ -41,7 +36,7 @@ import { SmsComponent } from '@mm-modules/sms/sms.component';
 import { TargetsEditComponent } from '@mm-modules/targets-edit/targets-edit.component';
 import { TargetsComponent } from '@mm-modules/targets/targets.component';
 import { TranslationComponent } from '@mm-modules/translation/translation.component';
-import { UpgradeComponent } from '@mm-modules/upgdrade/upgrade.component';
+import { UpgradeComponent } from '@mm-modules/upgrade/upgrade.component';
 import { UpgradeConfirmComponent } from '@mm-modules/upgrade-confirm/upgrade-confirm.component';
 import { UsersComponent } from '@mm-modules/users/users.component';
 import { ErrorComponent } from '@mm-modules/error/error.component';
@@ -49,11 +44,9 @@ import { HomeComponent } from '@mm-modules/home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
     ExportComponent,
     BackupComponent,
     ImagesComponent,
-    ModalComponent,
     ExportContactsComponent,
     ExportDhisComponent,
     ExportFeedbackComponent,
@@ -86,25 +79,17 @@ import { HomeComponent } from '@mm-modules/home/home.component';
     DisplayPrivacyPoliciesComponent,
     DisplayPrivacyPoliciesPreviewComponent,
     DisplayTranslationsComponent,
-    EditLanguageComponent,
-    EditTranslationComponent,
-    EditUserComponent,
     HomeComponent,
     ErrorComponent
   ],
   imports: [
-    CommonModule,
     RouterModule,
-    BsDropdownModule,
-    FormsModule,
-    AccordionModule,
+    CommonModule
   ],
   exports: [
-    AppComponent,
     ExportComponent,
     BackupComponent,
     ImagesComponent,
-    ModalComponent,
     ExportContactsComponent,
     ExportDhisComponent,
     ExportFeedbackComponent,
@@ -126,7 +111,6 @@ import { HomeComponent } from '@mm-modules/home/home.component';
     TargetsEditComponent,
     TranslationComponent,
     UpgradeComponent,
-    UpgradeConfirmComponent,
     UsersComponent,
     AuthorizationComponent,
     AuthorizationPermissionsComponent,
@@ -137,9 +121,6 @@ import { HomeComponent } from '@mm-modules/home/home.component';
     DisplayPrivacyPoliciesComponent,
     DisplayPrivacyPoliciesPreviewComponent,
     DisplayTranslationsComponent,
-    EditLanguageComponent,
-    EditTranslationComponent,
-    EditUserComponent,
     HomeComponent,
     ErrorComponent
 
