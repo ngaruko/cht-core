@@ -26,7 +26,10 @@ export class AuthorizationPermissionsComponent implements OnInit {
 
   error = "Sorry not allowed";
   submitting =false;
-  loading =false
+  loading =false;
+  submit(){
+    alert('submit')
+  };
 
 
   constructor() { }

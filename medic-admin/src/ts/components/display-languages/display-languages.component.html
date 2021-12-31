@@ -14,7 +14,7 @@
     </div>
 
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary" ng-click="submitLanguageSettings()" ng-disabled="status.loading" translate>Submit</button>
+      <button type="submit" class="btn btn-primary" (click)="submitLanguageSettings()" ng-disabled="status.loading" translate>Submit</button>
       <span ng-if="status.success" class="success">{{status.msg}}</span>
       <span ng-if="status.error" class="error">{{status.msg}}</span>
       <div class="loader inline" *ngIf="status.loading"></div>
@@ -24,7 +24,7 @@
 </div>
 
 <div class="btn-bottom-spacing">
-  <button type="button" class="btn btn-primary" ng-click="editLanguage()">
+  <button type="button" class="btn btn-primary" (click)="editLanguage()">
     <i class="fa fa-plus"></i>
     <span translate>Add new language</span>
   </button>
@@ -55,17 +55,17 @@
       <div class="panel-body action-list">
         <div class="alert alert-warning" role="alert" *ngIf="localeModel.missing > 0" translate translate-values="localeModel">Missing translations</div>
         <div>
-          <button type="button" class="btn btn-link" ng-click="editLanguage(localeModel.doc)">
+          <button type="button" class="btn btn-link" (click)="editLanguage(localeModel.doc)">
             <i class="fa fa-pencil"></i><span translate>edit.name</span>
           </button>
         </div>
         <div ng-if="localeModel.doc.enabled">
-          <button type="button" class="btn btn-link" ng-click="disableLanguage(localeModel.doc)">
+          <button type="button" class="btn btn-link" (click)="disableLanguage(localeModel.doc)">
             <i class="fa fa-ban"></i><span translate>Disable</span>
           </button>
         </div>
         <div ng-if="!localeModel.doc.enabled">
-          <button type="button" class="btn btn-link" ng-click="enableLanguage(localeModel.doc)">
+          <button type="button" class="btn btn-link" (click)="enableLanguage(localeModel.doc)">
             <i class="fa fa-circle-o"></i><span translate>Enable</span>
           </button>
         </div>
@@ -75,12 +75,12 @@
           </a>
         </div>
         <div>
-          <button type="button" class="btn btn-link" data-toggle="modal" ng-click="prepareImport(localeModel.doc)">
+          <button type="button" class="btn btn-link" data-toggle="modal" (click)="prepareImport(localeModel.doc)">
             <i class="fa fa-arrow-up"></i><span translate>Upload</span>
           </button>
         </div>
         <div>
-          <button type="button" class="btn btn-link btn-danger" ng-click="deleteDoc(localeModel.doc)">
+          <button type="button" class="btn btn-link btn-danger" (click)="deleteDoc(localeModel.doc)">
             <i class="fa fa-trash-o"></i><span translate>Delete</span>
           </button>
         </div>

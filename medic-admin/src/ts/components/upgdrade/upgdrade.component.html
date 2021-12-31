@@ -31,11 +31,11 @@
 
     <div *ngIf="deployDoc.staging_complete && deployDoc.action === 'stage'">
       <p class="col-xs-11" translate>instance.stage.complete</p>
-      <button class="col-xs-1 btn btn-primary" ng-click="upgrade(deployDoc.build_info.version, 'complete')" translate>instance.upgrade.install</button>
+      <button class="col-xs-1 btn btn-primary" (click)="upgrade(deployDoc.build_info.version, 'complete')" translate>instance.upgrade.install</button>
     </div>
     <div *ngIf="deployDoc._deleted">
       <p class="col-xs-10" translate>instance.upgrade.complete</p>
-      <button class="col-xs-2 btn btn-primary" ng-click="reloadPage()" translate>reload.app</button>
+      <button class="col-xs-2 btn btn-primary" (click)="reloadPage()" translate>reload.app</button>
     </div>
   </div>
 

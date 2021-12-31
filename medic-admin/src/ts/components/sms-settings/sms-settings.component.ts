@@ -17,4 +17,7 @@ model = {error:{gateway_number: 2,
   errors = {fields:{messagingWindow:'windoe'}}
 
   status = {msg:'failed', loading:true}
+  submit(){
+    alert('submit')
+  }
 }

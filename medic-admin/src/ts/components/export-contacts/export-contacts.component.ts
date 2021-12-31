@@ -14,5 +14,11 @@ export class ExportContactsComponent implements OnInit {
   }
 
   error = 'some error'
+  export(){
+    alert('export')
+  }
+  import(){
+    alert('import()')
+  }
 
 }

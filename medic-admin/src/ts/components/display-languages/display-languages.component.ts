@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class DisplayLanguagesComponent implements OnInit {
 
   constructor() { }
+  key ='transl-key'
 
   ngOnInit(): void {
   }
@@ -18,12 +19,43 @@ export class DisplayLanguagesComponent implements OnInit {
   {
 
     doc:{
-      name:'name', code:'09'
+      name:'English', code:'en'
     },
   missing:4,
   export:{name :'name', url : 'url'}
 }
   status ={msg:'faile', loading:true}
   loading:false
+  deleteDoc(local){
+    alert('delete doc' + local.name)
+  }
+
+  enableLanguage(local){
+    alert('enable lang' + local.name)
+  }
+  disableLanguage(local){
+    alert('enable lang' + local.name)
+  }
+
+  // editLanguage(){
+  //   alert('edit lang' )
+  // }
+  prepareImport(doc){
+    alert('prepareImport lang' + doc )
+  }
+  editLanguage(doc:any={name:'English', code:'en'}){
+    alert('edit lang' + doc )
+  }
+  // editTranslation(){
+  //   alert('editTranslation()')
+  // }
+  editTranslation(key:string='nonegiven'){
+    alert('editTranslation()' + key)
+  }
+
+  submitLanguageSettings(){
+    alert('submitLanguageSettings()')
+  }
+
 
 }

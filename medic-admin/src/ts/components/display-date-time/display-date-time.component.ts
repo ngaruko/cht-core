@@ -15,5 +15,7 @@ export class DisplayDateTimeComponent implements OnInit {
   dateFormatExample ='dateFormatExample'
   datetimeFormatExample ='datetimeFormatExample'
   status = {msg:'pass', loading:false, error:false, success:true}
-
+  submitAdvancedSettings(){
+    alert('submitAdvancedSettings()')
+  }
 }

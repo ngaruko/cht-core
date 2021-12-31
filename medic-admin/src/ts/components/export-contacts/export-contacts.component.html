@@ -3,7 +3,7 @@
   <div class="people-section">
     <legend translate>Export</legend>
     <p translate>export.people.description</p>
-    <a class="btn btn-default" ng-click="export()" ng-disabled="exporting">
+    <a class="btn btn-default" (click)="export()" ng-disabled="exporting">
       <i class="fa fa-arrow-down"></i>
       <span translate>Download</span>
     </a>
@@ -27,7 +27,7 @@
         </div>
       </fieldset>
       <div class="form-footer">
-        <button type="button" class="btn btn-default" ng-click="import()" ng-disabled="importing">
+        <button type="button" class="btn btn-default" (click)="import()" ng-disabled="importing">
           <i class="fa fa-arrow-up"></i>
           <span translate>upload</span>
         </button>

@@ -17,5 +17,8 @@ export class ImagesBrandingComponent implements OnInit {
   loading:false;
   uploading:false;
   submitting:false;
+  submit(){
+    alert('submit')
+  }
 
 }

@@ -50,7 +50,7 @@
       </ul>
       <br/>
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary" ng-click="submit()" ng-disabled="submitting" translate>Submit</button>
+        <button type="submit" class="btn btn-primary" (click)="submit()" ng-disabled="submitting" translate>Submit</button>
         <span class="loader inline small" *ngIf="submitting"></span>
         <span translate ng-if="submitted && !submitError">images.header.tabs.icons.submit.success</span>
         <span class="error" translate ng-if="submitError">images.header.tabs.icons.submit.failure</span>

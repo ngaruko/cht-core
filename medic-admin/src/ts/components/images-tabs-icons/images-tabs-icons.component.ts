@@ -20,4 +20,7 @@ export class ImagesTabsIconsComponent implements OnInit {
   tab = {defaultIcon:'home', translation:'home', name:0}
   resourceIcon='icon';
   tabsConfig = [{icon:'someicon'}]
+  submit(){
+    alert('submit')
+  }
 }

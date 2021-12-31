@@ -9,6 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class ExportFeedbackComponent implements OnInit {
 
   constructor() { }
+  export(){
+    alert('export')
+  }
 
   ngOnInit(): void {
   }

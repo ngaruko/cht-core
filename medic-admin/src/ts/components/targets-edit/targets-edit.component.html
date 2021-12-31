@@ -39,9 +39,9 @@
     <span class="help-block" ng-if="errors.goal" translate>{{errors.goal}}</span>
   </div>
 
-  <a class="btn btn-primary" ng-click="submit()" ng-disabled="saving" translate>Submit</a>
+  <a class="btn btn-primary" (click)="submit()" ng-disabled="saving" translate>Submit</a>
   <span ng-if="status" translate>{{status}}</span>
   <a ng-if="!status" ui-sref="targets" translate>Cancel</span>
-  <a class="btn btn-danger delete" ng-click="delete()" ng-disabled="saving" ng-if="editing" translate>Delete</a>
+  <a class="btn btn-danger delete" (click)="delete()" ng-disabled="saving" ng-if="editing" translate>Delete</a>
 
 </form> -->

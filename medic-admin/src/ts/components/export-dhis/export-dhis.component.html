@@ -29,7 +29,7 @@
       <p class="help-block" translate>export.dhis.period.description</p>
     </div>
 
-    <a class="btn btn-default" ng-click="export()" ng-disabled="exporting || !selected.dataSet">
+    <a class="btn btn-default" (click)="export()" ng-disabled="exporting || !selected.dataSet">
       <i class="fa fa-arrow-down"></i>
       <span translate>Download</span>
     </a>

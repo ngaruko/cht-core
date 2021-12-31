@@ -12,5 +12,7 @@ export class ExportMessagesComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  export(){
+    alert('export')
+  }
 }

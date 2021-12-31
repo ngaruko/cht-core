@@ -29,6 +29,14 @@ export class AuthorizationRolesComponent implements OnInit {
 
   error ="Error detected";
   validation ={key:"somekey", name:"somevalue"};
+  add(){
+    alert('adding')
+  }
+  key = 4;
+  delete(key){
+    alert('deleting' + 4)
+  }
+  deleting = false;
 
   constructor() { }
 

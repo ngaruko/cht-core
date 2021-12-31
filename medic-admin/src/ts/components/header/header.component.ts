@@ -49,6 +49,10 @@ logout(){
   //this.sessionService.logout();
   alert('logged out...')
 }
+submit(){
+  alert('submit')
+};
+navbarCollapsed = true;
 }
 
 

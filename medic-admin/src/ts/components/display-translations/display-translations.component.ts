@@ -19,5 +19,8 @@ export class DisplayTranslationsComponent implements OnInit {
   }
 
   translationModels:true
+  editTranslation(key:string='en'){
+    alert('editTranslation(translation.key)' + key)
+  }
 
 }

@@ -24,8 +24,8 @@
             <span class="detail"><strong translate>display.privacy.policies.size</strong> {{privacyPolicies[language.code].data.length / 1024 | number : 2}}KB</span>
             <span class="error" ng-if="privacyPolicies[language.code].content_type !== allowedContentType" translate>display.privacy.policies.preview.wrong.type</span>
             <div class="actions">
-              <button class="btn btn-default" ng-click="preview(language)" translate>display.privacy.policies.preview</button>
-              <button class="btn btn-danger" ng-click="delete(language)" translate>display.privacy.policies.delete</button>
+              <button class="btn btn-default" (click)="preview(language)" translate>display.privacy.policies.preview</button>
+              <button class="btn btn-danger" (click)="delete(language)" translate>display.privacy.policies.delete</button>
             </div>
           </div>
         </div>
@@ -45,8 +45,8 @@
             <span class="detail"><strong translate>display.privacy.policies.size</strong> {{updates[language.code].size / 1024 | number : 2}}KB</span>
             <span class="error" ng-if="updates[language.code].type !== allowedContentType" translate>display.privacy.policies.preview.wrong.type</span>
             <div class="actions">
-              <button class="btn btn-default preview" ng-click="previewUpdate(language)" translate>display.privacy.policies.preview</button>
-              <button class="btn btn-danger" ng-click="deleteUpdate(language)" translate>display.privacy.policies.delete</button>
+              <button class="btn btn-default preview" (click)="previewUpdate(language)" translate>display.privacy.policies.preview</button>
+              <button class="btn btn-danger" (click)="deleteUpdate(language)" translate>display.privacy.policies.delete</button>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
       <br>
       <div class="form-actions">
         <p class="help-block" translate>display.privacy.policies.upload</p>
-        <button type="submit" class="btn btn-primary" ng-click="submit()" ng-disabled="submitting" translate>Submit</button>
+        <button type="submit" class="btn btn-primary" (click)="submit()" ng-disabled="submitting" translate>Submit</button>
         <span class="loader inline small" *ngIf="submitting"></span>
         <span translate ng-if="submitted && !submitError">display.privacy.policies.submit.success</span>
         <span translate ng-if="noChanges">display.privacy.policies.no.changes</span>

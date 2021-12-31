@@ -12,5 +12,8 @@ export class ExportReportsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  export(){
+    alert('export')
+  }
 
 }

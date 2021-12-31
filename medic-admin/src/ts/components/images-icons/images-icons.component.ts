@@ -17,5 +17,8 @@ export class ImagesIconsComponent implements OnInit {
   loading:false;
   uploading:false;
   submitting:false;
+  submit(){
+    alert('submit')
+  }
 
 }
