@@ -35,7 +35,7 @@
 <p class="help-block" translate>display.language.accordion.title</p>
 
 <div id="language-accordion" *ngIf="!loading" class="panel-group" role="tablist">
-  <div class="panel panel-default" *ngFor="let localeModel of languagesModel.locales track by localeModel.doc._id" ng-class="{'disabled': !localeModel.doc.enabled}">
+  <div class="panel panel-default" *ngFor="let localeModel of languagesModel.locales trackBy localeModel.doc._id" ng-class="{'disabled': !localeModel.doc.enabled}">
     <div class="panel-heading" role="tab" id="locale-{{localeModel.doc.code}}">
       <h4 class="panel-title">
         <a class="collapsed" data-toggle="collapse" data-target="#locale-{{localeModel.doc.code}}-body" data-parent="#language-accordion">

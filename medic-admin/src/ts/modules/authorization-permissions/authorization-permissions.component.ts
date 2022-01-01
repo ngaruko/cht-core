@@ -24,12 +24,18 @@ export class AuthorizationPermissionsComponent implements OnInit {
     {name : "Staff Nurse"}
   ]
 
+  permissions = [
+    {name:'can-log', description:'user logged', roles:['someone']}
+  ]
+
   error = "Sorry not allowed";
   submitting =false;
   loading =false;
   submit(){
     alert('submit')
   };
+  error = 'errpr';
+  submitting =false;
 
 
   constructor() { }

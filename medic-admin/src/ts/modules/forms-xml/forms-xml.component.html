@@ -33,7 +33,7 @@
     </div>
     <div class="container-fluid">
       <ul>
-        <li *ngFor="let form of xForms | orderBy:'_id' track by form._id" class="row">
+        <li *ngFor="let form of xForms | orderBy:'_id' trackBy form._id" class="row">
           <div class="col-sm-1" ng-bind-html="form.icon | resourceIcon"></div>
           <div class="col-sm-5">{{form._id}}</div>
           <div class="col-sm-6" *ngIf="form.translation_key" translate>{{form.translation_key}}</div>
