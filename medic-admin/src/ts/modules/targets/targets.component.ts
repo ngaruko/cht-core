@@ -17,7 +17,10 @@ export class TargetsComponent implements OnInit {
     alert('disabled')
   }
 
-  target = {id: 'some-id', translation_key:'some key', name:'some name', goal:3}
+  target = {id: 'some-id', translation_key:'some key', name:'some name', goal:3, type:'sometime'}
+  loading = false;
+  error = false
+  configuration = {enabled:true}
   edit(key){
     alert('editing' + key)}
 

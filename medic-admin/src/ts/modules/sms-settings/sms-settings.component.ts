@@ -12,11 +12,13 @@ export class SmsSettingsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  //status ={success:true, error :'err'}
 model = {error:{gateway_number: 2,
   default_country_code:'23'}};
   errors = {fields:{messagingWindow:'windoe'}}
 
-  status = {msg:'failed', loading:true}
+  status = {msg:'failed', loading:true, success:true, error :'err'}
   submit(){
     alert('submit')
   }

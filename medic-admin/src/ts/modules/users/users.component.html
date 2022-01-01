@@ -28,12 +28,12 @@
       <div class="row selection" test-id="user-list" *ngFor="let user of users" (click)="!user.inactive && editUser(user)" ng-class="{'inactive': user.inactive}" translate-attr="{'title': user.inactive ? 'Deleted user' : ''}">
         <div class="col-xs-2" test-id="username-list">{{user.name}}</div>
         <div class="col-xs-2">{{user.fullname}}</div>
-        <div class="col-xs-3"><span ng-if="user.roles[0]" translate>{{(roles[user.roles[0]].name) || ('usertype.' + user.roles[0])}}</span></div>
+        <div class="col-xs-3"><span *ngIf="user.roles[0]" translate>{{(roles[user.roles[0]].name) || ('usertype.' + user.roles[0])}}</span></div>
         <div class="col-xs-2">{{user.phone}}</div>
-        <div class="col-xs-1"><i class="fa fa-check" ng-if="user.facility_id"></i></div>
-        <div class="col-xs-1"><i class="fa fa-check" ng-if="user.contact_id"></i></div>
+        <div class="col-xs-1"><i class="fa fa-check" *ngIf="user.facility_id"></i></div>
+        <div class="col-xs-1"><i class="fa fa-check" *ngIf="user.contact_id"></i></div>
         <div class="col-xs-1 delete">
-          <a class="btn btn-sm btn-danger" ng-if="!user.inactive" (click)="deleteUserPrepare(user, $event)"><i class="fa fa-trash-o"></i></a>
+          <a class="btn btn-sm btn-danger" *ngIf="!user.inactive" (click)="deleteUserPrepare(user, $event)"><i class="fa fa-trash-o"></i></a>
         </div>
       </div>
     </div>

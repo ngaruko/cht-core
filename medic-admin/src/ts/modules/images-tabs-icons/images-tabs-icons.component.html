@@ -28,7 +28,7 @@
             <div class="input-group">
               <input type="text" ng-model="tabsConfig[tab.name].icon" class="form-control"/>
               <span class="input-group-addon">
-                <span ng-if="tabsConfig[tab.name].icon" class="fa {{tabsConfig[tab.name].icon}}"></span>
+                <span *ngIf="tabsConfig[tab.name].icon" class="fa {{tabsConfig[tab.name].icon}}"></span>
               </span>
             </div>
 
@@ -52,8 +52,8 @@
       <div class="form-actions">
         <button type="submit" class="btn btn-primary" (click)="submit()" ng-disabled="submitting" translate>Submit</button>
         <span class="loader inline small" *ngIf="submitting"></span>
-        <span translate ng-if="submitted && !submitError">images.header.tabs.icons.submit.success</span>
-        <span class="error" translate ng-if="submitError">images.header.tabs.icons.submit.failure</span>
+        <span translate *ngIf="submitted && !submitError">images.header.tabs.icons.submit.success</span>
+        <span class="error" translate *ngIf="submitError">images.header.tabs.icons.submit.failure</span>
       </div>
     </form>
   </div>

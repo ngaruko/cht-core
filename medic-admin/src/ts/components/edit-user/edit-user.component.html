@@ -37,15 +37,15 @@
 
     <div class="form-group required" mm-auth="can_configure" ng-class="{'has-error': errors.role}">
       <label for="role" translate>configuration.role</label>
-      <input type="text" class="form-control" ng-model="editUserModel.role" disabled="disabled" ng-if="editUserModel.role === '_admin'" />
-      <select id="role" class="form-control" ng-options="key as value.name | translate for (key, value) in roles" ng-model="editUserModel.role" ng-if="editUserModel.role !== '_admin'"></select>
+      <input type="text" class="form-control" ng-model="editUserModel.role" disabled="disabled" *ngIf="editUserModel.role === '_admin'" />
+      <select id="role" class="form-control" ng-options="key as value.name | translate for (key, value) in roles" ng-model="editUserModel.role" *ngIf="editUserModel.role !== '_admin'"></select>
       <span class="help-block">{{errors.role}}</span>
     </div>
 
     <div class="form-group" mm-auth="can_configure" ng-class="{'has-error': errors.place, 'required': roles[editUserModel.role].offline || !!editUserModel.contact}">
       <label for="facilitySelect" translate>Facility</label>
       <select id="facilitySelect" name="facilitySelect">
-        <option ng-value="editUserModel.facilitySelect" ng-if="editUserModel.facilitySelect"></option>
+        <option ng-value="editUserModel.facilitySelect" *ngIf="editUserModel.facilitySelect"></option>
       </select>
       <span class="help-block">{{errors.place}}</span>
       <span class="help-block" translate>user.place.help</span>
@@ -55,23 +55,23 @@
       <label for="contactSelect" translate>associated.contact</label>
       <div class="text-muted" translate>associated.contact.help</div>
       <select id="contactSelect" name="contactSelect" autocomplete="off">
-        <option ng-value="editUserModel.contactSelect" ng-if="editUserModel.contactSelect"></option>
+        <option ng-value="editUserModel.contactSelect" *ngIf="editUserModel.contactSelect"></option>
       </select>
       <span class="help-block">{{errors.contact}}</span>
     </div>
 
-    <div class="form-group" ng-if="allowTokenLogin && !editUserModel.tokenLoginEnabled">
+    <div class="form-group" *ngIf="allowTokenLogin && !editUserModel.tokenLoginEnabled">
       <input type="checkbox" id="tokenLogin" ng-true-value="true" ng-false-value="" ng-model="editUserModel.token_login">
       <label for="tokenLogin" translate class="form-check-label">configuration.enable.token.login</label>
       <div class="help-block" translate>configuration.enable.token.login.help</div>
     </div>
 
-    <div class="form-group" ng-if="allowTokenLogin && editUserModel.tokenLoginEnabled">
+    <div class="form-group" *ngIf="allowTokenLogin && editUserModel.tokenLoginEnabled">
       <p>
         <label class="form-check-label">
-          <span ng-if="editUserModel.tokenLoginEnabled.active && !editUserModel.tokenLoginEnabled.expired" translate translate-values="{ date: '{{editUserModel.tokenLoginEnabled.expirationDate}}' }">configuration.enable.token.login.enabled.active</span>
-          <span ng-if="editUserModel.tokenLoginEnabled.active && editUserModel.tokenLoginEnabled.expired" translate translate-values="{ date: '{{editUserModel.tokenLoginEnabled.expirationDate}}' }">configuration.enable.token.login.enabled.expired</span>
-          <span ng-if="!editUserModel.tokenLoginEnabled.active" translate translate-values="{ date: '{{editUserModel.tokenLoginEnabled.loginDate}}' }">configuration.enable.token.login.enabled.inactive</span>
+          <span *ngIf="editUserModel.tokenLoginEnabled.active && !editUserModel.tokenLoginEnabled.expired" translate translate-values="{ date: '{{editUserModel.tokenLoginEnabled.expirationDate}}' }">configuration.enable.token.login.enabled.active</span>
+          <span *ngIf="editUserModel.tokenLoginEnabled.active && editUserModel.tokenLoginEnabled.expired" translate translate-values="{ date: '{{editUserModel.tokenLoginEnabled.expirationDate}}' }">configuration.enable.token.login.enabled.expired</span>
+          <span *ngIf="!editUserModel.tokenLoginEnabled.active" translate translate-values="{ date: '{{editUserModel.tokenLoginEnabled.loginDate}}' }">configuration.enable.token.login.enabled.inactive</span>
         </label>
       </p>
       <div>

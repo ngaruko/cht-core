@@ -17,4 +17,8 @@ export class SmsTestComponent implements OnInit {
     alert('submit')
   }
 
+  failure = false;
+  loading = false;
+  success=true
+
 }

@@ -6,7 +6,7 @@
       <select id="default-country-code" name="default-country-code"><option></option></select>
     </div>
     <p class="help-block" translate>Default country code help</p>
-    <p class="help-block" ng-if="model.error.default_country_code">
+    <p class="help-block" *ngIf="model.error.default_country_code">
       {{model.error.default_country_code}}
     </p>
   </div>
@@ -15,7 +15,7 @@
     <label for="gateway-number" translate>Gateway number</label>
     <input type="text" class="form-control small" id="gateway-number" ng-model="model.gateway_number">
     <p class="help-block" translate>Gateway number help</p>
-    <p class="help-block" ng-if="model.error.gateway_number">
+    <p class="help-block" *ngIf="model.error.gateway_number">
       {{model.error.gateway_number}}
     </p>
   </div>
@@ -57,8 +57,8 @@
 
   <div class="form-actions">
     <button type="submit" class="btn btn-primary" (click)="submit()" ng-disabled="status.loading" translate>Submit</button>
-    <span ng-if="status.success" class="success">{{status.msg}}</span>
-    <span ng-if="status.error" class="error">{{status.msg}}</span>
+    <span *ngIf="status.success" class="success">{{status.msg}}</span>
+    <span *ngIf="status.error" class="error">{{status.msg}}</span>
     <div class="loader inline" *ngIf="status.loading"></div>
   </div>
 

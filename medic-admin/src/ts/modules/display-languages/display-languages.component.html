@@ -15,8 +15,8 @@
 
     <div class="form-actions">
       <button type="submit" class="btn btn-primary" (click)="submitLanguageSettings()" ng-disabled="status.loading" translate>Submit</button>
-      <span ng-if="status.success" class="success">{{status.msg}}</span>
-      <span ng-if="status.error" class="error">{{status.msg}}</span>
+      <span *ngIf="status.success" class="success">{{status.msg}}</span>
+      <span *ngIf="status.error" class="error">{{status.msg}}</span>
       <div class="loader inline" *ngIf="status.loading"></div>
     </div>
 
@@ -59,12 +59,12 @@
             <i class="fa fa-pencil"></i><span translate>edit.name</span>
           </button>
         </div>
-        <div ng-if="localeModel.doc.enabled">
+        <div *ngIf="localeModel.doc.enabled">
           <button type="button" class="btn btn-link" (click)="disableLanguage(localeModel.doc)">
             <i class="fa fa-ban"></i><span translate>Disable</span>
           </button>
         </div>
-        <div ng-if="!localeModel.doc.enabled">
+        <div *ngIf="!localeModel.doc.enabled">
           <button type="button" class="btn btn-link" (click)="enableLanguage(localeModel.doc)">
             <i class="fa fa-circle-o"></i><span translate>Enable</span>
           </button>

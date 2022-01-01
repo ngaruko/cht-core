@@ -17,14 +17,18 @@ export class UsersComponent implements OnInit {
       fullname: "james bond",
       roles : [0, 1, 2],
       phone : '097465',
-      inactive: false
+      inactive: false,
+      facility_id: 12,
+      contact_id:45
   },
   {
     name: "You",
     fullname: "clara love",
     roles : [0, 1, 2],
     phone : '097465',
-    inactive: false
+    inactive: false,
+    facility_id: 12,
+    contact_id:45
 }
 ]
 

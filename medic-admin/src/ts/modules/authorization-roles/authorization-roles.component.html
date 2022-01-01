@@ -30,7 +30,7 @@
         <span translate>Submit</span>
       </button>
       <div class="loader inline small" *ngIf="submitting"></div>
-      <p class="error" ng-if="error">{{error}}</p>
+      <p class="error" *ngIf="error">{{error}}</p>
     </div>
   </form>
 </div>
@@ -53,7 +53,7 @@
 			<div class="col-xs-2">{{item.role}}</div>
       <div class="col-xs-3">{{item.key}}</div>
       <div class="col-xs-5" translate>{{item.name}}</div>
-      <div class="col-xs-1"><i class="fa fa-check" ng-if="value.offline"></i></div>
+      <div class="col-xs-1"><i class="fa fa-check" *ngIf="value.offline"></i></div>
       <div class="col-xs-1 delete">
         <a class="btn btn-sm btn-danger" (click)="!deleting && delete(key)" ng-disabled="deleting"><i class="fa fa-trash-o"></i></a>
       </div>

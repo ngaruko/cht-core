@@ -9,7 +9,7 @@
         <th translate>admin.message.queue.message</th>
         <th translate>admin.message.queue.status</th>
         <th translate>admin.message.queue.due</th>
-        <th ng-if="displayLastUpdated" translate>admin.message.queue.updated</th>
+        <th *ngIf="displayLastUpdated" translate>admin.message.queue.updated</th>
       </tr>
     </thead>
     <tbody *ngIf="loading">
@@ -25,15 +25,15 @@
         <td>
           <relative-date date="message.record.reportedDate" date-format="dateFormat"></relative-date>
           <div>
-            <a ng-if="message.link" ng-href="{{basePath}}#/reports/{{message.record.id}}" target="_blank" rel="noopener noreferrer" translate>
+            <a *ngIf="message.link" ng-href="{{basePath}}#/reports/{{message.record.id}}" target="_blank" rel="noopener noreferrer" translate>
               admin.message.queue.view.report
             </a>
           </div>
         </td>
         <td class="break">
-          <p ng-if="message.task"><strong>{{message.task}}</strong></p>
+          <p *ngIf="message.task"><strong>{{message.task}}</strong></p>
           <span>{{message.content}}</span>
-          <div class="message-error" ng-if="message.error">
+          <div class="message-error" *ngIf="message.error">
             <span translate>messages.errors.invalid</span>
             <span translate>{{message.error}}</span>
           </div>
@@ -46,7 +46,7 @@
         <td>
           <relative-date date="message.due" date-format="dateFormat"></relative-date>
         </td>
-        <td ng-if="displayLastUpdated">
+        <td *ngIf="displayLastUpdated">
           <relative-date date="message.stateHistory.timestamp" date-format="dateFormat"></relative-date>
         </td>
       </tr>

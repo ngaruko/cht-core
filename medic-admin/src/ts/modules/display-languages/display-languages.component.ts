@@ -13,18 +13,18 @@ export class DisplayLanguagesComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  //localeModel.doc.enabled
   languagesModel = {default:{locale:'en', outgoing:'en'}}
   localeModel =
   {
 
     doc:{
-      name:'English', code:'en'
+      name:'English', code:'en', enabled:true
     },
   missing:4,
   export:{name :'name', url : 'url'}
 }
-  status ={msg:'faile', loading:true}
+  status ={msg:'faile', loading:true, success:true, error :'error'}
   loading:false
   deleteDoc(local){
     alert('delete doc' + local.name)

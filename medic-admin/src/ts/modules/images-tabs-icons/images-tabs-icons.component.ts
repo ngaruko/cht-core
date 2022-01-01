@@ -12,6 +12,8 @@ export class ImagesTabsIconsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  submitted = true
+  submitError = false
   icon = {name:'name'};
   error ='some error';
   loading:false;

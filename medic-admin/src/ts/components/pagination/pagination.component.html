@@ -1,4 +1,4 @@
-<div class="row flex-row" ng-if="pagination.pages">
+<div class="row flex-row" *ngIf="pagination.pages">
   <div class="col col-grow">
     <ul class="pagination">
       <li *ngIf="pagination.detail.displayFirstLastLinks" ng-class="{ disabled: pagination.page === 1 }">

@@ -22,12 +22,12 @@
   <div class="container-fluid">
     <div class="row translation selection" ng-repeat="translation in translationModels track by translation.key" (click)="editTranslation(translation.key)">
       <div class="col-xs-6">
-        <span ng-if="translation.lhs">{{translation.lhs}}</span>
-        <span ng-if="!translation.lhs" class="missing-term">{{translation.key}}</span>
+        <span *ngIf="translation.lhs">{{translation.lhs}}</span>
+        <span *ngIf="!translation.lhs" class="missing-term">{{translation.key}}</span>
       </div>
       <div class="col-xs-6">
-        <span ng-if="translation.rhs">{{translation.rhs}}</span>
-        <span ng-if="!translation.rhs" class="missing-term">{{translation.key}}</span>
+        <span *ngIf="translation.rhs">{{translation.rhs}}</span>
+        <span *ngIf="!translation.rhs" class="missing-term">{{translation.key}}</span>
       </div>
     </div>
   </div>

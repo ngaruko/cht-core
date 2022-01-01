@@ -44,7 +44,7 @@
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-primary" (click)="submit()" ng-disabled="submitting" translate>Submit</button>
-        <p class="error" ng-if="error">{{error}}</p>
+        <p class="error" *ngIf="error">{{error}}</p>
         <div class="loader inline small" *ngIf="submitting"></div>
       </div>
     </form>

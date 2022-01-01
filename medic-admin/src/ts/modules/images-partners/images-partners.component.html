@@ -26,7 +26,7 @@
     </div>
   </form>
 </div>
-<div ng-if="images">
+<div *ngIf="images">
   <legend translate>partner.tab.partners</legend>
   <div class="loader" *ngIf="loading"></div>
   <ul class="list-inline">

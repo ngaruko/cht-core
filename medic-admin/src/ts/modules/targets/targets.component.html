@@ -1,20 +1,20 @@
-<div class="loader" ng-if="loading" mm-auth="can_configure"></div>
+<div class="loader" *ngIf="loading" mm-auth="can_configure"></div>
 
-<div ng-if="!loading" mm-auth="can_configure">
+<div *ngIf="!loading" mm-auth="can_configure">
 
-  <p ng-if="error" class="alert alert-danger" role="alert" translate>error.settings.loading</p>
+  <p *ngIf="error" class="alert alert-danger" role="alert" translate>error.settings.loading</p>
 
-  <div ng-if="!error">
+  <div *ngIf="!error">
 
     <p translate>admin.targets.description</p>
 
     <div class="tab-content">
       <div class="btn-toolbar">
-        <a class="btn btn-success" ng-if="!configuration.enabled" (click)="enable()">
+        <a class="btn btn-success" *ngIf="!configuration.enabled" (click)="enable()">
           <i class="fa fa-play"></i>
           <span translate>analytics.target.enable</span>
         </a>
-        <a class="btn btn-danger" ng-if="configuration.enabled" (click)="disable()">
+        <a class="btn btn-danger" *ngIf="configuration.enabled" (click)="disable()">
           <i class="fa fa-stop"></i>
           <span translate>analytics.target.disable</span>
         </a>
@@ -38,16 +38,16 @@
       <div class="row selection" ng-repeat="target in configuration.items track by target.id" (click)="edit(target.id)">
         <div class="col-xs-1" ng-bind-html="target.icon | resourceIcon"></div>
         <div class="col-xs-4">{{target.id}}</div>
-        <!-- <div class="col-xs-4" ng-if="target.translation_key">{{target.translation_key | translate}}</div>
-        <div class="col-xs-4" ng-if="!target.translation_key">{{target.name | translateFrom}}</div> -->
-        <div class="col-xs-2" ng-if="target.type === 'count'" translate>
+        <!-- <div class="col-xs-4" *ngIf="target.translation_key">{{target.translation_key | translate}}</div>
+        <div class="col-xs-4" *ngIf="!target.translation_key">{{target.name | translateFrom}}</div> -->
+        <div class="col-xs-2" *ngIf="target.type === 'count'" translate>
           analytics.target.type.count
         </div>
-        <div class="col-xs-2" ng-if="target.type === 'percent'" translate>
+        <div class="col-xs-2" *ngIf="target.type === 'percent'" translate>
           analytics.target.type.percent
         </div>
         <div class="col-xs-1">
-          {{target.goal}}<span ng-if="target.type === 'percent'">%</span>
+          {{target.goal}}<span *ngIf="target.type === 'percent'">%</span>
         </div>
       </div>
 

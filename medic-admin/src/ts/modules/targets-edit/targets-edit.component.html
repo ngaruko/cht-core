@@ -3,7 +3,7 @@
   <div class="form-group required" ng-class="{'has-error': errors.id}">
     <label for="id" translate>analytics.target.id</label>
     <input id="id" type="text" class="form-control" ng-model="target.id" ng-readonly="editing"/>
-    <span class="help-block" ng-if="errors.id" translate>{{errors.id}}</span>
+    <span class="help-block" *ngIf="errors.id" translate>{{errors.id}}</span>
   </div>
 
   <div class="form-horizontal">
@@ -36,12 +36,12 @@
     <label for="goal" translate>analytics.target.goal</label>
     <input id="goal" type="text" class="form-control small" ng-model="target.goal" />
     <span class="help-block" translate>analytics.target.goal.help</span>
-    <span class="help-block" ng-if="errors.goal" translate>{{errors.goal}}</span>
+    <span class="help-block" *ngIf="errors.goal" translate>{{errors.goal}}</span>
   </div>
 
   <a class="btn btn-primary" (click)="submit()" ng-disabled="saving" translate>Submit</a>
-  <span ng-if="status" translate>{{status}}</span>
-  <a ng-if="!status" ui-sref="targets" translate>Cancel</span>
-  <a class="btn btn-danger delete" (click)="delete()" ng-disabled="saving" ng-if="editing" translate>Delete</a>
+  <span *ngIf="status" translate>{{status}}</span>
+  <a *ngIf="!status" ui-sref="targets" translate>Cancel</span>
+  <a class="btn btn-danger delete" (click)="delete()" ng-disabled="saving" *ngIf="editing" translate>Delete</a>
 
 </form> -->
