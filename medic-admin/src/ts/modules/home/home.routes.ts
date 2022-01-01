@@ -13,10 +13,7 @@ import { routes as smsRoutes } from '@mm-modules/sms/sms.routes';
 import { routes as targetsRoutes } from '@mm-modules/targets/targets.routes';
 import { routes as upgradeRoutes } from '@mm-modules/upgrade/upgrade.routes';
 import { routes as usersRoutes } from '@mm-modules/users/users.routes';
-/*
 
-TODO: This is unused at the moment
-/*
 export const routes: Routes = [
   {
 

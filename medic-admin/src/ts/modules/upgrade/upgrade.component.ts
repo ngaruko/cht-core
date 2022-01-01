@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+//import { DirectivesModule } from '@mm-directives/directives.module';
 
 @Component({
   selector: 'app-upgrade',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UpgradeComponent implements OnInit {
 
+  //@Input appUnless
+
   currentDeploy = false;
 loading = false;
 instance = {upgrade: {no_horti: {detail:'090'}}}
@@ -16,8 +19,11 @@ versions= {
   releases:['dev', 'prod', 'test'],
   betas:['dev', 'prod', 'test']
 }
-deployDoc = {_dleteted:false, action: 'retry', staging_complete:true}
+deployDoc = {_deleted:false, action: 'retry', staging_complete:true}
 error = 'some error'
+condition =false;
+releaseText = 'Testing custom release directive!';
+upgrade = 'please upgrade'
 
   constructor() { }
 

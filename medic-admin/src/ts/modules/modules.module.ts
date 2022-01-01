@@ -41,6 +41,7 @@ import { UpgradeConfirmComponent } from '@mm-modules/upgrade-confirm/upgrade-con
 import { UsersComponent } from '@mm-modules/users/users.component';
 import { ErrorComponent } from '@mm-modules/error/error.component';
 import { HomeComponent } from '@mm-modules/home/home.component';
+import { DirectivesModule } from '@mm-directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { HomeComponent } from '@mm-modules/home/home.component';
   ],
   imports: [
     RouterModule,
-    CommonModule
+    CommonModule,
+    DirectivesModule
   ],
   exports: [
     ExportComponent,

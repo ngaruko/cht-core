@@ -9,6 +9,7 @@ export class AppComponent implements OnInit {
   //private globalActions;
 
   title: string;
+  condition = false
   webAppUrl: string;
 
   constructor (

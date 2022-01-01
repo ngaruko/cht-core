@@ -22,7 +22,7 @@
       "dom"
     ],
     "paths": {
-      "@mm-actions/*": ["../webapp/src/ts/actions/*"],
+      "@mm-actions/*": ["/src/ts/actions/*"],
       "@mm-components/*": ["src/ts/components/*"],
       "@mm-directives/*": ["src/ts/directives/*"],
       "@mm-effects/*": ["src/ts/effects/*"],
@@ -32,8 +32,8 @@
       "@mm-pipes/*": ["src/ts/pipes/*"],
       "@mm-providers/*": ["src/ts/providers/*"],
       "@mm-reducers/*": ["src/ts/reducers/*"],
-      "@mm-selectors/*": ["../webapp/src/ts/selectors/*"],
-      "@mm-services/*": ["../webapp/src/ts/services/*"],
+      "@mm-selectors/*": ["/src/ts/selectors/*"],
+      "@mm-services/*": ["/src/ts/services/*"],
       "@angular/*": [ "./node_modules/@angular/*" ]
     }
   },
