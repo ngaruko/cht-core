@@ -38,7 +38,7 @@
     <legend translate>icons</legend>
     <div class="loader" *ngIf="loading"></div>
     <ul>
-      <li ng-repeat="icon in icons" class="row">
+      <li *ngFor="let icon of icons" class="row">
         <div class="col-sm-1" ng-bind-html="icon.name | resourceIcon"></div>
         <div class="col-sm-11">{{icon.name}}</div>
       </li>

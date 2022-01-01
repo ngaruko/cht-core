@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="container-fluid">
-    <div class="row translation selection" ng-repeat="translation in translationModels track by translation.key" (click)="editTranslation(translation.key)">
+    <div class="row translation selection" *ngFor="let translation of translationModels track by translation.key" (click)="editTranslation(translation.key)">
       <div class="col-xs-6">
         <span *ngIf="translation.lhs">{{translation.lhs}}</span>
         <span *ngIf="!translation.lhs" class="missing-term">{{translation.key}}</span>

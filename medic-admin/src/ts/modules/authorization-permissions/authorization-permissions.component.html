@@ -3,7 +3,7 @@
 <form class="tab-content permissions" [hidden]="loading">
 
   <div class="form-group container-fluid">
-    <div class="row" ng-repeat="permission in permissions | orderBy:'name' track by permission.name">
+    <div class="row" *ngFor="let permission in permissions | orderBy:'name' track by permission.name">
       <div class="col-xs-4">
         <strong>{{permission.name}}</strong>
         <p translate="permission.description.{{permission.name}}" translate-default=""></p>

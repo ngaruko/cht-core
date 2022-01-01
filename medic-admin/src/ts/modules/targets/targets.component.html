@@ -35,7 +35,7 @@
         <div class="col-xs-1" translate>analytics.target.goal</div>
       </div>
 
-      <div class="row selection" ng-repeat="target in configuration.items track by target.id" (click)="edit(target.id)">
+      <div class="row selection" *ngFor="let target of configuration.items track by target.id" (click)="edit(target.id)">
         <div class="col-xs-1" ng-bind-html="target.icon | resourceIcon"></div>
         <div class="col-xs-4">{{target.id}}</div>
         <!-- <div class="col-xs-4" *ngIf="target.translation_key">{{target.translation_key | translate}}</div>

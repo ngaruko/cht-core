@@ -8,7 +8,7 @@
   </div>
   <div class="section">
     <h3 translate translate-values="feedback.page">Showing number of total</h3>
-    <div class="row" ng-attr-data-record-id="item.id" ng-repeat="item in feedback.items">
+    <div class="row" ng-attr-data-record-id="item.id" *ngFor="let item of feedback.items">
       <div class="col-sm-3" ng-bind="item.time | date:'medium'"></div>
       <div class="col-sm-9">{{item.info}}</div>
     </div>

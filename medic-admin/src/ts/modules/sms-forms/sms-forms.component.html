@@ -30,7 +30,7 @@
     </div>
     <div>
       <ul>
-        <li ng-repeat="form in forms" class="row">
+        <li *ngFor="let form of forms" class="row">
           <div class="col-sm-2" ng-bind-html="form.meta.icon | resourceIcon"></div>
           <div class="col-sm-5">{{form.meta.code}}</div>
           <div class="col-sm-5" *ngIf="form.meta.translation_key" translate>{{form.meta.translation_key}}</div>

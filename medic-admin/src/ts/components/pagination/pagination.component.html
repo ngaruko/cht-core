@@ -12,7 +12,7 @@
         </a>
       </li>
 
-      <li ng-repeat="p in pagination.pageLinks" ng-class="{ active: p === pagination.page }">
+      <li *ngFor="let p of pagination.pageLinks" ng-class="{ active: p === pagination.page }">
         <a (click)="loadPage(p)">
           <span>{{p}}</span>
         </a>

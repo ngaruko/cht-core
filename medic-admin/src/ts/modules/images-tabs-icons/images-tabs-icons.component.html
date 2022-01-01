@@ -12,7 +12,7 @@
     <div class="loader" *ngIf="loading"></div>
     <form [hidden]="loading || error">
       <ul class="list">
-        <li ng-repeat="tab in tabs" class="row">
+        <li *ngFor="let tab of tabs" class="row">
           <div class="col-sm-3">
             <span translate>{{tab.translation}}</span>
           </div>
@@ -37,7 +37,7 @@
             <div class="input-group">
               <select ng-model="tabsConfig[tab.name].resource_icon" class="form-control">
                 <option value="">-</option>
-                <option ng-repeat="resourceIcon in resourceIcons" value="{{resourceIcon}}" ng-selected="tabsConfig[tab.name].resource_icon === resourceIcon">
+                <option *ngFor="let resourceIcon of resourceIcons" value="{{resourceIcon}}" ng-selected="tabsConfig[tab.name].resource_icon === resourceIcon">
                   {{resourceIcon}}
                 </option>
               </select>

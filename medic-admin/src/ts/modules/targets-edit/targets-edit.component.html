@@ -9,7 +9,7 @@
   <div class="form-horizontal">
     <label translate>analytics.target.name</label>
     <span class="help-block" translate>analytics.target.name.help</span>
-    <div class="form-group col-xs-12" ng-repeat="name in names">
+    <div class="form-group col-xs-12" *ngFor="let name of names">
       <label class="col-xs-4">{{name.locale.name}}</label>
       <div class="col-xs-8">
         <input type="text" class="form-control" ng-model="name.content" />
