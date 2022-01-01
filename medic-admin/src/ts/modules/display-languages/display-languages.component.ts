@@ -14,12 +14,14 @@ export class DisplayLanguagesComponent implements OnInit {
   ngOnInit(): void {
   }
   //localeModel.doc.enabled
-  languagesModel = {default:{locale:'en', outgoing:'en'}}
+  languagesModel = {
+    locales:[],
+     default:{locale:'en', outgoing:'en'}}
   localeModel =
   {
 
     doc:{
-      name:'English', code:'en', enabled:true
+      _id:'someid', name:'English', code:'en', enabled:true
     },
   missing:4,
   export:{name :'name', url : 'url'}

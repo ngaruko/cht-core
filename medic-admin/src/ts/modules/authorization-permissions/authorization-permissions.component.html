@@ -9,14 +9,14 @@
         <p translate="permission.description.{{permission.name}}" translate-default=""></p>
       </div>
       <div class="col-xs-8">
-        <!-- <ul>
+        <ul>
           <li *ngFor="let role in permission.roles" class="checkbox">
             <label>
               <input type="checkbox" ng-model="role.enabled"/>
               <span translate>{{roles[role.name].name}}</span>
             </label>
           </li>
-        </ul> -->
+        </ul>
         <div *ngFor="let role of permission.roles" class="checkbox">
           <label>
             <input type="checkbox" ng-model="role.enabled"/>
