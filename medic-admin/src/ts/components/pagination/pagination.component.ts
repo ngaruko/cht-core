@@ -13,7 +13,8 @@ export class PaginationComponent implements OnInit {
   ngOnInit(): void {
   }
 p= 'paragraph';
-pagination = {detail:{displayFirstLastLinks:true}, pages:'pages to ', page:1}
+pagination = {pageLinks:['link1', 'link2'],
+detail:{displayFirstLastLinks:true}, pages:'pages to ', page:1}
 loadPage(pages){
   alert('export' + pages)
 }
