@@ -57,7 +57,6 @@ jobs:
   config-tests:
     needs: build
     name: Config Tests
-    if: ${{ false }} # Disabling tests ATM - To remove before PR
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -79,7 +78,6 @@ jobs:
   publish:
     needs: [tests,config-tests]
     name: Publish branch build
-    if: ${{ false }} # Disabling tests ATM - To remove before PR
     runs-on: ubuntu-18.04
 
     steps:
@@ -100,7 +98,6 @@ jobs:
   tests:
     needs: build
     name: ${{ matrix.grunt-cmd }} on node ${{ matrix.node-version }}
-    if: ${{ false }} # Disabling tests ATM - To remove before PR
     runs-on: ubuntu-18.04
     env:
       NODE: ${{ matrix.node-version }}
