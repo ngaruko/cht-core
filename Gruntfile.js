@@ -155,7 +155,7 @@ module.exports = function(grunt) {
         },
       },
       admin: {
-        src: 'admin/src/js/main.js',
+        src: 'admin/src/js/main.ts',
         dest: 'build/ddocs/medic-db/medic-admin/_attachments/js/main.js',
         options: {
           transform: ['browserify-ngannotate'],

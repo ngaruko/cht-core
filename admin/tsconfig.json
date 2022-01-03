@@ -61,7 +61,7 @@
     ]
   },
   "files": [
-    "src/js/main.ts",
+    "src/js/main.js",
     "src/js/polyfills.ts"
   ],
   "angularCompilerOptions": {
