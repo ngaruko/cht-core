@@ -7,79 +7,87 @@ const META_DB_SUFFIX = 'meta';
 const USERS_DB_SUFFIX = 'users';
 
 import * as angular from 'angular';
+import { SessionService } from './session';
+import { LocationService }  from './location';
+import { POUCHDB_OPTIONS } from '../../../../webapp/src/ts/constants';
 
-angular.module('inboxServices').factory('DB',
-  function(
-    $timeout,
-    Location,
-    POUCHDB_OPTIONS,
-    Session,
-    pouchDB
+
+export class DbService {
+
+  isOnlineOnly: any;
+  cache: any;
+  //sessionService: any;
+  //private sessionService
+  //private locationService
+
+  constructor( private sessionService: SessionService,
+    private locationService: LocationService,
   ) {
+     //this.sessionService = SessionService,
+     //this.locationService = LocationService;
+    this.isOnlineOnly = this.sessionService.isOnlineOnly();
 
-    'use strict';
-    'ngInject';
-
-    const cache = {};
-    const isOnlineOnly = Session.isOnlineOnly();
-
-    const getUsername = remote => {
-      const username = Session.userCtx().name;
-      if (!remote) {
-        return username;
-      }
-      // escape username in case they user invalid characters
-      return username.replace(DISALLOWED_CHARS, match => `(${match.charCodeAt(0)})`);
-    };
-
-    const getDbName = (remote, meta, usersMeta) => {
-      const parts = [];
-      if (remote) {
-        parts.push(Location.url);
-      } else {
-        parts.push(Location.dbName);
-      }
-      if ((!remote || meta) && !usersMeta) {
-        parts.push(USER_DB_SUFFIX);
-        parts.push(getUsername(remote));
-      } else if (usersMeta) {
-        parts.push(USERS_DB_SUFFIX);
-      }
-      if (meta || usersMeta) {
-        parts.push(META_DB_SUFFIX);
-      }
-      return parts.join('-');
-    };
-
-    const getParams = (remote, meta, usersMeta) => {
-      const clone = Object.assign({}, remote ? POUCHDB_OPTIONS.remote : POUCHDB_OPTIONS.local);
-      if (remote && meta) {
-        // Don't create user DBs remotely, we do this ourselves in /api/services/user-db:create,
-        // which is called in routing when a user tries to access the DB
-        clone.skip_setup = false;
-      }
-      if (remote && usersMeta) {
-        clone.skip_setup = false;
-      }
-      return clone;
-    };
-
-    const get = ({ remote=isOnlineOnly, meta=false, usersMeta=false }={}) => {
-      const name = getDbName(remote, meta, usersMeta);
-      if (!cache[name]) {
-        cache[name] = pouchDB(name, getParams(remote, meta, usersMeta));
-      }
-      return cache[name];
-    };
-
-    if (!isOnlineOnly) {
+    if (!this.isOnlineOnly) {
       // delay the cleanup so it's out of the main startup sequence
-      $timeout(() => {
-        get().viewCleanup();
-        get({ meta: true }).viewCleanup();
+      setTimeout(() => {
+        this.get().viewCleanup();
+        this.get({ meta: true }).viewCleanup();
       }, 1000);
     }
-
-    return get;
   }
-);
+
+
+
+  private getUsername(remote){
+    const username = this.sessionService.userCtx().name;
+    if (!remote) {
+      return username;
+    }
+    // escape username in case they user invalid characters
+    return username.replace(DISALLOWED_CHARS, match => `(${match.charCodeAt(0)})`);
+  }
+
+  private getDbName(remote, meta, usersMeta) {
+    const parts = [];
+    if (remote) {
+      parts.push(this.locationService.url);
+    } else {
+      parts.push(this.locationService.dbName);
+    }
+    if ((!remote || meta) && !usersMeta) {
+      parts.push(USER_DB_SUFFIX);
+      parts.push(this.getUsername(remote));
+    } else if (usersMeta) {
+      parts.push(USERS_DB_SUFFIX);
+    }
+    if (meta || usersMeta) {
+      parts.push(META_DB_SUFFIX);
+    }
+    return parts.join('-');
+  }
+
+  private getParams (remote, meta, usersMeta) {
+    const clone = Object.assign({}, remote ? POUCHDB_OPTIONS.remote : POUCHDB_OPTIONS.local);
+    if (remote && meta) {
+      // Don't create user DBs remotely, we do this ourselves in /api/services/user-db:create,
+      // which is called in routing when a user tries to access the DB
+      clone.skip_setup = false;
+    }
+    if (remote && usersMeta) {
+      clone.skip_setup = false;
+    }
+    return clone;
+  }
+
+
+  get({ remote=this.isOnlineOnly, meta=false, usersMeta=false }={}) {
+    const name = this.getDbName(remote, meta, usersMeta);
+    if (!this.cache[name]) {
+    }
+    return this.cache[name];
+  }
+}
+
+angular
+  .module("codecraft")
+  .service("DbService", DbService);

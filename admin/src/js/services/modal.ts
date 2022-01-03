@@ -75,3 +75,7 @@ angular.module('inboxServices').factory('Modal',
     };
   }
 );
+
+// angular
+//   .module('inboxServices')
+//   .component(ModalService.selector, ModalService);

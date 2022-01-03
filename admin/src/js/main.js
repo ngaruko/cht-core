@@ -1,4 +1,4 @@
-//import * as angular from 'angular';
+import * as angular from 'angular';
 window.PouchDB = require('pouchdb-browser');
 window.$ = window.jQuery = require('jquery');
 require('select2/dist/js/select2.full')(window.jQuery);
