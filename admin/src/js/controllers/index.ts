@@ -22,8 +22,6 @@ import "./images-branding";
 import "./images-partners";
 import "./images-tabs-icons";
 import "./import-translation";
-import "./index";
-import "./main";
 import "./message-queue";
 import "./sms-forms";
 import "./sms-settings";
