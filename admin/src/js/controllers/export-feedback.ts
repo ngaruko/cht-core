@@ -1,3 +1,6 @@
+
+import * as angular from 'angular';
+
 angular
   .module('controllers')
   .controller('ExportFeedbackCtrl', function(

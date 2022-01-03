@@ -20,7 +20,6 @@ angular.module('services').factory('MessageQueueUtils',
     };
   });
 
-import * as angular from 'angular';
 
 angular.module('services').factory('MessageQueue',
   function(

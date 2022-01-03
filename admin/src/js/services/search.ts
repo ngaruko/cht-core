@@ -1,13 +1,14 @@
 const _ = require('lodash/core');
 const moment = require('moment');
 const Search = require('@medic/search');
+import * as angular from 'angular';
 
 (function () {
 
   'use strict';
 
   // To make it easier to mock out
-  import * as angular from 'angular';
+
 
 angular.module('inboxServices').factory('SearchFactory',
     function(
@@ -23,7 +24,7 @@ angular.module('inboxServices').factory('SearchFactory',
     }
   );
 
-  import * as angular from 'angular';
+
 
 angular.module('inboxServices').factory('Search',
     function(

@@ -13,8 +13,6 @@ angular.module('inboxFilters').filter('resourceIcon',
   }
 );
 
-import * as angular from 'angular';
-
 angular.module('inboxFilters').filter('headerLogo',
   function(
     $sce,
@@ -27,8 +25,6 @@ angular.module('inboxFilters').filter('headerLogo',
     };
   }
 );
-
-import * as angular from 'angular';
 
 angular.module('inboxFilters').filter('partnerImage',
   function(

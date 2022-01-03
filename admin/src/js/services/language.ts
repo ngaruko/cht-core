@@ -1,13 +1,11 @@
 const moment = require('moment');
+import * as angular from 'angular';
 
 (function () {
 
   'use strict';
 
   const localeCookieKey = 'locale';
-
-  import * as angular from 'angular';
-
 angular.module('inboxServices').factory('SetLanguageCookie',
     function(
       ipCookie
@@ -19,8 +17,6 @@ angular.module('inboxServices').factory('SetLanguageCookie',
       };
     }
   );
-
-  import * as angular from 'angular';
 
 angular.module('inboxServices').factory('SetLanguage',
     function(
@@ -46,8 +42,6 @@ angular.module('inboxServices').factory('SetLanguage',
       };
     }
   );
-
-  import * as angular from 'angular';
 
 angular.module('inboxServices').factory('Language',
     function(

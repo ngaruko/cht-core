@@ -1,11 +1,10 @@
 const moment = require('moment');
+import * as angular from 'angular';
 
 (function () {
 
   'use strict';
-
-  import * as angular from 'angular';
-
+  
 angular.module('inboxServices').factory('FormatDate',
     function(
       $log,

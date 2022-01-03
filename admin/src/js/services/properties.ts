@@ -75,7 +75,6 @@ angular.module('services').factory('ImportProperties',
   }
 );
 
-import * as angular from 'angular';
 
 angular.module('services').factory('ExportProperties',
   function() {

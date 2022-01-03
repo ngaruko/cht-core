@@ -1,12 +1,13 @@
 const COOKIE_NAME = 'userCtx';
 const ONLINE_ROLE = 'mm-online';
 const _ = require('lodash/core');
+import * as angular from 'angular';
 
 (function () {
 
   'use strict';
 
-  import * as angular from 'angular';
+
 
 angular.module('inboxServices').factory('Session',
     function(

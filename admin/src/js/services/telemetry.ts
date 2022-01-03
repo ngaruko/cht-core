@@ -6,6 +6,7 @@
  */
 const moment = require('moment');
 const uuid = require('uuid').v4;
+import * as angular from 'angular';
 
 angular
   .module('inboxServices')
