@@ -24,7 +24,7 @@ angular.module('controllers').controller('DisplayLanguagesCtrl',
     'ngInject';
 
     const createLocaleModel = function(doc, totalTranslations) {
-      const result = {
+      const result: any = {
         doc: doc
       };
 

@@ -6,7 +6,7 @@ angular.module('services').factory('Version',
     'use strict';
 
     const minimumNextRelease = function(version) {
-      const minVersion = versionInformation(version) || {};
+      const minVersion: any = versionInformation(version) || {};
 
       if (minVersion.beta !== undefined) {
         ++minVersion.beta;
@@ -22,7 +22,7 @@ angular.module('services').factory('Version',
           versionString.match(/^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-beta\.([0-9]+))?$/);
 
       if (versionMatch) {
-        const version = {
+        const version: any = {
           major: parseInt(versionMatch[1]),
           minor: parseInt(versionMatch[2]),
           patch: parseInt(versionMatch[3])

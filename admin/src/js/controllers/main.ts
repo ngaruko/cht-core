@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 angular.module('controllers').controller('MainCtrl',
   function (
     $log,
@@ -21,8 +23,8 @@ angular.module('controllers').controller('MainCtrl',
           }
           return response;
         });
-    };   
-    
+    };
+
     $translate.use('en');
     $scope.authorized = false;
     $scope.navbarCollapsed = true;

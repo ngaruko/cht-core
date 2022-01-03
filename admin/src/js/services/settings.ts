@@ -1,10 +1,11 @@
+import * as angular from 'angular';
+
 (function () {
 
   'use strict';
 
   const SETTINGS_ID = 'settings';
 
-  import * as angular from 'angular';
 
 angular.module('inboxServices').factory('Settings',
     function(

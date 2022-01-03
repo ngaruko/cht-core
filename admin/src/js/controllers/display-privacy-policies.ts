@@ -123,7 +123,7 @@ angular.module('controllers').controller('DisplayPrivacyPoliciesCtrl',
         .finally(() => $scope.submitting = false);
     };
 
-    $scope.preview = (language={}) => {
+    $scope.preview = (language : any ={}) => {
       Modal({
         templateUrl: 'templates/display_privacy_policies_preview.html',
         controller: 'DisplayPrivacyPoliciesPreview',
@@ -134,7 +134,7 @@ angular.module('controllers').controller('DisplayPrivacyPoliciesCtrl',
       });
     };
 
-    $scope.previewUpdate = (language={}) => {
+    $scope.previewUpdate = (language: any ={}) => {
       if (!$scope.updates[language.code]) {
         return;
       }
@@ -148,13 +148,13 @@ angular.module('controllers').controller('DisplayPrivacyPoliciesCtrl',
       });
     };
 
-    $scope.delete = (language={}) => {
+    $scope.delete = (language: any ={}) => {
       $scope.privacyPolicies[language.code] = {};
       $scope.deletes.push(language.code);
       $scope.noChanges = false;
     };
 
-    $scope.deleteUpdate = (language={}) => {
+    $scope.deleteUpdate = (language : any ={}) => {
       delete $scope.updates[language.code];
     };
 

@@ -17,6 +17,7 @@
  * translateFrom([ { locale: 'en', content: 'Go visit {{patient.name}}' }], patient);  // 'Go visit Estelle'
  */
 const _ = require('lodash/core');
+import * as angular from 'angular';
 
 (function () {
 
@@ -46,7 +47,7 @@ const _ = require('lodash/core');
     return labels;
   };
 
-  import * as angular from 'angular';
+
 
 angular.module('inboxServices').factory('TranslateFrom',
     function($translate) {

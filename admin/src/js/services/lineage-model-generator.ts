@@ -1,4 +1,6 @@
+import * as angular from 'angular';
 const lineageFactory = require('@medic/lineage');
+
 
 /**
  * Hydrates the given doc by uuid and creates a model which holds
@@ -10,7 +12,6 @@ const lineageFactory = require('@medic/lineage');
  *   lineage: <array of parents>
  * }
  */
-import * as angular from 'angular';
 
 angular.module('inboxServices').factory('LineageModelGenerator',
   function(
@@ -25,7 +26,7 @@ angular.module('inboxServices').factory('LineageModelGenerator',
       return lineageLib.fetchLineageById(id)
         .then(function(docs) {
           if (!docs.length) {
-            const err = new Error(`Document not found: ${id}`);
+            const err: any = new Error(`Document not found: ${id}`);
             err.code = 404;
             throw err;
           }
@@ -58,7 +59,8 @@ angular.module('inboxServices').factory('LineageModelGenerator',
             // everything else is the lineage
             const result = {
               _id: id,
-              lineage: docs
+              lineage: docs,
+              doc: {}
             };
             if (merge) {
               result.doc = lineageLib.fillParentsInDocs(doc, docs);

@@ -19,11 +19,11 @@ angular.module('controllers').controller('BackupCtrl',
 
     $scope.status = { uploading: false };
 
-    const uploadFinished = function(err) {
+    const uploadFinished = function(err?: any) {
       if (err) {
         $log.error('Upload failed', err);
       } else {
-        $('#settings-upload').get(0).reset(); // clear the fields
+        (<any>$('#settings-upload').get(0)).reset(); // clear the fields
       }
       // some events are triggered outside of angular so wrap in
       // $timeout so the UI is updated.
@@ -42,7 +42,7 @@ angular.module('controllers').controller('BackupCtrl',
         error: false,
         success: false,
       };
-      const files = $('#settings-upload .uploader')[0].files;
+      const files = (<any>$('#settings-upload .uploader')[0]).files;
       if (!files || files.length === 0) {
         uploadFinished(new Error('File not found'));
       }

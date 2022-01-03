@@ -34,6 +34,7 @@ angular.module('inboxServices').factory('UpdateUser',
         const headers = {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          Authorization: ''
         };
 
         if (basicAuthUser) {

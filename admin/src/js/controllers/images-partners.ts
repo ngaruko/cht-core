@@ -85,7 +85,7 @@ angular.module('controllers').controller('ImagesPartnersCtrl',
         return;
       }
 
-      const files = $('#partner-upload .uploader')[0].files;
+      const files = (<any>$('#partner-upload .uploader')[0]).files;
       if (!files || files.length === 0) {
         $scope.error = $translate.instant('field is required', {
           field: $translate.instant('partner.logo.field')

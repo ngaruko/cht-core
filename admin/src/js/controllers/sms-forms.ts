@@ -27,11 +27,11 @@ angular.module('controllers').controller('SmsFormsCtrl',
 
     $scope.status = { uploading: false };
 
-    const uploadFinished = err => {
+    const uploadFinished = (err?: any) => {
       if (err) {
         $log.error('Upload failed', err);
       } else {
-        $('#forms-upload-json').get(0).reset(); // clear the fields
+        (<any>$('#forms-upload-json').get(0)).reset(); // clear the fields
         loadForms();
       }
       // some events are triggered outside of angular so wrap in
@@ -51,7 +51,7 @@ angular.module('controllers').controller('SmsFormsCtrl',
         error: false,
         success: false,
       };
-      const files = $('#forms-upload-json .uploader')[0].files;
+      const files = (<any>$('#forms-upload-json .uploader')[0]).files;
       if (!files || files.length === 0) {
         uploadFinished(new Error('File not found'));
       }

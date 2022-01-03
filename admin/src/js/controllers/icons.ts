@@ -83,7 +83,7 @@ angular.module('controllers').controller('IconsCtrl',
           field: $translate.instant('Name')
         });
       }
-      const files = $('#icon-upload .uploader')[0].files;
+      const files = (<any>$('#icon-upload .uploader')[0]).files;
       if (!files || files.length === 0) {
         $scope.error = $translate.instant('field is required', {
           field: $translate.instant('icon')

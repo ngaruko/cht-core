@@ -6,7 +6,7 @@ angular.module('inboxServices').factory('HeaderTabs',
     'use strict';
     'ngInject';
 
-    const tabs = [
+    const tabs: any = [
       {
         name: 'messages',
         state: 'messages.detail',
@@ -46,7 +46,7 @@ angular.module('inboxServices').factory('HeaderTabs',
       }
     ];
 
-    return (settings = {}) => {
+    return (settings: any = {}) => {
       if (!settings.header_tabs) {
         return tabs;
       }

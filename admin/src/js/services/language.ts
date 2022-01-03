@@ -26,9 +26,9 @@ angular.module('inboxServices').factory('SetLanguage',
       'ngInject';
 
       const setDatepickerLanguage = function(language) {
-        const availableCalendarLanguages = Object.keys($.fn.datepicker.dates);
+        const availableCalendarLanguages = Object.keys((<any>$.fn).datepicker.dates);
         const calendarLanguage = availableCalendarLanguages.indexOf(language) >= 0 ? language : 'en';
-        $.fn.datepicker.defaults.language = calendarLanguage;
+        (<any>$.fn).datepicker.defaults.language = calendarLanguage;
       };
 
       return function(code, setLanguageCookie) {

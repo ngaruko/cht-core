@@ -44,9 +44,11 @@
 {
   "compilerOptions": {
     "baseUrl": "",
+    "strict": false,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "downlevelIteration":true,
     "lib": ["es6", "dom"],
     "mapRoot": "./",
     "module": "es6",
@@ -57,5 +59,15 @@
     "typeRoots": [
       "../node_modules/@types"
     ]
+  },
+  "files": [
+    "src/js/main.ts",
+    "src/js/polyfills.ts"
+  ],
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true //to change to true
   }
 }

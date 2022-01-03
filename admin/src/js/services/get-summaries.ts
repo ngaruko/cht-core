@@ -31,7 +31,7 @@ angular.module('inboxServices').factory('GetSummaries',
     };
 
     const getSubject = doc => {
-      const subject = {};
+      const subject: any = {};
       const reference = doc.patient_id ||
                       (doc.fields && doc.fields.patient_id) ||
                       doc.place_id;

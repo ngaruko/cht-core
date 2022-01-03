@@ -39,7 +39,7 @@ angular.module('controllers').controller('FormsXmlCtrl',
       return _.escape(err);
     };
 
-    const uploadFinished = err => {
+    const uploadFinished = (err?:  any) => {
       $scope.status.uploading = false;
       if (err) {
         $log.error('Upload failed', err);
@@ -47,7 +47,7 @@ angular.module('controllers').controller('FormsXmlCtrl',
         $scope.status.errorMessage = `Upload failed: ${getErrorMessage(err)}`;
         $scope.status.success = false;
       } else {
-        $('#forms-upload-xform').get(0).reset(); // clear the fields
+        (<any>$('#forms-upload-xform').get(0)).reset(); // clear the fields
         $scope.status.error = false;
         $scope.status.errorMessage = null;
         $scope.status.success = true;
@@ -95,9 +95,9 @@ angular.module('controllers').controller('FormsXmlCtrl',
         success: false,
       };
 
-      const formFiles = $('#forms-upload-xform .form.uploader')[0].files;
+      const formFiles = (<any>$('#forms-upload-xform .form.uploader')[0]).files;
       const xmlNotFound = !formFiles || formFiles.length === 0;
-      const metaFiles = $('#forms-upload-xform .meta.uploader')[0].files;
+      const metaFiles = (<any>$('#forms-upload-xform .meta.uploader')[0]).files;
       const jsonNotFound = !metaFiles || metaFiles.length === 0;
 
       if (xmlNotFound && jsonNotFound) {

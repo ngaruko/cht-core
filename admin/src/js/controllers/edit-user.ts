@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 const passwordTester = require('simple-password-tester');
 const phoneNumber = require('@medic/phone-number');
 const PASSWORD_MINIMUM_LENGTH = 8;
@@ -303,7 +305,7 @@ angular
     const changedUpdates = model => {
       return determineEditUserModel()
         .then(existingModel => {
-          const updates = {};
+          const updates: any = {};
           getUpdatedKeys(model, existingModel).forEach(key => {
             if (key === 'role') {
               updates.roles = [model[key]];

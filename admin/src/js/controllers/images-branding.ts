@@ -66,7 +66,7 @@ angular.module('controllers').controller('ImagesBrandingCtrl',
     };
 
     const getFile = selector => {
-      const files = $(`${selector} .uploader`)[0].files;
+      const files = (<any>$(`${selector} .uploader`)[0]).files;
       return files && files.length && files[0];
     };
 

@@ -34,7 +34,7 @@ angular
     };
 
     const mapFeedback = function(data) {
-      const result = {
+      const result: any = {
         page: {
           number: data.rows.length,
           total: data.total_rows,

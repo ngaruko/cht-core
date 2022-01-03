@@ -40,7 +40,7 @@ angular.module('inboxServices').factory('Search',
 
       'ngInject';
 
-      let _currentQuery = {};
+      let _currentQuery: any = {};
 
       // Silently cancel repeated queries.
       const debounce = function(type, filters, options) {

@@ -22,7 +22,7 @@ angular.module('directives').directive('mmPagination', function() {
           scope.pagination.pages - nbrPageLinks
         );
 
-        scope.pagination.pageLinks = Array(nbrPageLinks).fill().map(function(x, i) {
+        scope.pagination.pageLinks = (<any>Array(nbrPageLinks)).fill().map(function(x, i) {
           return i + firstPage + 1;
         });
 

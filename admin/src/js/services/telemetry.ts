@@ -179,7 +179,7 @@ angular
           const infoResult = qAll[1];
           const metadata = qAll[2];
 
-          const aggregateDoc = {
+          const aggregateDoc: any = {
             type: 'telemetry',
           };
 

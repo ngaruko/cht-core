@@ -17,7 +17,7 @@ angular.module('controllers').controller('AuthorizationRolesCtrl',
     $scope.validation = {};
 
     const validate = function(newRole) {
-      const errors = {};
+      const errors: any = {};
       if (!newRole.key) {
         errors.key = $translate.instant('field is required', {
           field: $translate.instant('configuration.role')

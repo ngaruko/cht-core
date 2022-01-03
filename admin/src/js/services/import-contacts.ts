@@ -34,10 +34,11 @@ angular.module('services').factory('ImportContacts',
     const savePerson = function(doc) {
       return getPersonType(doc.contact)
         .then(type => {
-          const person = {
+          const person: any = {
             name: doc.contact.name,
             phone: doc.contact.phone,
             parent: doc
+
           };
           if (type === 'person') {
             person.type = type;

@@ -1,4 +1,4 @@
-const _ = require('lodash/core');
+import * as _ from 'lodash';
 
 (function () {
 

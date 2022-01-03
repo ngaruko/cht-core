@@ -66,7 +66,7 @@ angular.module('controllers').controller('ExportDhisCtrl',
 
     $scope.export = () => {
       const { dataSet, period, place } = $scope.selected;
-      const filters = {
+      const filters: any = {
         dataSet,
         date: {
           from: period,
