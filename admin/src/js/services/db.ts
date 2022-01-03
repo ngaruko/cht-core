@@ -6,6 +6,8 @@ const USER_DB_SUFFIX = 'user';
 const META_DB_SUFFIX = 'meta';
 const USERS_DB_SUFFIX = 'users';
 
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('DB',
   function(
     $timeout,

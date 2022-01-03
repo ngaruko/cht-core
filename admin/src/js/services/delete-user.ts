@@ -5,6 +5,8 @@
  *
  * @param      {String}  username        User you wish to delete
  */
+import * as angular from 'angular';
+
 angular.module('services').factory('DeleteUser',
   function(
     $http,

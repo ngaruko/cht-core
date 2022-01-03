@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 angular.module('controllers').controller('DisplayPrivacyPoliciesCtrl',
   function (
     $log,

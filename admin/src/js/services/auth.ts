@@ -1,5 +1,7 @@
 const chtScriptApi = require('@medic/cht-script-api');
 
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('Auth',
   function(
     $log,

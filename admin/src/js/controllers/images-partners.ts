@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 angular.module('controllers').controller('ImagesPartnersCtrl',
   function(
     $log,
@@ -32,7 +34,7 @@ angular.module('controllers').controller('ImagesPartnersCtrl',
     const getPartnersDoc = () => {
       return DB().get(PARTNER_ID, { attachments: true });
     };
-    
+
     getPartnersDoc().then(doc => {
       $scope.doc = doc;
       renderResources();
@@ -98,7 +100,7 @@ angular.module('controllers').controller('ImagesPartnersCtrl',
         return;
       }
       addAttachment(files[0]);
-      
+
     };
   }
 );

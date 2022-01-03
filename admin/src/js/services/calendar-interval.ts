@@ -4,7 +4,9 @@ const calendarInterval = require('@medic/calendar-interval');
 
   'use strict';
 
-  angular.module('inboxServices').factory('CalendarInterval', function() {
+  import * as angular from 'angular';
+
+angular.module('inboxServices').factory('CalendarInterval', function() {
     return {
       getCurrent: calendarInterval.getCurrent,
     };

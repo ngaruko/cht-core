@@ -16,6 +16,8 @@
  * - setError(err, message): a function to log the err and translate and
  *       display the message
  */
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('Modal',
   function(
     $log,

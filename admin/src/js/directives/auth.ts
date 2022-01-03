@@ -1,5 +1,7 @@
 const _ = require('lodash/core');
 
+import * as angular from 'angular';
+
 angular.module('inboxDirectives').directive('mmAuth', function(
   $log,
   $parse,
@@ -8,7 +10,7 @@ angular.module('inboxDirectives').directive('mmAuth', function(
 ) {
   'use strict';
   'ngInject';
-  
+
   const link = function(scope, element, attributes) {
     const updateVisibility = promises => {
       return $q.all(promises)
@@ -77,7 +79,7 @@ angular.module('inboxDirectives').directive('mmAuth', function(
       result.then(dynamicChecks);
     }
   };
-  
+
   return {
     restrict: 'A',
     link,

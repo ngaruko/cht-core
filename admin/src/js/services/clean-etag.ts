@@ -5,6 +5,8 @@ const ETAG_REGEX = /(?:^W\/)|['"]/g;
  * required because gzipping resources modifies the etag. Use this
  * service to retrieve the original etag for looking for changes.
  */
+import * as angular from 'angular';
+
 angular.module('services').factory('CleanETag', function() {
   'use strict';
   return function(etag) {

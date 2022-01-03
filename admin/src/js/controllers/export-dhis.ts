@@ -4,6 +4,8 @@ Integrating with DHIS2 -- https://docs.communityhealthtoolkit.org/apps/features/
 const _ = require('lodash');
 const moment = require('moment');
 
+import * as angular from 'angular';
+
 angular.module('controllers').controller('ExportDhisCtrl',
   function (
     $scope,

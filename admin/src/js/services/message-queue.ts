@@ -2,6 +2,8 @@ const lineageFactory = require('@medic/lineage');
 const messageUtils = require('@medic/message-utils');
 const registrationUtils = require('@medic/registration-utils');
 
+import * as angular from 'angular';
+
 angular.module('services').factory('MessageQueueUtils',
   function(
     $q,
@@ -17,6 +19,8 @@ angular.module('services').factory('MessageQueueUtils',
       registrations: registrationUtils
     };
   });
+
+import * as angular from 'angular';
 
 angular.module('services').factory('MessageQueue',
   function(

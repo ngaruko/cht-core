@@ -10,6 +10,8 @@ const lineageFactory = require('@medic/lineage');
  *   lineage: <array of parents>
  * }
  */
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('LineageModelGenerator',
   function(
     $q,

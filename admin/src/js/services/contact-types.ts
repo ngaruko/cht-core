@@ -1,5 +1,7 @@
 const contactTypesUtils = require('@medic/contact-types-utils');
 
+import * as angular from 'angular';
+
 angular.module('inboxServices').service('ContactTypes', function(
   Settings
 ) {

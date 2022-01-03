@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 (function() {
   const redux = require('redux');
 

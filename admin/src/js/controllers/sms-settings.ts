@@ -1,6 +1,8 @@
 const phoneNumber = require('@medic/phone-number');
 const countries = require('../modules/countries');
 
+import * as angular from 'angular';
+
 angular.module('controllers').controller('SmsSettingsCtrl',
   function(
     $log,
@@ -28,11 +30,11 @@ angular.module('controllers').controller('SmsSettingsCtrl',
 
       if (gatewayNumber) {
         // must be a valid phone number
-        const info = { 
+        const info = {
           default_country_code: $('#default-country-code').val(),
           phone_validation: 'none'
         };
-        
+
         if (!phoneNumber.validate(info, gatewayNumber)) {
           $scope.model.error.gateway_number = $translate.instant('Phone number not valid');
           return false;

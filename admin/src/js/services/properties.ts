@@ -1,5 +1,7 @@
 const properties = require('properties');
 
+import * as angular from 'angular';
+
 angular.module('services').factory('ImportProperties',
   function(
     $q,
@@ -72,6 +74,8 @@ angular.module('services').factory('ImportProperties',
     };
   }
 );
+
+import * as angular from 'angular';
 
 angular.module('services').factory('ExportProperties',
   function() {

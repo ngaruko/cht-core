@@ -3,6 +3,8 @@ const translationUtils = require('@medic/translation-utils');
 const DEFAULT_LOCALE = 'en';
 const DOC_ID_PREFIX = 'messages-';
 
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('TranslationLoader',
   function(
     $q,

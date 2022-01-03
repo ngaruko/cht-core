@@ -1,5 +1,7 @@
 const _ = require('lodash/core');
 
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('HydrateContactNames',
   function(
     $q,

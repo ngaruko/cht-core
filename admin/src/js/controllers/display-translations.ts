@@ -4,6 +4,8 @@ _.union = require('lodash/union');
 const TRANSLATION_KEYS_OPTION = { doc: {code: 'keys', name: 'Translation Keys'} };
 const DEFAULT_LANGUAGE = 'en';
 
+import * as angular from 'angular';
+
 angular.module('controllers').controller('DisplayTranslationsCtrl',
   function (
     $log,

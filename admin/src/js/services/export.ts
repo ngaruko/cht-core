@@ -8,6 +8,8 @@ const KNOWN_EXPORTS = [
   'reports',
 ];
 
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('Export',
   function(
     $log

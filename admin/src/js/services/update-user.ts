@@ -2,7 +2,9 @@
 
   'use strict';
 
-  angular.module('inboxServices').factory('UpdateUser',
+  import * as angular from 'angular';
+
+angular.module('inboxServices').factory('UpdateUser',
     function(
       $http,
       $log,

@@ -1,6 +1,8 @@
 const _ = require('lodash/core');
 _.uniq = require('lodash/uniq');
 
+import * as angular from 'angular';
+
 angular.module('controllers').controller('DisplayLanguagesCtrl',
   function (
     $log,

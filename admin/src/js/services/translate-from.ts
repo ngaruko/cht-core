@@ -46,7 +46,9 @@ const _ = require('lodash/core');
     return labels;
   };
 
-  angular.module('inboxServices').factory('TranslateFrom',
+  import * as angular from 'angular';
+
+angular.module('inboxServices').factory('TranslateFrom',
     function($translate) {
       'ngInject';
       return function(labels, scope) {

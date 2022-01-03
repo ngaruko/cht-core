@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 angular.module('controllers').controller('ImportTranslationCtrl',
   function (
     $scope,
@@ -9,7 +11,7 @@ angular.module('controllers').controller('ImportTranslationCtrl',
 
     'use strict';
     'ngInject';
-    
+
     $scope.locale = $scope.model;
 
     $scope.submit = function() {

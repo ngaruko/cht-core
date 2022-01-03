@@ -1,5 +1,7 @@
 //import * as angular from 'angular';
 
+import * as angular from 'angular';
+
 angular.module('controllers').controller('AuthorizationPermissionsCtrl',
   function (
     $log,

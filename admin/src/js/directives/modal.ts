@@ -4,6 +4,8 @@
  * Usage:
  * <mm-modal [attributes]>[modal body]</mm-modal>
  */
+import * as angular from 'angular';
+
 angular.module('directives').directive('mmModal', function() {
   'use strict';
   return {

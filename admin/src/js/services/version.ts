@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 angular.module('services').factory('Version',
   function() {
 

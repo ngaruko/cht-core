@@ -4,7 +4,9 @@
 
   const SETTINGS_ID = 'settings';
 
-  angular.module('inboxServices').factory('Settings',
+  import * as angular from 'angular';
+
+angular.module('inboxServices').factory('Settings',
     function(
       $log,
       $q,

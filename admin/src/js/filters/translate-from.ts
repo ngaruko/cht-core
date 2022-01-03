@@ -11,6 +11,8 @@
  * // In template : (yields 'Go visit Estelle')
  * {{task.intructionsLabel | translateFrom:task}}
  */
+import * as angular from 'angular';
+
 angular.module('filters').filter('translateFrom',
   function(TranslateFrom) {
     'use strict';

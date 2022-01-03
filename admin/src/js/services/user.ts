@@ -2,7 +2,9 @@
 
   'use strict';
 
-  angular.module('inboxServices').factory('UserSettings',
+  import * as angular from 'angular';
+
+angular.module('inboxServices').factory('UserSettings',
     function(
       $q,
       Cache,

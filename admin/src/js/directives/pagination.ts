@@ -5,6 +5,8 @@
 // - a pagination summary (`Showing a - b of c items`)
 // - no isolated scope
 
+import * as angular from 'angular';
+
 angular.module('directives').directive('mmPagination', function() {
   'use strict';
 

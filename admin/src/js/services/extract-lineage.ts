@@ -2,6 +2,8 @@
  * Given a contact return just the hierarchy with doc ids.
  * eg: { _id: 'a', parent: { _id: 'b', parent: { _id: 'c' } } }
  */
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('ExtractLineage',
   function() {
     'use strict';

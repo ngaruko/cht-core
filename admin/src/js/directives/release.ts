@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 angular.module('directives').directive('release', function() {
   'use strict';
 

@@ -1,6 +1,8 @@
 const _ = require('lodash/core');
 const moment = require('moment');
 
+import * as angular from 'angular';
+
 angular.module('controllers').controller('DisplayDateTimeCtrl',
   function (
     $log,

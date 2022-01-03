@@ -11,6 +11,8 @@ const actionTypes = require('./actionTypes');
  * be avoided, and actions should be dispatched from either components
  * or complex action dispatchers.
  */
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('ServicesActions',
   function(
     ActionUtils

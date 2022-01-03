@@ -7,7 +7,9 @@ const Search = require('@medic/search');
   'use strict';
 
   // To make it easier to mock out
-  angular.module('inboxServices').factory('SearchFactory',
+  import * as angular from 'angular';
+
+angular.module('inboxServices').factory('SearchFactory',
     function(
       $q,
       DB
@@ -21,7 +23,9 @@ const Search = require('@medic/search');
     }
   );
 
-  angular.module('inboxServices').factory('Search',
+  import * as angular from 'angular';
+
+angular.module('inboxServices').factory('Search',
     function(
       $log,
       $q,

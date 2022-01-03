@@ -1,6 +1,8 @@
 const moment = require('moment');
 const _ = require('lodash/core');
 
+import * as angular from 'angular';
+
 angular.module('controllers').controller('SmsFormsCtrl',
   function(
     $log,

@@ -1,5 +1,7 @@
 const moment = require('moment');
 
+import * as angular from 'angular';
+
 angular.module('directives').directive('relativeDate', function() {
   'use strict';
 

@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('UpdateSettings',
   function(
     $cacheFactory,

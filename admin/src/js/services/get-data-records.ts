@@ -16,6 +16,8 @@ const _ = require('lodash/core');
  * If options.include_docs is true, returns the full doc.
  */
 
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('GetDataRecords',
   function(
     $q,

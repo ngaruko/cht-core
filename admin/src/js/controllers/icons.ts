@@ -2,6 +2,8 @@ const _ = require('lodash/core');
 _.toPairs = require('lodash/toPairs');
 
 
+import * as angular from 'angular';
+
 angular.module('controllers').controller('IconsCtrl',
   function(
     $log,

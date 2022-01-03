@@ -16,6 +16,8 @@
  *   - unsubscribe (function): Invoke this function to stop being notified of
  *        any further changes.
  */
+import * as angular from 'angular';
+
 angular.module('inboxServices').factory('Changes',
   function(
     $log,

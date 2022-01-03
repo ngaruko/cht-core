@@ -3,6 +3,8 @@ const _ = require('lodash/core');
 const BUILDS_DB = 'https://staging.dev.medicmobile.org/_couch/builds';
 const DEPLOY_DOC_ID = 'horti-upgrade';
 
+import * as angular from 'angular';
+
 angular.module('controllers').controller('UpgradeCtrl',
   function(
     $http,
