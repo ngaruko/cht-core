@@ -1,4 +1,4 @@
-<div class="loader" *ngIf="loading" mm-auth="can_configure"></div>
+<!-- <div class="loader" *ngIf="loading" mm-auth="can_configure"></div>
 
 <div *ngIf="!loading" mm-auth="can_configure">
 
@@ -38,8 +38,8 @@
       <div class="row selection" *ngFor="let target of configuration.items trackBy target.id" (click)="edit(target.id)">
         <div class="col-xs-1" ng-bind-html="target.icon | resourceIcon"></div>
         <div class="col-xs-4">{{target.id}}</div>
-        <!-- <div class="col-xs-4" *ngIf="target.translation_key">{{target.translation_key | translate}}</div>
-        <div class="col-xs-4" *ngIf="!target.translation_key">{{target.name | translateFrom}}</div> -->
+        <div class="col-xs-4" *ngIf="target.translation_key">{{target.translation_key | translate}}</div>
+        <div class="col-xs-4" *ngIf="!target.translation_key">{{target.name | translateFrom}}</div>
         <div class="col-xs-2" *ngIf="target.type === 'count'" translate>
           analytics.target.type.count
         </div>
@@ -55,4 +55,4 @@
 
   </div>
 
-</div>
+</div> -->

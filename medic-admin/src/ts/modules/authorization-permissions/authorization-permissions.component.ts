@@ -34,8 +34,6 @@ export class AuthorizationPermissionsComponent implements OnInit {
   submit(){
     alert('submit')
   };
-  error = 'errpr';
-  submitting =false;
 
 
   constructor() { }

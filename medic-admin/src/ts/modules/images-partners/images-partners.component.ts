@@ -16,7 +16,7 @@ export class ImagesPartnersComponent implements OnInit {
   loading:false;
   uploading:false;
   submitting:false;
-  images:true;
+  images:[1, 2,3];
   submit(){
     alert('submit')
   }

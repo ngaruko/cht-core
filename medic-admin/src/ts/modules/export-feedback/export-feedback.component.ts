@@ -15,5 +15,5 @@ export class ExportFeedbackComponent implements OnInit {
 
   ngOnInit(): void {
   }
-item ={info:'info'}
+feedback= {items:[{info:'info'}]}
 }

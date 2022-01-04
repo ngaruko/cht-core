@@ -12,7 +12,7 @@ export class ImagesIconsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  icon = {name:'name'};
+  icons = [{name:'name'}];
   error ='some error';
   loading:false;
   uploading:false;

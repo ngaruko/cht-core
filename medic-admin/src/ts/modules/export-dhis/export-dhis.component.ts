@@ -17,5 +17,8 @@ dataSets =[2, 7]
 export(){
   alert('export')
 }
+places:any =[{}]
+periods:any =[{}]
+selected:any =[]
 
 }
