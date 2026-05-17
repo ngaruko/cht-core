@@ -11,6 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: semgrep/semgrep-action@v1
+      - name: Run Semgrep
+        run: |
+          docker run --rm \
+            -v "${PWD}:/src" \
+            semgrep/semgrep \
+            semgrep scan --config auto --json /src > semgrep-results.json
+
+      - name: Upload Semgrep Results
+        uses: actions/upload-artifact@v4
         with:
-          config: auto
+          name: semgrep-results
+          path: semgrep-results.json
