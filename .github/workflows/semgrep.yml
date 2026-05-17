@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+            config: "p/javascript p/nodejs" #p/owasp-top-ten
 
       - name: Run Semgrep
         run: |
