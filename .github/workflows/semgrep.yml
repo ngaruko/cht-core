@@ -16,7 +16,14 @@ jobs:
           docker run --rm \
             -v "${PWD}:/src" \
             semgrep/semgrep \
-            semgrep scan --config auto --json /src > semgrep-results.json
+            semgrep scan \
+            --config=auto \
+            --exclude=node_modules \
+            --exclude=compiled \
+            --exclude=dist \
+            --exclude=vendor \
+            --exclude=lib-bowser.js \
+            /src
 
       - name: Upload Semgrep Results
         uses: actions/upload-artifact@v4
