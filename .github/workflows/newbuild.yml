@@ -1,0 +1,101 @@
+name: Build App
+
+on: [push, pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  COUCH_URL: http://admin:pass@localhost:5984/medic-test
+  BUILDS_SERVER: ${{ secrets.AUTH_MARKET_URL && '_couch/builds_testing' || '_couch/builds_external' }}
+  STAGING_SERVER: ${{ secrets.AUTH_MARKET_URL && '_couch/builds_4' || '_couch/builds_external' }}
+  MARKET_URL_READ: 'https://staging.dev.medicmobile.org'
+  MARKET_URL: ${{ secrets.AUTH_MARKET_URL || 'https://staging.dev.medicmobile.org' }}
+  INTERNAL_CONTRIBUTOR: ${{ secrets.AUTH_MARKET_URL && 'true' }}
+  DOCKERHUB_USERNAME: 'dockermedic'
+  ECR_REPO: '720541322708.dkr.ecr.eu-west-2.amazonaws.com/medic'
+  ECR_PUBLIC_REPO: 'public.ecr.aws/medic'
+  COUCHDB_LOG_LEVEL: 'debug'
+  LOG_LEVEL: 'debug'
+  TAG: ${{ (github.ref_type == 'tag' && github.ref_name) || '' }}
+  BRANCH: ${{ github.head_ref || github.ref_name }}
+  BUILD_NUMBER: ${{ github.run_id }}
+  NODE_VERSION: '22.15'
+  AFRICAS_TALKING_SANDBOX_API_KEY: ${{ secrets.AFRICAS_TALKING_SANDBOX_API_KEY }}
+
+jobs:
+
+  build:
+    name: Compile the app
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      pull-requests: write  # for update-staging-url-placeholders action
+
+    steps:
+    - name: Install bats
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y bats shellcheck
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121  # v4.1.0
+      with:
+        username: ${{ env.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      if: ${{ env.INTERNAL_CONTRIBUTOR }}
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@d979d5b3a71173a29b74b5b88418bfda9437d885  # v6.1.1
+      with:
+        aws-access-key-id: ${{ secrets.ECR_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.ECR_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-2
+      if: ${{ env.INTERNAL_CONTRIBUTOR }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      if: ${{ env.INTERNAL_CONTRIBUTOR }}
+      uses: aws-actions/amazon-ecr-login@fa648b43de3d4d023bcb3f89ed6940096949c419  # v2.1.5
+      with:
+        mask-password: 'true'
+
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+      with:
+        persist-credentials: false
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e  # v6.4.0 # zizmor: ignore[cache-poisoning]
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: Set system ulimit
+      uses: ./.github/actions/bump-system-ulimit
+
+    - name: Create logs directory
+      run: mkdir tests/logs
+    - run: npm ci
+    - name: Use system shellcheck binary
+      run: cp /usr/bin/shellcheck node_modules/shellcheck/bin/shellcheck
+    - name: Compile
+      run: npm run ci-compile
+    - name: Setup QEMU
+      if: ${{ env.INTERNAL_CONTRIBUTOR }}
+      uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a  # v4.0.0
+    - name: Setup Buildx
+      if: ${{ env.INTERNAL_CONTRIBUTOR }}
+      uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd  # v4.0.0
+    - name: Publish for testing
+      run: npm run publish-for-testing
+    - name: Upload docker images as artifacts
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+      with:
+        name: cht-images
+        path: images/
+      if: ${{ !env.INTERNAL_CONTRIBUTOR }}
+    - name: Search-Replace PR Body
+      if: ${{ env.INTERNAL_CONTRIBUTOR && github.event_name == 'pull_request' }}
+      uses: ./.github/actions/update-staging-url-placeholders
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
